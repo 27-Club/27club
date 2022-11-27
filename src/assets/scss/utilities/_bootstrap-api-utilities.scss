@@ -1,0 +1,28 @@
+// This file is used to override Boostrap utilitie APIs.
+
+// Import Bootstrap Utils first
+// otherwise our amends aren't added correctly
+@import '~bootstrap/scss/utilities';
+
+$utilities: map-merge(
+  $utilities, (
+    "width": map-merge(
+      map-get($utilities, "width"),
+      ( responsive: true ),
+    ),
+  )
+);
+
+$utilities: (
+  "w": (
+    property: width,
+    responsive: true,
+    class: w,
+    values: (
+      10: 10%,
+      33: 33%,
+      66: 66%,
+      80: 80%
+    )
+  )
+);

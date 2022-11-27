@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,44 +9,22 @@
     <link rel="stylesheet" href="./assets/scss/main.scss">
 
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
+<body class="class=container min-vh-100">
+    <div class="position-absolute top-50 start-50 translate-middle w-100 h-50 d-flex justify-content-center">
 
-      <script type="module" src="./assets/js/main.js"></script>
+        <div id="test" class="m-3 m-md-5 w-100 w-lg-80">
+
+            <div class="text-center p-lg-6 d-flex flex-column align-items-center justify-content-center bg-secondary bg-opacity-10 rounded rounded-lg" style="gap: 7rem;">
+
+                <button class="btn btn-lg w-66 rounded-pill bg-success p-5 shadow font-weight-bold text-white fs-3" data-toggle="button" aria-pressed="true" autocomplete="off">Izveidot jaunu aptauju </button>
+
+                <button class="btn btn-lg w-66 rounded-pill bg-secondary p-5 shadow font-weight-bold text-white fs-3" data-toggle="button" aria-pressed="true" autocomplete="off">Rediģēt esošās aptaujas </button>
+
+            </div>
+
+        </div>
+    </div>
+    <script type="module" src="./assets/js/main.js"></script>
 </body>
+
 </html>
