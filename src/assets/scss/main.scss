@@ -34,3 +34,15 @@
 
 // Bootstrap main import
 @import "~bootstrap/scss/bootstrap";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+:root {
+    --bs-body-font-family: 'Montserrat', sans-serif;   
+}
+
+.btn:hover, .btn:active, .btn:focus{
+    background-color: seagreen !important;
+    // border-color: ;
+    border: 2px solid #004d00 !important;
+}
