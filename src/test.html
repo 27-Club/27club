@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./assets/scss/main.scss">
+    <link rel="stylesheet" href="./assets/css/test.css">
 </head>
 <body class="min-vh-100 d-flex justify-content-center align-items-center">
 
@@ -22,35 +23,18 @@
         </button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">LLKC</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="./login.html">Pieslēgties</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
+                <a class="nav-link" href="#">Jautājumi</a>
               </li>
             </ul>
-            <form class="d-flex mt-3" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
           </div>
         </div>
       </div>
@@ -64,14 +48,11 @@
 
                 <button class="btn btn-lg w-50 bg-secondary bg-gradient bg-opacity-75 p-4 shadow font-weight-bold text-white fs-3" data-toggle="button" aria-pressed="true" autocomplete="off">Izveidot jaunu aptauju </button>
 
-                <!-- <a href="#" type="button" class="test btn btn-lg w-50 rounded-pill bg-success bg-opacity-75 p-4 shadow font-weight-bold text-white fs-3">Izveidot jaunu aptauju</a> -->
-
-                <!-- <a class="btn btn-lg w-50 rounded-pill bg-secondary p-4 shadow font-weight-bold text-white fs-3" data-toggle="button" aria-pressed="true" autocomplete="off">Rediģēt esošās aptaujas </button> -->
-
                 <a href="/src/index.html" class="btn btn-lg w-50 bg-secondary bg-gradient bg-opacity-75 p-4 shadow font-weight-bold text-white fs-3">Rediģēt esošās aptaujas</a>
             </div>
         </div>
     </div>
-
+    <!-- Import to define "type="module"" before importing script -->
+<script type="module" src="./assets/js/test.js"></script>
 </body>
 </html>
