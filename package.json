@@ -2,7 +2,7 @@
   "name": "test",
   "version": "1.0.0",
   "description": "",
-  "source": "./src/test.html",
+  "source": "./src/login.html",
   "scripts": {
     "dev": "parcel",
     "build": "parcel build"

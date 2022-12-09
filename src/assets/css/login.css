@@ -1,0 +1,86 @@
+/* nav {
+    display: inline-block;
+    position: relative;
+  }
+  
+  nav::before {
+    content: '';
+    position: absolute;
+    background-color: gold;
+    width: 100%;
+    height: 100%;
+    left: 0 ;
+    top: 0;
+    z-index: -3;
+  }
+  
+  button {
+    margin: 2vmin;
+    background-color: transparent;
+    position: relative;
+  }
+  
+  button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: brown;
+    z-index: -2;
+  }
+  
+  button.animate::after {
+    content: '';
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    animation-name: move;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  @keyframes move {
+    0% {
+      transform: translateX(var(--x));
+      width: var(--w1);
+    }
+    100% {
+      transform: translateX(0);
+      width: var(--w2);
+    }
+  }
+  
+  @keyframes animate {
+    0% {}
+    100% {
+      background-color: white;
+    }
+  } */
+
+.btn {
+  border: none;
+}
+
+.divider {
+  overflow: visible;
+  border: none;
+  border-top: 1px solid #f8f9fa;
+  color: #f8f9fa;
+  text-align: center;
+}
+
+.divider::after {
+  content: "Or";
+  display: inline-block;
+  position: relative;
+  top: -11px;
+  padding: 0 16px;
+  background: #198754;
+  color: #f8f9fa;
+}
