@@ -10,5 +10,10 @@ $custom-spacers: (
     10: $spacer * 7
 );
 
+$custom-colors: (
+    'green-main': #31c147
+);
+
 // Merge the maps
-$spacers: map-merge($spacers, $custom-spacers)
+$spacers: map-merge($spacers, $custom-spacers);
+$theme-colors: map-merge($theme-colors, $custom-colors);
