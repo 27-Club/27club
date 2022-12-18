@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/scss/main.scss">
+    <link rel="stylesheet" href="./assets/css/login.css">
+</head>
+<body class="min-vh-100">
+
+    <div class="w-100 d-flex justify-content-center align-items-center bg-success vh-100">
+
+        <div class="m-3 m-md-5 p-6 w-lg-33 bg-light rounded-2 h-80">
+
+            <div class="mb-7 text-center">
+                <a class="navbar-brand fs-4" href="/src/index.html">
+                    <img src="./footie/LLKC_logo.svg" alt="Logo" width="50" height="46">
+                  </a>
+            </div>
+
+            <form class="mb-8 text-start text-dark">
+                    
+                <div class="mb-4">
+                    <h1 class="h3 mb-3 fw-bold text-dark">Laipni lūdzam atpakaļ</h1>
+                    
+                    <div class="form-field mb-4">
+                        <fieldset class="user_email">
+                            <label for="user_email" class="my-1">E-pasts</label>
+                            <input class="form-control" id="user_email" type="text" autocomplete="off">
+                        </fieldset>
+                    </div>
+
+                    <div class="form-field mb-4">
+                        <fieldset class="user_password">
+                            <label for="user_password" class="my-1">Parole</label>
+                            <input class="form-control" id="user_password" type="password" placeholder="6+ rakstzīmes">
+                        </fieldset>
+                    </div>
+                </div>
+
+                    <button class="w-50 btn btn-lg btn-success rounded-2 m-2" type="submit">Pieslēgties</button>                
+            </form>
+            
+                <hr class="divider">
+            
+            <div class="mt-3 text-center text-dark">
+                <h4>Esi jauns biedrs?</h4>
+                <p>Reģistrējies <a href="/src/signup.html" class="text-body">šeit</a></p>
+            </div>
+
+        </div>
+    </div>
+<!-- Import to define "type="module"" before importing script -->
+<script type="module" src="./assets/js/login.js"></script>
+</body>
+</html>

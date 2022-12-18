@@ -1,3 +1,42 @@
-@import "./abstracts/variables";    
+// The file is added to the "index.html" file as the main scss file. 
+// It is compiled to a css file format with the "parcel" bundle packager.
 
+// /*********************
+// -- Table of contents
+// - Custom variables 
+// - Bootstrap functions
+// - Bootstrap variables
+// - Bootstrap mixins
+// - Custom map amends
+// - Custom utilities
+// - Bootstrap main import
+// ***********************
+// */
+
+
+// Import our variable overrides.
+// go here to set custom values for bootstrap vars
+@import "./abstracts/variables";
+
+// Import bootstrap functions, vars and mixins
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+
+// Import our map amends
+// go here to run any sass map amends on bootstrap sass maps
+@import "./abstracts/map-amends";
+
+// Import our utility overrides
+// go here to amend or set custom utilities using the bootstrap api
+@import './utilities/bootstrap-api-utilities';
+
+// Bootstrap main import
 @import "~bootstrap/scss/bootstrap";
+
+// Imported font family
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+:root {
+    --bs-body-font-family: 'Montserrat', sans-serif;   
+}

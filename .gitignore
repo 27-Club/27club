@@ -1,6 +1,6 @@
 # Parcel #
 .parcel-cache
-dist/*
+dist/
 
 # Compiled source #
 ###################
