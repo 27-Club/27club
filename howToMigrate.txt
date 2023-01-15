@@ -1,0 +1,17 @@
+1. python manage.py dumpdata > datadump.json
+
+2. Change settings.py to MySql(Pēc komentāriem)
+
+mysql jābūt db uz kuru migate taisīs
+
+3. python manage.py migrate --run-syncdb
+
+Ja error, tad nomaina uz utf8 encoding
+
+4. python manage.py shell
+
+from django.contrib.contenttypes.models import ContentType
+ContentType.objects.all().delete()
+quit()
+
+5. python manage.py loaddata datadump.json
