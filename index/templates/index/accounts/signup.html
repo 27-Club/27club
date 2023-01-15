@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'dist/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+</head>
+<body>
+    <div class="w-100 m-auto d-flex justify-content-center text-center bg-primary vh-100">
+    
+        <div class="w-100 d-flex justify-content-center align-items-center bg-success vh-100">
+
+            <div class="m-3 m-md-5 p-6 w-lg-33 bg-light rounded-2 h-80">
+    
+                <div class="mb-7 text-center">
+                    <a class="navbar-brand fs-4" href="#">
+                        <img src="{% static 'Icon/llkc_logo.svg' %}" alt="Logo" width="50" height="46">            
+                      </a>
+                </div>        
+                <form class="mb-8 text-start text-dark" method="POST">
+
+                {% csrf_token %}
+                
+                    <div class="mb-4">
+                        <h1 class="h3 mb-3 fw-bold text-dark">Reģistrējieties</h1>
+                        
+                        {% if error %}
+                        <p style="color: red;">{{ message }}</p>
+                        {% endif %}
+
+                        <div class="mt-4 mb-6">                            
+                                <div class="form-field mb-4">
+                                    <fieldset class="user_login">
+                                        <label for="user_login" class="my-1">Lietotājvārds</label>
+                                        <input class="form-control w-100" id="user_name" name="user_name" type="text" autocomplete="off">
+                                    </fieldset>
+                                </div>                        
+        
+                            <div class="form-field mb-4">
+                                <fieldset class="user_email">
+                                    <label for="user_email" class="my-1">E-pasts</label>
+                                    <input class="form-control" id="user_email" name="user_email" type="text" autocomplete="off">
+                                </fieldset>
+                            </div>
+        
+                            <div class="form-field mb-4">
+                                <fieldset class="user_password">
+                                    <label for="user_password" class="my-1">Parole</label>
+                                    <input class="form-control" id="user_password" name="user_password" type="password" placeholder="6+ rakstzīmes">
+                                </fieldset>
+                            </div>
+
+                            <div class="form-field mb-4">
+                                <fieldset class="password_confirm">
+                                    <label for="password_confirm" class="my-1">Atkārtojiet paroli</label>
+                                    <input class="form-control" id="password_confirm" name="password_confirm" type="password" placeholder="6+ rakstzīmes">
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                        <button class="w-50 btn btn-lg btn-success rounded-2 m-2" type="submit">Pieslēgties</button>                
+                </form>
+                
+                    <hr class="divider">
+                <div class="mt-3 text-center text-dark">
+                    <h4>Esi jau lietotājs?</h4>
+                    <p>Pieslēdzies <a href="{% url 'login' %}" class="text-body">šeit</a></p>
+                </div>
+    
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
