@@ -1,0 +1,19 @@
+// This file is used to make own your "maps" with values.
+// These are added to Boostrap's official maps with the map-merge function.
+
+// Create your own map
+$custom-spacers: (
+    6: $spacer * 3.5,
+    7: $spacer * 4,
+    8: $spacer * 5,
+    9: $spacer * 6,
+    10: $spacer * 7
+);
+
+$custom-colors: (
+    'green-main': #31c147
+);
+
+// Merge the maps
+$spacers: map-merge($spacers, $custom-spacers);
+$theme-colors: map-merge($theme-colors, $custom-colors);

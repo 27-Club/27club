@@ -9,9 +9,9 @@
     }
   },
   "scripts": {
-    "dev": "parcel ./forms/templates/index.html",
-    "build:css": "parcel build ./forms/static/scss/main.scss --dist-dir dist",
-    "watch": "parcel watch ./forms/static/scss/main.scss --hmr-port 34471"
+    "dev": "parcel ./index/templates/index/main.html",
+    "build:css": "parcel build ./index/static/scss/main.scss --dist-dir distDir",
+    "watch": "parcel watch ./index/static/scss/main.scss --hmr-port 34471"
   },
   "repository": {
     "type": "git",
@@ -24,10 +24,11 @@
     "url": "https://github.com/hangxdd/27club/issues"
   },
   "homepage": "https://github.com/hangxdd/27club#readme",
-  "devDependencies": {
-    "parcel": "^2.8.2"
-  },
   "dependencies": {
     "bootstrap": "^5.2.3"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.2",
+    "parcel": "^2.8.2"
   }
 }
