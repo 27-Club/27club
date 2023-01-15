@@ -92,11 +92,11 @@ WSGI_APPLICATION = 'form.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',#Name of db in mysql
-        'USER':'',# Name who you use to connect to local instance
-        'PASSWORD': '',#Password for local instance
-        'HOST': '',#localhost for local instance
-        'PORT': '',#Local instance port 
+        'NAME': 'hel1',#Name of db in mysql
+        'USER':'root',# Name who you use to connect to local instance
+        'PASSWORD': 'localhost',#Password for local instance
+        'HOST': 'localhost',#localhost for local instance
+        'PORT': '3306',#Local instance port 
     }
 }
 
