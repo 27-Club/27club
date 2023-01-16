@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.db import IntegrityError
-from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.urls import reverse
 from .models import User, Choices, Questions, Answer, Form, Responses
 from django.core import serializers
 import json
@@ -10,67 +11,66 @@ import random
 import string
 
 # Create your views here.
-def index(request):
+@login_required(login_url='/login')
+def main_view(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('login'))
+        return redirect('login')
     forms = Form.objects.filter(creator = request.user)
-    return render(request, "index/index.html", {
+    return render(request, "index/main.html", {
         "forms": forms
     })
 
 def login_view(request):
-    #Check if the user is logged in
-    if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('index'))
-    if request.method == "POST":
-        username = request.POST["username"].lower()
-        password = request.POST["password"]
-        user = authenticate(request, username = username, password = password)
-        # if user authentication success
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse('index'))
-        else:
-            return render(request, "index/login.html", {
-                "message": "Invalid username and/or password"
-            })
-    return render(request, "index/login.html")
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            username = request.POST.get("user_name")
+            password = request.POST.get("user_password")
+            user = authenticate(request, username=username, password=password)
 
-def register(request):
-    #Check if the user is logged in
+            if user is None:
+                context = {"error": "Invalid username or password."}
+                return render(request, "index/accounts/login.html", context)
+
+            login(request, user)        
+            return redirect("/main")
+    else:
+        return redirect("main")
+
+    return render(request, "index/accounts/login.html")
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+def signup_view(request):
+     #Check if the user is logged in
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('index'))
+        return render(request, 'index/main.html')
     if request.method == "POST":
-        username = request.POST["username"].lower()
-        password = request.POST["password"]
-        email = request.POST["email"]
-        confirmation = request.POST["confirmation"]
+        username = request.POST["user_name"].lower()
+        password = request.POST["user_password"]
+        email = request.POST["user_email"]
+        confirmation = request.POST["password_confirm"]
         #check if the password is the same as confirmation
         if password != confirmation:
-            return render(request, "index/register.html", {
+            return render(request, "index/accounts/signup.html", {
                 "message": "Passwords must match."
             })
         #Checks if the username is already in use
         if User.objects.filter(email = email).count() == 1:
-            return render(request, "index/register.html", {
+            return render(request, "index/accounts/signup.html", {
                 "message": "Email already taken."
             })
         try:
             user = User.objects.create_user(username = username, password = password, email = email)
             user.save()
             login(request, user)
-            return HttpResponseRedirect(reverse('index'))
+            return redirect('login')
         except IntegrityError:
-            return render(request, "index/register.html", {
+            return render(request, "index/accounts/signup.html", {
                 "message": "Username already taken"
             })
-    return render(request, "index/register.html")
-
-
-def logout_view(request):
-    #Logout the user
-    logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return render(request, "index/accounts/signup.html")
 
 def create_form(request):
     # Creator must be authenticated
@@ -81,9 +81,9 @@ def create_form(request):
         data = json.loads(request.body)
         title = data["title"]
         code = ''.join(random.choice(string.ascii_letters + string.digits) for x in range(30))
-        choices = Choices(choice = "Opcija 1")
+        choices = Choices(choice = "Option 1")
         choices.save()
-        question = Questions(question_type = "Izvēlne", question= "Jautājums bez nosaukuma", required= False)
+        question = Questions(question_type = "multiple choice", question= "Untitled Question", required= False)
         question.save()
         question.choices.add(choices)
         question.save()
@@ -247,7 +247,7 @@ def edit_question(request, code):
         else: question = question[0]
         question.question = data["question"]
         question.question_type = data["question_type"]
-        question.required = data["Obligāts"]
+        question.required = data["required"]
         if(data.get("score")): question.score = data["score"]
         if(data.get("answer_key")): question.answer_key = data["answer_key"]
         question.save()
@@ -289,7 +289,7 @@ def add_choice(request, code):
         return HttpResponseRedirect(reverse("403"))
     if request.method == "POST":
         data = json.loads(request.body)
-        choice = Choices(choice="Opcija")
+        choice = Choices(choice="Option")
         choice.save()
         formInfo.questions.get(pk = data["question"]).choices.add(choice)
         formInfo.save()
@@ -346,16 +346,16 @@ def add_question(request, code):
     if formInfo.creator != request.user:
         return HttpResponseRedirect(reverse("403"))
     if request.method == "POST":
-        choices = Choices(choice = "Opcija")
+        choices = Choices(choice = "Option 1")
         choices.save()
-        question = Questions(question_type = "multiple choice", question= "Jautājums bez nosaukuma", required= False)
+        question = Questions(question_type = "multiple choice", question= "Untitled Question", required= False)
         question.save()
         question.choices.add(choices)
         question.save()
         formInfo.questions.add(question)
         formInfo.save()
-        return JsonResponse({'question': {'question': "Jautājums bez nosaukuma", "question_type": "multiple choice", "Obligāts": False, "id": question.id}, 
-        "choices": {"choice": "Opcija", "is_answer": False, 'id': choices.id}})
+        return JsonResponse({'question': {'question': "Untitled Question", "question_type": "multiple choice", "required": False, "id": question.id}, 
+        "choices": {"choice": "Option 1", "is_answer": False, 'id': choices.id}})
 
 def delete_question(request, code, question):
     if not request.user.is_authenticated:
@@ -673,17 +673,17 @@ def contact_form_template(request):
     # Create a blank form API
     if request.method == "POST":
         code = ''.join(random.choice(string.ascii_letters + string.digits) for x in range(30))
-        name = Questions(question_type = "short", question= "Vārds", required= True)
+        name = Questions(question_type = "short", question= "Name", required= True)
         name.save()
-        email = Questions(question_type="short", question = "Epasts", required = True)
+        email = Questions(question_type="short", question = "Email", required = True)
         email.save()
-        address = Questions(question_type="paragraph", question="Adrese", required = True)
+        address = Questions(question_type="paragraph", question="Address", required = True)
         address.save()
-        phone = Questions(question_type="short", question="Telefona Numurs", required = False)
+        phone = Questions(question_type="short", question="Phone number", required = False)
         phone.save()
-        comments = Questions(question_type = "paragraph", question = "Komenti", required = False)
+        comments = Questions(question_type = "paragraph", question = "Comments", required = False)
         comments.save()
-        form = Form(code = code, title = "Kontaktu informācija", creator=request.user, background_color="#fdefc3", allow_view_score = False, edit_after_submit = True)
+        form = Form(code = code, title = "Contact information", creator=request.user, background_color="#e2eee0", allow_view_score = False, edit_after_submit = True)
         form.save()
         form.questions.add(name)
         form.questions.add(email)
@@ -708,23 +708,23 @@ def customer_feedback_template(request):
         bug.save()
         feature = Choices(choice = "Feature Request")
         feature.save()
-        feedback_type = Questions(question = "Atsauksmes tips", question_type="multiple choice", required=False)
+        feedback_type = Questions(question = "Feedback Type", question_type="multiple choice", required=False)
         feedback_type.save()
         feedback_type.choices.add(comment)
         feedback_type.choices.add(bug)
         feedback_type.choices.add(question)
         feedback_type.choices.add(feature)
         feedback_type.save()
-        feedback = Questions(question = "Atsauksme", question_type="paragraph", required=True)
+        feedback = Questions(question = "Feedback", question_type="paragraph", required=True)
         feedback.save()
-        suggestion = Questions(question = "Ieteikumi uzlabojumiem", question_type="paragraph", required=False)
+        suggestion = Questions(question = "Suggestions for improvement", question_type="paragraph", required=False)
         suggestion.save()
-        name = Questions(question = "Vārds", question_type="short", required=False)
+        name = Questions(question = "Name", question_type="short", required=False)
         name.save()
-        email = Questions(question= "Epasts", question_type="short", required=False)
+        email = Questions(question= "Email", question_type="short", required=False)
         email.save()
-        form = Form(code = code, title = "Lietotāju atbalsts", creator=request.user, background_color="#90e065", confirmation_message="Liels paldies, ka sniedzāt mums atsauksmes!",
-        description = "Mēs labprāt uzklausītu jūsu domas vai atsauksmes par to, kā mēs varam uzlabot jūsu pieredzi!", allow_view_score = False, edit_after_submit = True)
+        form = Form(code = code, title = "Customer Feedback", creator=request.user, background_color="#e2eee0", confirmation_message="Thanks so much for giving us feedback!",
+        description = "We would love to hear your thoughts or feedback on how we can improve your experience!", allow_view_score = False, edit_after_submit = True)
         form.save()
         form.questions.add(feedback_type)
         form.questions.add(feedback)
@@ -740,50 +740,53 @@ def event_registration_template(request):
     # Create a blank form API
     if request.method == "POST":
         code = ''.join(random.choice(string.ascii_letters + string.digits) for x in range(30))
-        name = Questions(question="Vārds", question_type= "short", required=False)
+        name = Questions(question="Name", question_type= "short", required=False)
         name.save()
-        email = Questions(question = "Epasts", question_type="short", required=True)
+        email = Questions(question = "email", question_type="short", required=True)
         email.save()
-        organization = Questions(question = "Organizācija", question_type= "short", required=True)
+        organization = Questions(question = "Organization", question_type= "short", required=True)
         organization.save()
-        day1 = Choices(choice="1. Diena")
+        day1 = Choices(choice="Day 1")
         day1.save()
-        day2 = Choices(choice= "2. Diena")
+        day2 = Choices(choice= "Day 2")
         day2.save()
-        day3 = Choices(choice= "3. Diena")
+        day3 = Choices(choice= "Day 3")
         day3.save()
-        day = Questions(question="Kurās dienās jūs apmeklēsiet?", question_type="checkbox", required=True)
+        day = Questions(question="What days will you attend?", question_type="checkbox", required=True)
         day.save()
         day.choices.add(day1)
         day.choices.add(day2)
         day.choices.add(day3)
         day.save()
-        dietary_none = Choices(choice="Neviens")
+        dietary_none = Choices(choice="None")
         dietary_none.save()
-        dietary_vegetarian = Choices(choice="Veģetārietis")
+        dietary_vegetarian = Choices(choice="Vegetarian")
         dietary_vegetarian.save()
-        dietary_gluten = Choices(choice = "Bezglutēna")
+        dietary_kosher = Choices(choice="Kosher")
+        dietary_kosher.save()
+        dietary_gluten = Choices(choice = "Gluten-free")
         dietary_gluten.save()
-        dietary = Questions(question = "Uztura ierobežojumi", question_type="multiple choice", required = True)
+        dietary = Questions(question = "Dietary restrictions", question_type="multiple choice", required = True)
         dietary.save()
         dietary.choices.add(dietary_none)
         dietary.choices.add(dietary_vegetarian)
         dietary.choices.add(dietary_gluten)
+        dietary.choices.add(dietary_kosher)
         dietary.save()
-        accept_agreement = Choices(choice = "Jā")
+        accept_agreement = Choices(choice = "Yes")
         accept_agreement.save()
-        agreement = Questions(question = "Es saprotu, ka ierodoties būs jāmaksā nauda", question_type="checkbox", required=True)
+        agreement = Questions(question = "I understand that I will have to pay $$ upon arrival", question_type="checkbox", required=True)
         agreement.save()
         agreement.choices.add(accept_agreement)
         agreement.save()
-        form = Form(code = code, title = "Pasākuma reģistrācija", creator=request.user, background_color="#65a3e0", 
-        confirmation_message="Mēs esam saņēmuši jūsu reģistrāciju.\n\
-Ievadiet citu informāciju šeit.\n\
+        form = Form(code = code, title = "Event Registration", creator=request.user, background_color="#fdefc3", 
+        confirmation_message="We have received your registration.\n\
+Insert other information here.\n\
 \n\
-Saglabājiet tālāk norādīto saiti, kuru var izmantot, lai rediģētu savu reģistrāciju līdz reģistrācijas beigu datumam.",
-        description = "Pasākuma norises laiks: 2023. gads 6. janvāris\n\
-Pasākuma Adrese: 123 Jūsu iela, Jūsu pilsēta, LV-0000\n\
-Sazinieties ar mums pa tālruni (+123) 456-7890 vai no_reply@example.com", edit_after_submit=True, allow_view_score=False)
+Save the link below, which can be used to edit your registration up until the registration closing date.",
+        description = "Event Timing: January 4th-6th, 2016\n\
+Event Address: 123 Your Street Your City, ST 12345\n\
+Contact us at (123) 456-7890 or no_reply@example.com", edit_after_submit=True, allow_view_score=False)
         form.save()
         form.questions.add(name)
         form.questions.add(email)
