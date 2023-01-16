@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     document.querySelector("#delete-form").addEventListener("submit", e => {
         e.preventDefault();
-        if(window.confirm("Are you sure? This action CANNOT be undone.")){
+        if(window.confirm("Vai esat pārliecināts? Šo darbību NEVAR atsaukt.")){
             fetch('delete', {
                 method: "DELETE",
                 headers: {'X-CSRFToken': csrf}

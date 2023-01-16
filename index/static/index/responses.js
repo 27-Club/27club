@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     document.querySelector("#delete-form").addEventListener("submit", e => {
         e.preventDefault();
-        if(window.confirm("Are you sure? This action CANNOT be undone.")){
+        if(window.confirm("Vai esat pārliecināts? Šo darbību NEVAR atsaukt.")){
             fetch('delete', {
                 method: "DELETE",
                 headers: {'X-CSRFToken': csrf}
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     if(document.querySelector("#delete-responses")){
         document.querySelector("#delete-responses").addEventListener("click", () => {
-            if(window.confirm("Are you sure? This action CANNOT be undone.")){
+            if(window.confirm("Vai esat pārliecināts? Šo darbību NEVAR atsaukt.")){
                 fetch('responses/delete', {
                     method: "DELETE",
                     headers: {'X-CSRFToken': csrf}

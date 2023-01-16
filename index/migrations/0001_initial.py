@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
                 ('authenticated_responder', models.BooleanField(default=False)),
                 ('edit_after_submit', models.BooleanField(default=False)),
                 ('see_response', models.BooleanField(default=False)),
-                ('confirmation_message', models.CharField(default='Your response has been recorded.', max_length=10000)),
+                ('confirmation_message', models.CharField(default='Jūsu atbilde tika iesniegta.', max_length=10000)),
                 ('is_quiz', models.BooleanField(default=False)),
                 ('allow_view_score', models.BooleanField(default=True)),
                 ('createdAt', models.DateTimeField(auto_now_add=True)),

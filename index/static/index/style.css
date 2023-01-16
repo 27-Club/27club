@@ -4,6 +4,7 @@
 
 body{
     scroll-behavior: smooth;
+    background-color: rgb(185, 151, 91);
 }
 
 .form-error{
@@ -19,6 +20,7 @@ body{
 .topnav{
     float: left;
     width: 100vw;
+    color: white;
 }
 
 .navbar-icon{
@@ -35,7 +37,7 @@ body{
 }
 
 .nav-link{
-    color: #000;
+    color: rgb(255, 255, 255);
     text-decoration: none;
 }
 
@@ -62,8 +64,8 @@ body{
     left: 0;
     overflow-x: hidden;
     transition: 0.5s;
-    background-color: #FFF;
-    box-shadow: 10px 0 5px -2px #888;
+    background-color: rgb(94, 103, 56);
+    box-shadow: 10px 0 5px -2px rgb(233, 225, 225);
 }
 
 .nav-ham{
@@ -82,32 +84,30 @@ body{
     font-size: 36px;
     margin-left: 50px;
     cursor: pointer;
+    color: white;
 }
 
 .sidebar-content{
-    margin: 20px
+    margin: 20px;
+    color: white;
 }
 
 .sidebar-title{
     margin-top: 50px;
     font-family: "Google Sans";
     font-size: 1.3rem;
-    border-bottom: 1px solid #888;
+    border-bottom: 1px solid rgb(255, 255, 255);
     text-align: center;
     cursor: pointer;
 }
 
 .sidebar-title-link{
     text-decoration: none;
-    color: #414244;
-}
-
-.github-icon{
-    width: 1.3rem;
+    color: rgb(255, 255, 255);
 }
 
 .create-form{
-    background-color: #f1f3f4;
+    background-color: rgb(94, 103, 56);
     width: 100vw;
     float: left;
 }
@@ -115,11 +115,13 @@ body{
 .forms-label{
     font-family: "Google Sans";
     margin: 10px 10px 5px 10px;
+    color: white;
 }
 
 .form-template-box{
     margin: 5px 30px 10px 0;
     float: left;
+    color: white;
 }
 
 .form-template-box img{
@@ -129,12 +131,12 @@ body{
 }
 
 .form-template-box:hover{
-    border: 1px solid black;
+    border: 1px solid rgb(255, 255, 255);
 }
 
 .form-box{
     width: 250px;
-    border: 1px solid rgb(182, 179, 179);
+    border: 1px solid rgb(94, 103, 56);
     padding: 5px;
     cursor: pointer;
     margin: 10px;
@@ -142,7 +144,7 @@ body{
 }
 
 .form-box:hover{
-    border: 1px solid darkblue;
+    border: 1px solid rgb(255, 255, 255);
 }
 
 .form-list{
@@ -155,6 +157,7 @@ body{
     display: flex;
     flex-direction: row;
     position: relative;
+    color: white;
 }
 
 .form-list-title-text{
@@ -170,7 +173,7 @@ body{
 
 .form-list-timestamp{
     margin: 2.5px ;
-    color: gray;
+    color: rgb(255, 255, 255);
 }
 
 .form-list-link{
@@ -187,7 +190,7 @@ body{
 .form-topnav{
     padding: 15px;
     overflow: hidden;
-    background-color: #fff;
+    background-color: rgb(185, 151, 91);
 }
 
 .nav-form-title{
@@ -197,6 +200,8 @@ body{
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     text-overflow: ellipsis;
+    background-color: rgb(185, 151, 91);
+    color: white;
 }
 
 .edit-on-click{
@@ -220,15 +225,16 @@ body{
 
 .send-form-btn{
     position: relative;
-    background-color: #673ab7;
+    background-color: rgb(94, 103, 56);
     color: #ddd;
     font-size: 1rem;
     font-family: "Google Sans";
     vertical-align: middle;
-    border: 1px solid #ddd;
+    border: 1px solid rgb(83, 90, 51);
     padding: 10px 20px;
     float: left;
     margin: 0.2px 15px;
+    cursor: pointer;
 }
 
 .question-box{
@@ -333,7 +339,7 @@ body{
 }
 
 .btn-save-setting{
-    background-color: #673ab7;
+    background-color: rgb(94, 103, 56);
     color: #ddd;
     font-size: 1rem;
     font-family: "Google Sans";
@@ -515,7 +521,7 @@ body{
 }
 
 .form-navigation .active{
-    color:rgb(0, 132, 223);
+    color:rgb(255, 255, 255);
     font-weight: bold;
     font-family: "Google Sans";
     font-size: 0.8rem;
@@ -531,7 +537,7 @@ body{
 .input-score{
     width: 30px;
     border: none;
-    border-bottom: 1px solid rgb(0, 132, 223);
+    border-bottom: 1px solid rgb(255, 255, 255);
 }
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
@@ -603,10 +609,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 .view-score-btn{
     position: relative;
-    background-color: #673ab7;
+    background-color: rgb(94, 103, 56);
     color: #ddd;
     font-family: "Google Sans";
-    border: 1px solid #ddd;
+    border: 1px solid rgb(83, 90, 51);
     padding: 10px 20px;
     margin: 5px 15px;
 }
@@ -684,7 +690,7 @@ blockquote{
     font-style:italic;
     color: #555555;
     padding: 10px;
-    border-left:8px solid #78C0A8 ;
+    border-left:8px solid rgb(94, 103, 56);
     position: relative;
     background:#EDEDED;
 }

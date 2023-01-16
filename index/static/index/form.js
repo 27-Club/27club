@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
 
             })
-            document.title = `${this.value} - Google Forms CLONE`
+            document.title = `${this.value} - LLKC Veidlapu izveide`
             document.querySelectorAll(".input-form-title").forEach(ele => {
                 ele.value = this.value;
             })
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     document.querySelector("#delete-form").addEventListener("submit", e => {
         e.preventDefault();
-        if(window.confirm("Are you sure? This action CANNOT be undone.")){
+        if(window.confirm("Vai esat pārliecināts? Šo darbību NEVAR atsaukt.")){
             fetch('delete', {
                 method: "DELETE",
                 headers: {'X-CSRFToken': csrf}
@@ -269,13 +269,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <label for="${result["id"]}">
                             <input type="text" value="${result["choice"]}" class="edit-choice" data-id="${result["id"]}">
                         </label>
-                        <span class="remove-option" title = "Remove" data-id="${result["id"]}">&times;</span>`;
+                        <span class="remove-option" title = "Noņemt" data-id="${result["id"]}">&times;</span>`;
                     }else if(this.dataset.type === "checkbox"){
                         element.innerHTML = `<input type="checkbox" id="${result["id"]}" disabled>
                         <label for="${result["id"]}">
                             <input type="text" value="${result["choice"]}" class="edit-choice" data-id="${result["id"]}">
                         </label>
-                        <span class="remove-option" title = "Remove" data-id="${result["id"]}">&times;</span>`;
+                        <span class="remove-option" title = "Noņemt" data-id="${result["id"]}">&times;</span>`;
                     }
                     document.querySelectorAll(".choices").forEach(choices => {
                         if(choices.dataset.id === this.dataset.question){
@@ -349,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                             <label for="${result["choices"][i].id}">
                                                 <input type="text" data-id="${result["choices"][i].id}" class="edit-choice" value="${result["choices"][i].choice}">
                                             </label>
-                                            <span class="remove-option" title="Remove" data-id="${result["choices"][i].id}">&times;</span></div>`}
+                                            <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
                                         }
                                     }else if(this.value === "checkbox"){
                                         for(let i in result["choices"]){
@@ -358,14 +358,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                             <label for="${result["choices"][i].id}">
                                                 <input type="text" data-id="${result["choices"][i].id}" class="edit-choice" value="${result["choices"][i].choice}">
                                             </label>
-                                            <span class="remove-option" title="Remove" data-id="${result["choices"][i].id}">&times;</span></div>`}
+                                            <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
                                         }
                                     }
                                     ele.innerHTML = `<div class="choice">${choices}</div>
                                     <div class="choice">
                                         <input type = "radio" id = "add-choice" disabled />
                                         <label for = "add-choice" class="add-option" id="add-option" data-question="${result["question_id"]}"
-                                        data-type = "${this.value}">Add option</label>
+                                        data-type = "${this.value}">Pievienot opciju</label>
                                     </div>`;
                                     choicesElement.parentNode.replaceChild(ele, choicesElement);
                                     editChoice()
@@ -381,14 +381,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                     choicesElement.parentNode.removeChild(choicesElement)
                                     let ele = document.createElement("div");
                                     ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
-                                    <input type ="text" class="short-answer" disabled placeholder="Short answer text" />
+                                    <input type ="text" class="short-answer" disabled placeholder="Īsas atbildes teksts" />
                                 </div>`
                                     this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
                                 }else if(this.value === "paragraph"){
                                     choicesElement.parentNode.removeChild(choicesElement)
                                     let ele = document.createElement("div");
                                     ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
-                                    <textarea class="long-answer" disabled placeholder="Long answer text" ></textarea>
+                                    <textarea class="long-answer" disabled placeholder="Garas atbildes teksts" ></textarea>
                                 </div>`
                                     this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
                                 }
@@ -419,7 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         <label for="${result["choices"][i].id}">
                                             <input type="text" data-id="${result["choices"][i].id}" class="edit-choice" value="${result["choices"][i].choice}">
                                         </label>
-                                        <span class="remove-option" title="Remove" data-id="${result["choices"][i].id}">&times;</span></div>`}
+                                        <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
                                     }
                                 }else if(this.value === "checkbox"){
                                     for(let i in result["choices"]){
@@ -428,14 +428,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                         <label for="${result["choices"][i].id}">
                                             <input type="text" data-id="${result["choices"][i].id}" class="edit-choice" value="${result["choices"][i].choice}">
                                         </label>
-                                        <span class="remove-option" title="Remove" data-id="${result["choices"][i].id}">&times;</span></div>`}
+                                        <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
                                     }
                                 }
                                 ele.innerHTML = `<div class="choice">${choices}</div>
                                 <div class="choice">
                                     <input type = "radio" id = "add-choice" disabled />
                                     <label for = "add-choice" class="add-option" id="add-option" data-question="${result["question_id"]}"
-                                    data-type = "${this.value}">Add option</label>
+                                    data-type = "${this.value}">Pievienot opciju</label>
                                 </div>`;
                                 question.insertBefore(ele, question.childNodes[4])
                                 editChoice()
@@ -450,13 +450,13 @@ document.addEventListener("DOMContentLoaded", () => {
                             if(this.value === "short"){
                                 let ele = document.createElement("div");
                                 ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
-                                <input type ="text" class="short-answer" disabled placeholder="Short answer text" />
+                                <input type ="text" class="short-answer" disabled placeholder="Īsas atbildes teksts" />
                             </div>`
                                 this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
                             }else if(this.value === "paragraph"){
                                 let ele = document.createElement("div");
                                 ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
-                                <textarea class="long-answer" disabled placeholder="Long answer text" ></textarea>
+                                <textarea class="long-answer" disabled placeholder="Garas atbildes teksts" ></textarea>
                             </div>`
                                 this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
                             }
@@ -485,10 +485,10 @@ document.addEventListener("DOMContentLoaded", () => {
             ele.innerHTML = `
             <input type="text" data-id="${result["question"].id}" class="question-title edit-on-click input-question" value="${result["question"].question}">
             <select class="question-type-select input-question-type" data-id="${result["question"].id}" data-origin_type = "${result["question"].question_type}">
-                <option value="short">Short answer</option>
-                <option value="paragraph">Paragraph</option>
-                <option value="multiple choice" selected>Multiple choice</option>
-                <option value="checkbox">Checkbox</option>
+                <option value="short">Īsa atbilde</option>
+                <option value="paragraph">Rindkopa</option>
+                <option value="multiple choice" selected>Vairākas atbildes</option>
+                <option value="checkbox">Izvēles</option>
             </select>
             <div class="choices" data-id="${result["question"].id}">
                 <div class="choice">
@@ -496,19 +496,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     <label for="${result["choices"].id}">
                         <input type="text" value="${result["choices"].choice}" class="edit-choice" data-id="${result["choices"].id}">
                     </label>
-                    <span class="remove-option" title = "Remove" data-id="${result["choices"].id}">&times;</span>
+                    <span class="remove-option" title = "Noņemt" data-id="${result["choices"].id}">&times;</span>
                 </div>
                 <div class="choice">
                     <input type = "radio" id = "add-choice" disabled />
                     <label for = "add-choice" class="add-option" id="add-option" data-question="${result["question"].id}" 
-                    data-type = "${result["question"].question_type}">Add option</label>
+                    data-type = "${result["question"].question_type}">Pievienot opciju</label>
                 </div>
             </div>
             <div class="choice-option">
                 <input type="checkbox" class="required-checkbox" id="${result["question"].id}" data-id="${result["question"].id}">
                 <label for="${result["question"].id}" class="required">Required</label>
                 <div class="float-right">
-                    <img src="/static/Icon/dustbin.png" alt="Delete question icon" class="question-option-icon delete-question" title="Delete question"
+                    <img src="/static/Icon/dustbin.png" alt="Dzēst jautājumu ikona" class="question-option-icon delete-question" title="Dzēst jautājumu"
                     data-id="${result["question"].id}">
                 </div>
             </div>

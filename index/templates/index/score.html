@@ -1,6 +1,6 @@
 {% extends 'index/layout.html' %}
 {% load static %}
-{% block title %}{{form.title}}Forms{% endblock %}
+{% block title %}{{form.title}} ~ LLKC Veidlapu izveide{% endblock %}
 {% block script %}
 <script src="{% static 'index/score.js' %}" defer></script>
 <script src="{% static 'lib/cookie.min.js' %}"></script>
@@ -9,24 +9,24 @@
 <div class="container-fluid">
     <div class="form-topnav">
         <a href = "/">
-            <img src = "{% static 'Icon/icon.png' %}" alt = "Google Forms Icon(CLONE)" class="navbar-icon form-icon" title = "Forms" />
+            <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC ikona" class="navbar-icon form-icon" title = "LLKC Veidlapas" />
         </a>
         <span class="nav-text nav-form-title input-form-title">{{form.title}}</span>
         <div class="float-right">
-            <img src="{% static 'Icon/theme.png' %}" alt="Theme icon" id="customize-theme-btn" title = "Customize theme" class="nav-form-menu-icon" />
+            <img src="{% static 'Icon/theme.png' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" />
             <a href="{% url 'view_form' form.code %}">
-            <img src="{% static 'Icon/eye.png' %}" alt="Preview icon" title = "Preview" class="nav-form-menu-icon big-screen" />
+            <img src="{% static 'Icon/eye.png' %}" alt="Priekšskata ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />
             </a>
-            <img src="{% static 'Icon/send.png' %}" alt ="Send icon" title = "Send" class="nav-form-menu-icon small-screen" id="send-form-btn" />
-            <img src="{% static 'Icon/setting.png' %}" alt="Setting icon" title = "Setting" class="nav-form-menu-icon open-setting" />
-            <button class = "btn send-form-btn big-screen" title = "Send" id="send-form-btn">Send</button>
+            <img src="{% static 'Icon/send.png' %}" alt ="Sūtīšanas ikona" title = "Sūtīt" class="nav-form-menu-icon small-screen" id="send-form-btn" />
+            <img src="{% static 'Icon/setting.png' %}" alt="Iestatījumu ikona" title = "Iestatījumi" class="nav-form-menu-icon open-setting" />
+            <button class = "btn send-form-btn big-screen" title = "Sūtīt" id="send-form-btn">Sūtīt</button>
         </div>
     </div>
     <div class="form-topnav">
         <div class="form-navigation center">
-            <span class="col-4 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
-            <span class="col-4 navigation active">Scores</span>
-            <span class="col-4 navigation"><a href = "{% url 'responses' form.code %}" class="link">Responses</a></span>
+            <span class="col-4 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Jautājumi</a></span>
+            <span class="col-4 navigation active">Rezultāti</span>
+            <span class="col-4 navigation"><a href = "{% url 'responses' form.code %}" class="link">Atbildes</a></span>
         </div>
     </div>
     <div class="container">
@@ -39,10 +39,10 @@
             <p class="form-description edit-on-click textarea-adjust txt-clr">{{form.description|linebreaksbr}}</p>
             {% if form.collect_email %}
             <div class="collect-email txt-clr">
-                <h3 class="question-title">Email address <span class="require-star">*</span></h3>
+                <h3 class="question-title">Ē-pasta adrese <span class="require-star">*</span></h3>
                 <input type="text" autoComplete="off" aria-label="Valid email address" disabled dir = "auto" class="require-email-edit txtColor"
                 placeholder = "Valid email address" />
-                <p class="collect-email-desc">This form is collecting email addresses. <span class="open-setting">Change settings</span></p>
+                <p class="collect-email-desc">Šī veidlapa ievāc ē-pasta adreses <span class="open-setting">Mainīt iestatījumus</span></p>
             </div>
             {% endif %}
         </div>
@@ -51,10 +51,10 @@
             <h2 class="question-title-score">{{question.question}}</h2>
             <div class="question-score">
                 <input type="number" data-id="{{question.id}}" id="score" class="input-score" value="{{question.score}}">
-                <label for="score">Points</label>
+                <label for="score">Punkti</label>
             </div>
             <div class="answer-key">
-                <p class="answer-key-title">Answer key:</p>
+                <p class="answer-key-title">Atbildes atslēga:</p>
                 {% if question.question_type == "short" %}
                     <input type="text" class="short-answer" data-id="{{question.id}}" data-question-type = "{{question.question_type}}" answer-key
                     value="{{question.answer_key}}">
@@ -81,7 +81,7 @@
                 {% endif %}
             </div>
             <div class="feedback">
-                <p class="feedback-title">Feedback:</p>
+                <p class="feedback-title">Atsauksmes:</p>
                 {% if question.feedback != None %}
                 <textarea class="long-answer textarea-adjust" data-id="{{question.id}}" name="feedback">{{question.feedback}}</textarea>
                 {% else %}
@@ -93,17 +93,17 @@
     </div>
     <div class="question-options">
         <a href="{% url 'view_form' form.code %}">
-            <img src = "{% static 'Icon/eye.png' %}" class = "form-option-icon" title = "Preview" alt = "Preview icon" />
+            <img src = "{% static 'Icon/eye.png' %}" class = "form-option-icon" title = "Priekšskats" alt = "Priekšskata ikona" />
         </a>
         <a href="{% url 'edit_form' form.code %}">
-            <img src = "{% static 'Icon/question.png' %}" class = "form-option-icon" title = "Questions" alt = "Question icon" />
+            <img src = "{% static 'Icon/question.png' %}" class = "form-option-icon" title = "Jautājumi" alt = "Jautājumu ikona" />
         </a>
     </div>
     <div class="modal" id="customize-theme">
         <div class="modal-content">
             <span class="modal-close-btn" id="close-customize-theme">&times;</span>
-            <h1 class="modal-title">Theme options</h1>
-            <h3 class="modal-subtitle">Background Color:</h3>
+            <h1 class="modal-title">Krāsu opcijas</h1>
+            <h3 class="modal-subtitle">Fona krāsas:</h3>
             <input type="color"  value = "{{form.background_color}}" list="bgColors" class="form-control" id="input-bg-color" />
             <datalist id="bgColors">
                 <option value="#03a9f4"></option>
@@ -114,7 +114,7 @@
                 <option value = "#f6f6f6"></option>
                 <option value="#f1f3f4"></option>
             </datalist>
-            <h3 class="modal-subtitle">Text Color:</h3>
+            <h3 class="modal-subtitle">Teksta krāsas:</h3>
             <input type="color"  value = {{form.text_color}} list="textColors" class="form-control" id="input-text-color" />
             <datalist id="textColors">
                 <option value="#db4437"></option>
@@ -135,39 +135,39 @@
         <div class="modal-content txt-clr">
             <form id="setting-form">
                 <span class="modal-close-btn" id="close-setting">&times;</span>
-                <h1 class = "modal-title">Setting</h1>
-                <h4 class="setting-preview-form small-screen"><a href="{% url 'view_form' form.code %}">Preview form here</a></h4>
+                <h1 class = "modal-title">Iestatījumi</h1>
+                <h4 class="setting-preview-form small-screen"><a href="{% url 'view_form' form.code %}">Priekšskats</a></h4>
                 <div class="modal-division">
                     <div class="form-group">
                         <h3 class="modal-subtitle">General</h3>
                         <input type="checkbox" id="collect_email"{% if form.collect_email %} checked {% endif %}>
-                        <label for="collect_email" class="setting-form-label">Collect email address</label>
+                        <label for="collect_email" class="setting-form-label">Saglabāt ē-pasta adreses</label>
                     </div>
                     <div class="form-group">
                         <input type="checkbox" id="is_quiz" {% if form.is_quiz %} checked {% endif %}>
-                        <label for="is_quiz" class="setting-form-label">Make this as a quiz</label>
+                        <label for="is_quiz" class="setting-form-label">Veidot šo veidlapu kā viktorīnu</label>
                     </div>
                     <div class="form-group">
                         <input type="checkbox" id="authenticated_responder" {% if form.authenticated_responder %} checked {% endif %}>
-                        <label for="authenticated_responder" class="setting-form-label">Respondent account must be authenticated. (Signed in required)</label>
+                        <label for="authenticated_responder" class="setting-form-label">Respondenta profilam ir jābūt apstiprinātam. (Pieteikšanās ir obligāta)</label>
                     </div>
                 </div>
                 <div class="modal-division">
                     <div class="form-group">
-                        <h3 class="modal-subtitle">Confirmation message:</h3>
+                        <h3 class="modal-subtitle">Apstiprinājuma ziņojums:</h3>
                         <textarea rows="1" class="confirmation-msg-input edit-on-click textarea-adjust" spellcheck="false"
                          id="comfirmation_message">{{form.confirmation_message}}</textarea>
                     </div>
                 </div>
                 <div class="modal-division">
                     <div class="form-group">
-                        <h3 class="modal-subtitle">Respondents can:</h3>
+                        <h3 class="modal-subtitle">Respondenti drīkst:</h3>
                         <input type="checkbox" id="edit_after_submit" {% if form.edit_after_submit %}checked{% endif %}>
-                        <label for="edit_after_submit" class="setting-form-label">Edit after submit</label>
+                        <label for="edit_after_submit" class="setting-form-label">Rediģēt atbildi pēc iesniegšanas</label>
                     </div>
                     <div class="form-group">
                         <input type="checkbox" id="allow_view_score" {% if form.allow_view_score %}checked{% endif %}>
-                        <label for="allow_view_score" class="setting-form-label">View score</label>
+                        <label for="allow_view_score" class="setting-form-label">Skatīt rezultātu</label>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Save" class="form-control btn btn-save-setting">
@@ -176,9 +176,9 @@
             </form>
             <form id="delete-form" class="modal-division">
                 <fieldset class="form-group">
-                    <legend class="modal-subtitle text-danger danger-zone">Danger Zone</legend>
-                    <h3 class="delete-form-title">Delete this form</h3>
-                    <p class="delete-form-description">Once you delete a form, there is no going back. Please be certain.</p>
+                    <legend class="modal-subtitle text-danger danger-zone">Uzmanību</legend>
+                    <h3 class="delete-form-title">Dzēst šo veidlapu</h3>
+                    <p class="delete-form-description">Kad veidlapa ir izdzēsta, tā netiek atgriezta. Lūdzu, esiet droši.</p>
                     <input type="submit" value="Delete" class="form-control delete-form-btn">
                 </fieldset>
             </form>
@@ -187,12 +187,12 @@
     <div class="modal" id="send-form">
         <div class="modal-content">
             <span class="modal-close-btn" id="close-send-form">&times;</span>
-            <h1 class = "modal-title">Send form</h1>
+            <h1 class = "modal-title">Sūtīt veidlapu</h1>
             <div class="modal-division">
-                <h4 class="modal-subtitle">Link:</h4>
+                <h4 class="modal-subtitle">Saite:</h4>
                 <input type="url" class="form-control" value="http://{{request.get_host}}/form/{{form.code}}/viewform" copy-btn id="copy-url">
             </div>
-            <button class="btn btn-submit" copy-btn>Copy</button>
+            <button class="btn btn-submit" copy-btn>Kopēt</button>
         </div>
     </div>
 </div>
