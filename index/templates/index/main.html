@@ -10,10 +10,10 @@
     <div class="topnav nav-effect">
         <div class="nav-padding">
             <span class="nav-ham" id="nav-ham">&#9776;</span>
-            <img src = "{% static 'Icon/llkc_logo.svg' %}" alt = "Google Forms Icon(CLONE)" class="navbar-icon form-icon" title = "Forms">
-            <span class="nav-text" title = "Forms"><a href = "{% url 'main' %}" class="nav-link">Forms</a></span>
+            <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Veidlapu izveide" class="navbar-icon form-icon" title = "LLKC Veidlapu izveide">
+            <span class="nav-text" title = "LLKC Veidlapu izveide"><a href = "{% url 'main' %}" class="nav-link">LLKC Veidlapu izveide</a></span>
             <a href="{% url 'logout' %}">
-                <img src = "{% static 'Icon/Logout.jpg' %}" alt = "Logout Icon" class="navbar-icon float-right logout-icon" title = "Logout">
+                <img src = "{% static 'Icon/Logout.png' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
             </a>
         </div>
     </div>
@@ -22,40 +22,38 @@
         <div class="sidebar-content">
             <h4 class="sidebar-title">
                 <a href = "{% url 'main' %}" class="sidebar-title-link">
-                    <span>Forms</span>
+                    <span>LLKC Veidlapu izveide</span>
                 </a>
             </h4>
-            <p class="text-label">Found bug? Submit an issue <a href="https://github.com/kimlimjustin/google-form-clone/issues" class="link">here</a></p>
-            <p class="text-label">License: <a href="https://github.com/kimlimjustin/google-form-clone/blob/master/LICENSE" class="link">MIT</a></p>
-            <p class="text-label">Source code: <a href="https://github.com/kimlimjustin/google-form-clone">
-                <img src = "{% static 'Icon/github.png' %}" class="github-icon" alt="GitHub"></a></p>
-            <p class="text-label">Support creator by <a href="https://github.com/kimlimjustin/google-form-clone" class="link">give a star on GitHub</a></p>
+            <p class="text-label">Atradi kļūdu? Iesniedz to <a href="" class="link">šeit</a></p>
+            <p class="text-label">Jautājumi un atbildes uz <a href="" class="link">tiem</a></p>
+            <p class="text-label">Mūsu <a href="" class="link">kontakti</a></p>
         </div>
     </div>
     <div class="create-form">
         <div class="container">
-            <p class="forms-label">Start a new form</p>
+            <p class="forms-label">Izveidot jaunu veidlapu</p>
             <div class="form-template-box">
-                <img src = "{% static 'Icon/blank-form.png' %}" alt = "Blank form" title = "Blank form" id="create-blank-form">
-                <span class="form-template-label">Blank Form</span>
+                <img src = "{% static 'Icon/blank-form.png' %}" alt = "Tukša veidlapa" title = "Tukša veidlapa" id="create-blank-form">
+                <span class="form-template-label">Tukša veidlapa</span>
             </div>
             <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/contact_information.png' %}" alt = "Contact Information" title = "Contact Information" id="create-contact-form">
-                <span class="form-template-label">Contact Information</span>
+                <img src = "{% static 'Template/contact_information.png' %}" alt = "Kontaktu informācija" title = "Kontaktu informācija" id="create-contact-form">
+                <span class="form-template-label">Kontaktu informācija</span>
             </div>
             <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/customer_feedback.png' %}" alt = "Customer Feedback" title = "Customer Feedback" id="create-customer-feedback">
-                <span class="form-template-label">Customer Feedback</span>
+                <img src = "{% static 'Template/customer_feedback.png' %}" alt = "Dalībnieku atbalsts" title = "Dalībnieku atbalsts" id="create-customer-feedback">
+                <span class="form-template-label">Dalībnieku atbalsts</span>
             </div>
             <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/customer_feedback.png' %}" alt = "Event Registration" title = "Event Registration" id="create-event-registration">
-                <span class="form-template-label">Event Registration</span>
+                <img src = "{% static 'Template/event_registration.png' %}" alt = "Pasākuma reģistrācija" title = "Pasākuma reģistrācija" id="create-event-registration">
+                <span class="form-template-label">Pasākuma reģistrācija</span>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="form-list">
-            <p class="forms-label">Your forms:</p>
+            <p class="forms-label">Jūsu veidlapas:</p>
             {% for i in forms %}
             <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
                 <div class="form-box">
