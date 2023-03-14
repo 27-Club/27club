@@ -10,6 +10,8 @@ Ensure that you have Python (v3.10.9) and PIP installed. [You can download it he
 
 ## Quick Start
 * run `npm ci`
+* run `npm install --save-dev parcel`
+* run `npm install bootstrap`
 * run `npm build:css` to build sass
 * run `py manage.py runserver` to run server
 * open browser at `http://127.0.0.1:8000/`
@@ -17,9 +19,8 @@ Ensure that you have Python (v3.10.9) and PIP installed. [You can download it he
 ## Django 
 Small instruction how to setup django.
 
-1. Open your project at the root level `cd ~/django_lauku`
+1. Open your project at the root level `cd ~/27club-main`
 2. Run commands in powershell
     * `py -m venv lauku_forms_venv`
     * `lauku_forms_venv\Scripts\activate.bat`
-    * `cd..`
-    * `cd lauku_forms`
+    * `cd 27club-main`
