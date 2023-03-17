@@ -494,6 +494,21 @@ def view_form(request, code):
         "form": formInfo
     })
 
+def accept_rules(request, code):
+    formInfo = Form.objects.filter(code = code)
+    #Checking if form exists
+    if formInfo.count() == 0:
+        return HttpResponseRedirect(reverse('404'))
+    else: formInfo = formInfo[0]
+    if formInfo.authenticated_responder:
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse("login"))
+    # if request.method == 'POST':
+    #     return redirect("/main")
+    return render(request, "index/accept_rules.html", {
+    "form": formInfo
+    })
+    
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:

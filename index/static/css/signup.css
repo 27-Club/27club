@@ -22,3 +22,25 @@
         flex-direction: column;
     }
 }
+
+@media screen and (min-width: 480px) {
+    #login_box {
+        background-color: #f8f9fa;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        background-color: #506031;
+    }
+
+    #login_box {
+        margin: auto;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    #col-group {
+        padding: 3.5rem;
+    }
+}

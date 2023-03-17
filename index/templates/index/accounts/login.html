@@ -12,57 +12,54 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 {% if not request.user.is_authenticated %}
-<body class="min-vh-100">
-
-    <div class="w-100 d-flex justify-content-center align-items-center bg-success vh-100">
-
-        <div class="m-3 m-md-5 p-6 w-lg-33 bg-light rounded-2 h-80">
-
-            <div class="mb-7 text-center">
-                <a class="navbar-brand fs-4" href="#">
-                    <img src="{% static 'Icon/llkc_logo.svg' %}" alt="Logo" width="50" height="46">
-                  </a>
-            </div>
-
-            <form class="mb-8 text-start text-dark" method="POST">{% csrf_token %}
+<body>
+    <div class="container-fluid d-flex justify-content-center">
+        <div id="login_box" class="row justify-content-center mt-5 rounded rounded-2 w-md-50 w-lg-50">
+            <div id="col-group" class="col-xs-4 col-sm col-md-10 col-lg-8 py-4">
                 
-                    
-                <div class="mb-4">
-                    <h1 class="h3 mb-3 fw-bold text-dark">Laipni lūdzam atpakaļ</h1>
-
-                    {% if error %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endif %}
-                    
-                    <div class="form-field mb-4">
-                        <fieldset class="user_email">
-                            <label for="user_email" class="my-1">Lietotājvārds</label>
-                            <input class="form-control" id="user_name" name="user_name" type="text" autocomplete="off">
-                        </fieldset>
-                    </div>
-
-                    <div class="form-field mb-4">
-                        <fieldset class="user_password">
-                            <label for="user_password" class="my-1">Parole</label>
-                            <input class="form-control" id="user_password" name="user_password" type="password" placeholder="6+ rakstzīmes">
-                        </fieldset>
-                    </div>
+                <div class="mb-7 text-center">
+                    <a class="navbar-brand fs-4" href="#">
+                        <img src="{% static 'Icon/llkc_logo.svg' %}" alt="Logo" width="50" height="46">
+                      </a>
                 </div>
-
-                    <button class="w-50 btn btn-lg btn-success rounded-2 m-2" type="submit">Pieslēgties</button>                
-            </form>
             
-                <hr class="divider">
+                <form class="mb-8 text-start text-dark" method="POST">{% csrf_token %}
+                    
+                        
+                    <div class="mb-4">
+                        <h1 class="h3 mb-3 fw-bold text-dark">Laipni lūdzam atpakaļ</h1>
             
-            <div class="mt-3 text-center text-dark">
-                <h4>Esi jauns biedrs?</h4>
-                <p>Reģistrējies <a href="{% url 'signup' %}" class="text-body">šeit</a></p>
+                        {% if error %}
+                            <p style="color: red;">{{ error }}</p>
+                        {% endif %}
+                        
+                        <div class="form-field mb-4">
+                            <fieldset class="user_email">
+                                <label for="user_email" class="my-1">Lietotājvārds</label>
+                                <input class="form-control" id="user_name" name="user_name" type="text" autocomplete="off">
+                            </fieldset>
+                        </div>
+            
+                        <div class="form-field mb-4">
+                            <fieldset class="user_password">
+                                <label for="user_password" class="my-1">Parole</label>
+                                <input class="form-control" id="user_password" name="user_password" type="password" placeholder="6+ rakstzīmes">
+                            </fieldset>
+                        </div>
+                    </div>
+            
+                        <button class="w-50 btn btn-lg btn-success rounded-2 m-2" type="submit">Pieslēgties</button>
+                </form>
+                
+                    <hr class="divider">
+                
+                <div class="mt-3 text-center text-dark">
+                    <h4>Esi jauns biedrs?</h4>
+                    <p>Reģistrējies <a href="{% url 'signup' %}" class="text-body">šeit</a></p>
+                </div>
             </div>
-
         </div>
     </div>
-<!-- Import to define "type="module"" before importing script -->
-<script type="module" src="#"></script>
 </body>
 {% endif %}
 </html>

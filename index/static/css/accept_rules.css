@@ -1,0 +1,6 @@
+@media only screen and (min-width: 768px){
+    body {
+        scroll-behavior: smooth;
+        background-color: rgb(185, 151, 91);
+    }   
+}

@@ -29,6 +29,7 @@ urlpatterns = [
     path('form/<str:code>/answer_key', views.answer_key, name="answer_key"),
     path('form/<str:code>/feedback', views.feedback, name="feedback"),
     path('form/<str:code>/viewform', views.view_form, name="view_form"),
+    path('form/<str:code>/rules', views.accept_rules, name="rules"),
     path('form/<str:code>/submit', views.submit_form, name="submit_form"),
     path('form/<str:code>/responses', views.responses, name='responses'),
     path('form/<str:code>/response/<str:response_code>', views.response, name="response"),
