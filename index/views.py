@@ -32,7 +32,7 @@ def login_view(request):
                 return render(request, "index/accounts/login.html", context)
 
             login(request, user)        
-            return redirect("/main")
+            return redirect("main")
     else:
         return redirect("main")
 
@@ -43,33 +43,37 @@ def logout_view(request):
     return redirect('/')
 
 def signup_view(request):
+    if not request.user.is_authenticated:        
+        if request.method == "POST":
+            username = request.POST["user_name"]
+            password = request.POST["user_password"]
+            email = request.POST["user_email"]
+            confirmation = request.POST["password_confirm"]
+            
+            #check if the password is the same as confirmation
+            if password != confirmation:
+                contextPass = {"message": "Passwords must match"}
+                return render(request, "index/accounts/signup.html", contextPass)
+            
+            #Checks if the username is already in use
+            if User.objects.filter(email = email).count() == 1:
+                contextEmail = {"message": "Email already taken."}
+                return render(request, "index/accounts/signup.html", contextEmail)
+            
+            try:
+                print(username, password)
+                user = User.objects.create_user(username = username, password = password, email = email)
+                user.save()
+                login(request, user)
+                return redirect('/')
+            except IntegrityError:
+                return render(request, "index/accounts/signup.html", {
+                    "message": "Username already taken"
+                }) 
+
      #Check if the user is logged in
     if request.user.is_authenticated:
-        return render(request, 'index/main.html')
-    if request.method == "POST":
-        username = request.POST["user_name"].lower()
-        password = request.POST["user_password"]
-        email = request.POST["user_email"]
-        confirmation = request.POST["password_confirm"]
-        #check if the password is the same as confirmation
-        if password != confirmation:
-            return render(request, "index/accounts/signup.html", {
-                "message": "Passwords must match."
-            })
-        #Checks if the username is already in use
-        if User.objects.filter(email = email).count() == 1:
-            return render(request, "index/accounts/signup.html", {
-                "message": "Email already taken."
-            })
-        try:
-            user = User.objects.create_user(username = username, password = password, email = email)
-            user.save()
-            login(request, user)
-            return redirect('login')
-        except IntegrityError:
-            return render(request, "index/accounts/signup.html", {
-                "message": "Username already taken"
-            })
+        return render(request, 'main')
     return render(request, "index/accounts/signup.html")
 
 def create_form(request):
@@ -289,7 +293,7 @@ def add_choice(request, code):
         return HttpResponseRedirect(reverse("403"))
     if request.method == "POST":
         data = json.loads(request.body)
-        choice = Choices(choice="Option")
+        choice = Choices(choice="Opcija")
         choice.save()
         formInfo.questions.get(pk = data["question"]).choices.add(choice)
         formInfo.save()
@@ -346,7 +350,7 @@ def add_question(request, code):
     if formInfo.creator != request.user:
         return HttpResponseRedirect(reverse("403"))
     if request.method == "POST":
-        choices = Choices(choice = "Option 1")
+        choices = Choices(choice = "Opcija 1")
         choices.save()
         question = Questions(question_type = "multiple choice", question= "Jautājums bez nosaukuma", required= False)
         question.save()
@@ -503,11 +507,7 @@ def accept_rules(request, code):
     if formInfo.authenticated_responder:
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
-    # if request.method == 'POST':
-    #     return redirect("/main")
-    return render(request, "index/accept_rules.html", {
-    "form": formInfo
-    })
+    return render(request, "index/accept_rules.html")
     
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -572,7 +572,7 @@ def responses(request, code):
             for answer in answers:
                 choice = answer.answer_to.choices.get(id = answer.answer).choice
                 choiceAnswered[question.question][choice] = choiceAnswered.get(question.question, {}).get(choice, 0) + 1
-        responsesSummary.append({"question": question, "answers":answers })
+        responsesSummary.append({"question": question, "answers": answers })
     for answr in choiceAnswered:
         filteredResponsesSummary[answr] = {}
         keys = choiceAnswered[answr].values()
@@ -738,6 +738,11 @@ def customer_feedback_template(request):
         name.save()
         email = Questions(question= "Epasts", question_type="short", required=False)
         email.save()
+        
+        rate = Questions(question= "Novērtējiet pasākumu", question_type="range", required=False)
+        rate.save()
+
+
         form = Form(code = code, title = "Lietotāju atgriezeniskā saite", creator=request.user, background_color="#7af587", confirmation_message="Liels paldies, ka sniedzāt mums atsauksmes!",
         description = "Mēs labprāt uzklausītu jūsu domas vai atsauksmes par to, kā mēs varam uzlabot jūsu pieredzi!", allow_view_score = False, edit_after_submit = True)
         form.save()
@@ -746,6 +751,8 @@ def customer_feedback_template(request):
         form.questions.add(suggestion)
         form.questions.add(name)
         form.questions.add(email)
+
+        form.questions.add(rate)
         return JsonResponse({"message": "Sucess", "code": code})
 
 def event_registration_template(request):

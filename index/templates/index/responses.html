@@ -65,7 +65,7 @@
             <div class="response-summary">
                 <h3 class="response-summary-title">{{r.question.question}}</h3>
                 {% if r.answers|count > 0 or filteredResponsesSummary|get_property:r.question.question|count > 0 %}
-                    {% if r.question.question_type == 'short' or r.question.question_type == 'paragraph' %}
+                    {% if r.question.question_type == 'short' or r.question.question_type == 'paragraph' or r.question.question_type == 'range'%}
                         {% for i in r.answers %}
                             <blockquote>{{i.answer}}</blockquote>
                         {% endfor %}
