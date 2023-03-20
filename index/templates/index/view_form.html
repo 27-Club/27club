@@ -6,8 +6,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
 <script src="{% static 'index/viewform.js' %}" defer></script>
 <script src="{% static 'index/accept_rules.js' %}" defer></script>
-<script src="{% static 'index/slider2.js' %}" defer></script>
-<link rel="stylesheet" href="{% static 'css/slider2.css' %}">
+<script src="{% static 'index/slider.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'css/slider.css' %}">
 <link rel="stylesheet" href="{% static 'dist/main.css' %}">
 <link rel="stylesheet" href="{% static 'css/view_form.css' %}">
 {% endblock %}
@@ -50,6 +50,11 @@
                     <div class="range">
                         <div class="value-left">0</div>
                         <input id="slider" type="range" min="0" max="10" value="1" steps="1" name="{{question.id}}" {% if question.required %} required {% endif %}>
+                        
+                        <div class="bubble-div">
+                            <output class="bubble"></output>
+                        </div>
+
                         <div class="value-right">10</div>
                         <div id="progressBar" style="top: 11px;"></div>
                     </div>

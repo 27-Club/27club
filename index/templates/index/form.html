@@ -6,10 +6,10 @@
 {% block script %}
 <script src="{% static 'lib/cookie.min.js' %}"></script>
 <script src="{% static 'index/form.js' %}" defer></script>
-<script src="{% static 'index/slider2.js' %}" defer></script>
+<script src="{% static 'index/slider.js' %}" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/slider2.css' %}">
+<link rel="stylesheet" href="{% static 'css/slider.css' %}">
 {% endblock %}
 {% block body %}
 <div class = "container-fluid">
@@ -113,6 +113,11 @@
                 <div class="range">
                     <div class="value-left">0</div>
                     <input id="slider" type="range" min="0" max="10" value="1" steps="1">
+                    
+                    <div class="bubble-div">
+                        <output class="bubble"></output>
+                    </div>
+
                     <div class="value-right">10</div>
                     <div id="progressBar"></div>
                   </div>

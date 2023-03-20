@@ -737,9 +737,10 @@ blockquote span{
         display: block;
     }
 
-    .big-screen{
+    /* .big-screen{
         display: none;
-    }
+    } */
+
     .navigation{
         width: calc((100% - 60px)/3) !important;
     }
@@ -755,5 +756,20 @@ blockquote span{
 @media only screen and (min-width: 768px){
     .small-screen{
         display: none;
+    }
+}
+
+.create-forms {
+    margin: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
+@media only screen and (min-width: 1024px){
+    .create-forms{
+        justify-content: start;
     }
 }
