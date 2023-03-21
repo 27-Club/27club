@@ -37,28 +37,30 @@
             {% endif %}
         </div>
     </div>
-    <div class="container">
-        <span id="bg-color" style="display: none;">{{form.background_color}}</span>
-        <span id="text-color" style="display: none;">{{form.text_color}}</span>
-        <div class="margin-top-bottom box question-box" id="responses">
-            {% if responses.count > 0 %}
-            <h1 class="response-title">Individuāla atbilde:</h1>
-            <ul>
-                {% for i in responses %}
-                    {% if form.collect_email %}
-                        <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_email}} atbilde</a></li>
-                    {% elif form.authenticated_responder %}
-                        <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder.username}} atbilde</a></li>
-                    {% else %}
-                        <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_ip}} atbilde</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-            <button class="btn btn-danger" id="delete-responses">Dzēst visas atbildes</button>
-            {% else %}
-            <h1 class="response-title">0 atbildes</h1>
-            {% endif %}
-        </div>
+    {% if form.creator != request.get_host %}
+        <div class="container">
+            <span id="bg-color" style="display: none;">{{form.background_color}}</span>
+            <span id="text-color" style="display: none;">{{form.text_color}}</span>
+            <div class="margin-top-bottom box question-box" id="responses">
+                {% if responses.count > 0 %}
+                <h1 class="response-title">Individuāla atbilde:</h1>
+                <ul>
+                    {% for i in responses %}
+                        {% if form.collect_email %}
+                            <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_email}} atbilde</a></li>
+                        {% elif form.authenticated_responder %}
+                            <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder.username}} atbilde</a></li>
+                        {% else %}
+                            <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_ip}} atbilde</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <button class="btn btn-danger" id="delete-responses">Dzēst visas atbildes</button>
+                {% else %}
+                <h1 class="response-title">0 atbildes</h1>
+                {% endif %}
+            </div>
+    {% endif %}
         <div class="margin-top-bottom box question-box">
             <h1 class="response-title">Atbilžu kopsavilkums:</h1>
             {% for r in responsesSummary %}

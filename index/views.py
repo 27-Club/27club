@@ -5,19 +5,32 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .models import User, Choices, Questions, Answer, Form, Responses
-from django.core import serializers
+# from django.core import serializers
 import json
 import random
 import string
+from django.contrib.auth.decorators import permission_required
 
 # Create your views here.
-@login_required(login_url='/login')
+
+# @permission_required('index.view_answer')
+def test_view(request):
+    # if not request.user.is_authenticated:
+    #     return redirect('login')
+    # form = Form.objects.filter(creator = request.user)
+
+    return render(request, "index/test.html")
+
+
+@login_required(login_url='/')
 def main_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     forms = Form.objects.filter(creator = request.user)
+    allForms = Form.objects.all()
     return render(request, "index/main.html", {
-        "forms": forms
+        "forms": forms,
+        "allForms": allForms
     })
 
 def login_view(request):
@@ -107,7 +120,11 @@ def edit_form(request, code):
     else: formInfo = formInfo[0]
     #Checking if form creator is user
     if formInfo.creator != request.user:
-        return HttpResponseRedirect(reverse("403"))
+        # return HttpResponseRedirect(reverse("403"))
+        return render(request, "index/responses.html", {
+            "code": code,
+            "form": formInfo
+        })
     return render(request, "index/form.html", {
         "code": code,
         "form": formInfo
@@ -579,8 +596,8 @@ def responses(request, code):
         for choice in choiceAnswered[answr]:
             filteredResponsesSummary[answr][choice] = choiceAnswered[answr][choice]
     #Checking if form creator is user
-    if formInfo.creator != request.user:
-        return HttpResponseRedirect(reverse("403"))
+    # if formInfo.creator != request.user:
+    #     return HttpResponseRedirect(reverse("403"))
     return render(request, "index/responses.html", {
         "form": formInfo,
         "responses": Responses.objects.filter(response_to = formInfo),

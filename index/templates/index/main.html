@@ -14,9 +14,14 @@
             <span class="nav-ham" id="nav-ham">&#9776;</span>
             <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Veidlapu izveide" class="navbar-icon form-icon" title = "LLKC Veidlapu izveide">
             <span class="nav-text" title = "LLKC Veidlapu izveide"><a href = "{% url 'main' %}" class="nav-link">LLKC Veidlapu izveide</a></span>
+            
             <a href="{% url 'logout' %}">
                 <img src = "{% static 'Icon/Logout.jpg' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
             </a>
+            
+            {% if user.is_authenticated %}
+                <span class="user-text">Sveicināti, {{ user.username }}.</span>
+            {% endif %}
         </div>
     </div>
     <div class="sidebar" id = "sidebar">
@@ -69,6 +74,38 @@
                     {% endif %}
                 </div>
             </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-list">
+            <p class="forms-label">Visas veidlapas:</p>
+            {% for i in allForms %}
+
+                {% if i.creator != request.get_host %}
+                        <a href = "{% url 'responses' i.code %}" class="form-list-link">
+                            <div class="form-box">
+                                <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
+                                {% if i.createdAt == i.updatedAt %}
+                                <p class="form-list-timestamp">{{i.createdAt}}</p>
+                                {% else %}
+                                <p class="form-list-timestamp">{{i.updatedAt}}</p>
+                                {% endif %}
+                            </div>
+                        </a>
+                {% endif %}
+
+                <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
+                    <div class="form-box">
+                        <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
+                        {% if i.createdAt == i.updatedAt %}
+                        <p class="form-list-timestamp">{{i.createdAt}}</p>
+                        {% else %}
+                        <p class="form-list-timestamp">{{i.updatedAt}}</p>
+                        {% endif %}
+                    </div>
+                </a>
             {% endfor %}
         </div>
     </div>

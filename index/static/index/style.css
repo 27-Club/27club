@@ -708,6 +708,16 @@ blockquote span{
     height: 70% !important;
     margin: auto;
 }
+
+.user-text {
+    display: none;
+    float: right;
+    position: relative;
+    vertical-align: middle;
+    margin-top: 0.75rem;
+    font-family: "Product Sans";
+    padding-right: 1rem;
+}
 @media only screen and (max-width: 768px){
     .nav-form-title{
         width: 100px;
@@ -757,6 +767,11 @@ blockquote span{
     .small-screen{
         display: none;
     }
+
+    .user-text {
+        display: block;
+    }
+
 }
 
 .create-forms {

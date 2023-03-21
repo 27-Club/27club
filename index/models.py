@@ -4,6 +4,13 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class User(AbstractUser, models.Model):
     email = models.EmailField(unique = True)
+    
+    class Meta:
+        permissions= [
+             ("can_mark_returned", "Set book as returned"),
+             ("simple_representative","Can view form responses"),
+             ("event_organizer","Can view, edit, delete form")
+        ]
 
 class Choices(models.Model):
     choice = models.CharField(max_length=5000)
