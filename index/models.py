@@ -7,7 +7,6 @@ class User(AbstractUser, models.Model):
     
     class Meta:
         permissions= [
-             ("can_mark_returned", "Set book as returned"),
              ("simple_representative","Can view form responses"),
              ("event_organizer","Can view, edit, delete form")
         ]

@@ -19,6 +19,13 @@
         </a>
         <input class="nav-text nav-form-title edit-on-click input-form-title" value  = "{{form.title}}" type="text">
         <div class="float-right">
+
+            {% if request.user != form.creator %}
+                <span class="user-text">Sveicināti, Simple represantive.</span>
+            {% else %}
+                <span class="user-text">Sveicināti, Event Organizer.</span>
+            {% endif %}
+
             <img src="{% static 'Icon/theme.png' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" />
             <a href="{% url 'view_form' form.code %}">
                 <img src="{% static 'Icon/eye.png' %}" alt="Priekšskatīšanas ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />

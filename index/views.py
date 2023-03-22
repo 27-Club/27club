@@ -5,23 +5,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .models import User, Choices, Questions, Answer, Form, Responses
-# from django.core import serializers
 import json
 import random
 import string
-from django.contrib.auth.decorators import permission_required
 
 # Create your views here.
-
-# @permission_required('index.view_answer')
-def test_view(request):
-    # if not request.user.is_authenticated:
-    #     return redirect('login')
-    # form = Form.objects.filter(creator = request.user)
-
-    return render(request, "index/test.html")
-
-
 @login_required(login_url='/')
 def main_view(request):
     if not request.user.is_authenticated:

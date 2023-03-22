@@ -16,7 +16,14 @@
         </a>
         <span class="nav-text nav-form-title input-form-title">{{form.title}}</span>
         <div class="float-right">
-            <img src="{% static 'Icon/theme.png' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" />
+            
+            {% if form.creator != request.user %}
+                <span class="user-text">Sveicināti, Simple represantive.</span>
+            {% else %}
+                <span class="user-text">Sveicināti, Event Organizer.</span>
+            {% endif %}
+            
+            <img src="{% static 'Icon/theme.png' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" />    
             <a href="{% url 'view_form' form.code %}">
             <img src="{% static 'Icon/eye.png' %}" alt="Priekšskata ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />
             </a>
@@ -32,12 +39,14 @@
             <span class="col-4 navigation score"><a href="{% url 'score' form.code %}" class="link">Rezultāti</a></span>
             <span class="col-4 navigation active">Atbildes</span>
             {% else %}
-            <span class="col-6 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Jautājumi</a></span>
+            {% if form.creator == request.user %}
+                <span class="col-6 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Jautājumi</a></span>
+            {% endif %}
             <span class="col-6 navigation active">Atbildes</span>
             {% endif %}
         </div>
     </div>
-    {% if form.creator != request.get_host %}
+    {% if form.creator == request.user %}
         <div class="container">
             <span id="bg-color" style="display: none;">{{form.background_color}}</span>
             <span id="text-color" style="display: none;">{{form.text_color}}</span>
