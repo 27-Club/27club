@@ -210,7 +210,21 @@
                 {% comment %} <input type="url" class="form-control" value="http://{{request.get_host}}/form/{{form.code}}/accept" copy-btn id="copy-url"> {% endcomment %}
             </div>
             <button class="btn btn-submit" copy-btn>Kopēt</button>
+            <div class="qrcode-container" style="display: flex; justify-content: center; margin-top: 10px;">
+                <div id="qrcode" style="margin: 0 auto;"></div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Skripts, kas izveido un attēlo QR kodu -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    var qrCode = new QRCode(document.getElementById("qrcode"), {
+        width: 150,
+        height: 150,
+    });
+    qrCode.makeCode("http://{{request.get_host}}/form/{{form.code}}/viewform");
+
+</script>
 {% endblock %}
