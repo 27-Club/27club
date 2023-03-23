@@ -3,6 +3,8 @@
 {% block script %}
 <script src = "{% static 'index/index.js' %}" defer></script>
 <script src="{% static 'lib/cookie.min.js' %}" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
 {% endblock %}
 {% load static %}
 {% block body %}
@@ -12,9 +14,14 @@
             <span class="nav-ham" id="nav-ham">&#9776;</span>
             <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Veidlapu izveide" class="navbar-icon form-icon" title = "LLKC Veidlapu izveide">
             <span class="nav-text" title = "LLKC Veidlapu izveide"><a href = "{% url 'main' %}" class="nav-link">LLKC Veidlapu izveide</a></span>
+            
             <a href="{% url 'logout' %}">
                 <img src = "{% static 'Icon/Logout.jpg' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
             </a>
+            
+            {% if user.is_authenticated %}
+                <span class="user-text">Sveicināti, {{ user.username }}.</span>
+            {% endif %}
         </div>
     </div>
     <div class="sidebar" id = "sidebar">
@@ -33,21 +40,23 @@
     <div class="create-form">
         <div class="container">
             <p class="forms-label">Izveidot jaunu veidlapu</p>
-            <div class="form-template-box">
-                <img src = "{% static 'Icon/blank-form.png' %}" alt = "Tukša veidlapa" title = "Tukša veidlapa" id="create-blank-form">
-                <span class="form-template-label">Tukša veidlapa</span>
-            </div>
-            <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/contact_information.png' %}" alt = "Kontaktu informācija" title = "Kontaktu informācija" id="create-contact-form">
-                <span class="form-template-label">Kontaktu informācija</span>
-            </div>
-            <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/customer_feedback.png' %}" alt = "Dalībnieku atbalsts" title = "Dalībnieku atbalsts" id="create-customer-feedback">
-                <span class="form-template-label">Dalībnieku atbalsts</span>
-            </div>
-            <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/event_registration.png' %}" alt = "Pasākuma reģistrācija" title = "Pasākuma reģistrācija" id="create-event-registration">
-                <span class="form-template-label">Pasākuma reģistrācija</span>
+            <div class="create-forms">
+                <div class="form-template-box">
+                    <img src = "{% static 'Icon/blank-form.png' %}" alt = "Tukša veidlapa" title = "Tukša veidlapa" id="create-blank-form">
+                    <span class="form-template-label">Tukša veidlapa</span>
+                </div>
+                <div class="form-template-box big-screen">
+                    <img src = "{% static 'Template/contact_information.png' %}" alt = "Kontaktu informācija" title = "Kontaktu informācija" id="create-contact-form">
+                    <span class="form-template-label">Kontaktu informācija</span>
+                </div>
+                <div class="form-template-box big-screen">
+                    <img src = "{% static 'Template/customer_feedback.png' %}" alt = "Dalībnieku atbalsts" title = "Dalībnieku atbalsts" id="create-customer-feedback">
+                    <span class="form-template-label">Dalībnieku atbalsts</span>
+                </div>
+                <div class="form-template-box big-screen">
+                    <img src = "{% static 'Template/event_registration.png' %}" alt = "Pasākuma reģistrācija" title = "Pasākuma reģistrācija" id="create-event-registration">
+                    <span class="form-template-label">Pasākuma reģistrācija</span>
+                </div>
             </div>
         </div>
     </div>
@@ -65,6 +74,37 @@
                     {% endif %}
                 </div>
             </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-list">
+            <p class="forms-label">Visas veidlapas:</p>
+            {% for i in allForms %}
+                {% if i.creator != request.user %}
+                        <a href = "{% url 'responses' i.code %}" class="form-list-link">
+                            <div class="form-box">
+                                <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
+                                {% if i.createdAt == i.updatedAt %}
+                                <p class="form-list-timestamp">{{i.createdAt}}</p>
+                                {% else %}
+                                <p class="form-list-timestamp">{{i.updatedAt}}</p>
+                                {% endif %}
+                            </div>
+                        </a>
+                {% else %}
+                    <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
+                        <div class="form-box">
+                            <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
+                            {% if i.createdAt == i.updatedAt %}
+                            <p class="form-list-timestamp">{{i.createdAt}}</p>
+                            {% else %}
+                            <p class="form-list-timestamp">{{i.updatedAt}}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

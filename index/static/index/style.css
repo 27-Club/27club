@@ -708,6 +708,18 @@ blockquote span{
     height: 70% !important;
     margin: auto;
 }
+
+.user-text {
+    display: none;
+    float: right;
+    position: relative;
+    vertical-align: middle;
+    margin-top: 0.75rem;
+    font-family: "Product Sans";
+    padding-right: 1rem;
+    color: white;
+}
+
 @media only screen and (max-width: 768px){
     .nav-form-title{
         width: 100px;
@@ -737,9 +749,10 @@ blockquote span{
         display: block;
     }
 
-    .big-screen{
+    /* .big-screen{
         display: none;
-    }
+    } */
+
     .navigation{
         width: calc((100% - 60px)/3) !important;
     }
@@ -755,5 +768,25 @@ blockquote span{
 @media only screen and (min-width: 768px){
     .small-screen{
         display: none;
+    }
+
+    .user-text {
+        display: block;
+    }
+
+}
+
+.create-forms {
+    margin: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
+@media only screen and (min-width: 1024px){
+    .create-forms{
+        justify-content: start;
     }
 }

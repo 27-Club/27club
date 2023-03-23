@@ -1,23 +1,25 @@
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import Permission
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .models import User, Choices, Questions, Answer, Form, Responses
-from django.core import serializers
 import json
 import random
 import string
 
 # Create your views here.
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def main_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     forms = Form.objects.filter(creator = request.user)
+    allForms = Form.objects.all()
     return render(request, "index/main.html", {
-        "forms": forms
+        "forms": forms,
+        "allForms": allForms
     })
 
 def login_view(request):
@@ -32,7 +34,7 @@ def login_view(request):
                 return render(request, "index/accounts/login.html", context)
 
             login(request, user)        
-            return redirect("/main")
+            return redirect("main")
     else:
         return redirect("main")
 
@@ -43,35 +45,40 @@ def logout_view(request):
     return redirect('/')
 
 def signup_view(request):
+    if not request.user.is_authenticated:        
+        if request.method == "POST":
+            username = request.POST["user_name"]
+            password = request.POST["user_password"]
+            email = request.POST["user_email"]
+            confirmation = request.POST["password_confirm"]
+            
+            #check if the password is the same as confirmation
+            if password != confirmation:
+                contextPass = {"message": "Passwords must match"}
+                return render(request, "index/accounts/signup.html", contextPass)
+            
+            #Checks if the username is already in use
+            if User.objects.filter(email = email).count() == 1:
+                contextEmail = {"message": "Email already taken."}
+                return render(request, "index/accounts/signup.html", contextEmail)
+            
+            try:
+                print(username, password)
+                user = User.objects.create_user(username = username, password = password, email = email)
+                user.save()
+                login(request, user)
+                return redirect('/')
+            except IntegrityError:
+                return render(request, "index/accounts/signup.html", {
+                    "message": "Username already taken"
+                }) 
+
      #Check if the user is logged in
     if request.user.is_authenticated:
-        return render(request, 'index/main.html')
-    if request.method == "POST":
-        username = request.POST["user_name"].lower()
-        password = request.POST["user_password"]
-        email = request.POST["user_email"]
-        confirmation = request.POST["password_confirm"]
-        #check if the password is the same as confirmation
-        if password != confirmation:
-            return render(request, "index/accounts/signup.html", {
-                "message": "Passwords must match."
-            })
-        #Checks if the username is already in use
-        if User.objects.filter(email = email).count() == 1:
-            return render(request, "index/accounts/signup.html", {
-                "message": "Email already taken."
-            })
-        try:
-            user = User.objects.create_user(username = username, password = password, email = email)
-            user.save()
-            login(request, user)
-            return redirect('login')
-        except IntegrityError:
-            return render(request, "index/accounts/signup.html", {
-                "message": "Username already taken"
-            })
+        return render(request, 'main')
     return render(request, "index/accounts/signup.html")
 
+@permission_required('index.change_form', login_url='/')
 def create_form(request):
     # Creator must be authenticated
     if not request.user.is_authenticated:
@@ -93,6 +100,7 @@ def create_form(request):
         form.save()
         return JsonResponse({"message": "Sucess", "code": code})
 
+@permission_required('index.change_form', login_url='/')
 def edit_form(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -103,12 +111,17 @@ def edit_form(request, code):
     else: formInfo = formInfo[0]
     #Checking if form creator is user
     if formInfo.creator != request.user:
-        return HttpResponseRedirect(reverse("403"))
+        # return HttpResponseRedirect(reverse("403"))
+        return render(request, "index/responses.html", {
+            "code": code,
+            "form": formInfo
+        })
     return render(request, "index/form.html", {
         "code": code,
         "form": formInfo
     })
 
+@permission_required('index.change_form', login_url='/')
 def edit_title(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -130,6 +143,7 @@ def edit_title(request, code):
             formInfo.save()
         return JsonResponse({"message": "Success", "title": formInfo.title})
 
+@permission_required('index.change_form', login_url='/')
 def edit_description(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -147,6 +161,7 @@ def edit_description(request, code):
         formInfo.save()
         return JsonResponse({"message": "Success", "description": formInfo.description})
 
+@permission_required('index.change_form', login_url='/')
 def edit_bg_color(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -164,6 +179,7 @@ def edit_bg_color(request, code):
         formInfo.save()
         return JsonResponse({"message": "Success", "bgColor": formInfo.background_color})
 
+@permission_required('index.change_form', login_url='/')
 def edit_text_color(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -181,6 +197,7 @@ def edit_text_color(request, code):
         formInfo.save()
         return JsonResponse({"message": "Success", "textColor": formInfo.text_color})
 
+@permission_required('index.change_form', login_url='/')
 def edit_setting(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -203,6 +220,7 @@ def edit_setting(request, code):
         formInfo.save()
         return JsonResponse({'message': "Success"})
 
+@permission_required('index.delete_form', login_url='/')
 def delete_form(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -227,6 +245,7 @@ def delete_form(request, code):
         formInfo.delete()
         return JsonResponse({'message': "Success"})
 
+@permission_required('index.change_form', login_url='/')
 def edit_question(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -253,6 +272,7 @@ def edit_question(request, code):
         question.save()
         return JsonResponse({'message': "Success"})
 
+@permission_required('index.change_choices', login_url='/')
 def edit_choice(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -276,6 +296,7 @@ def edit_choice(request, code):
         choice.save()
         return JsonResponse({'message': "Success"})
 
+@permission_required('index.add_choices', login_url='/')
 def add_choice(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -289,12 +310,13 @@ def add_choice(request, code):
         return HttpResponseRedirect(reverse("403"))
     if request.method == "POST":
         data = json.loads(request.body)
-        choice = Choices(choice="Option")
+        choice = Choices(choice="Opcija")
         choice.save()
         formInfo.questions.get(pk = data["question"]).choices.add(choice)
         formInfo.save()
         return JsonResponse({"message": "Success", "choice": choice.choice, "id": choice.id})
 
+@permission_required('index.delete_choices', login_url='/')
 def remove_choice(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -334,6 +356,7 @@ def get_choice(request, code, question):
         choices = [{"choice":i.choice, "is_answer":i.is_answer, "id": i.id} for i in choices]
         return JsonResponse({"choices": choices, "question": question.question, "question_type": question.question_type, "question_id": question.id})
 
+@permission_required('index.add_questions', login_url='/')
 def add_question(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -346,7 +369,7 @@ def add_question(request, code):
     if formInfo.creator != request.user:
         return HttpResponseRedirect(reverse("403"))
     if request.method == "POST":
-        choices = Choices(choice = "Option 1")
+        choices = Choices(choice = "Opcija 1")
         choices.save()
         question = Questions(question_type = "multiple choice", question= "Jautājums bez nosaukuma", required= False)
         question.save()
@@ -357,6 +380,7 @@ def add_question(request, code):
         return JsonResponse({'question': {'question': "Jautājums bez nosaukuma", "question_type": "multiple choice", "required": False, "id": question.id}, 
         "choices": {"choice": "Opcija", "is_answer": False, 'id': choices.id}})
 
+@permission_required('index.delete_questions', login_url='/')
 def delete_question(request, code, question):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -503,11 +527,7 @@ def accept_rules(request, code):
     if formInfo.authenticated_responder:
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
-    # if request.method == 'POST':
-    #     return redirect("/main")
-    return render(request, "index/accept_rules.html", {
-    "form": formInfo
-    })
+    return render(request, "index/accept_rules.html")
     
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -553,6 +573,7 @@ def submit_form(request, code):
             "code": code
         })
 
+@permission_required('index.view_answer', login_url='/')
 def responses(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -572,15 +593,15 @@ def responses(request, code):
             for answer in answers:
                 choice = answer.answer_to.choices.get(id = answer.answer).choice
                 choiceAnswered[question.question][choice] = choiceAnswered.get(question.question, {}).get(choice, 0) + 1
-        responsesSummary.append({"question": question, "answers":answers })
+        responsesSummary.append({"question": question, "answers": answers })
     for answr in choiceAnswered:
         filteredResponsesSummary[answr] = {}
         keys = choiceAnswered[answr].values()
         for choice in choiceAnswered[answr]:
             filteredResponsesSummary[answr][choice] = choiceAnswered[answr][choice]
     #Checking if form creator is user
-    if formInfo.creator != request.user:
-        return HttpResponseRedirect(reverse("403"))
+    # if formInfo.creator != request.user:
+    #     return HttpResponseRedirect(reverse("403"))
     return render(request, "index/responses.html", {
         "form": formInfo,
         "responses": Responses.objects.filter(response_to = formInfo),
@@ -634,6 +655,7 @@ def response(request, code, response_code):
         "total_score": total_score
     })
 
+@permission_required('index.change_form', login_url='/')
 def edit_response(request, code, response_code):
     formInfo = Form.objects.filter(code = code)
     #Checking if form exists
@@ -681,6 +703,7 @@ def edit_response(request, code, response_code):
         "response": response
     })
 
+@permission_required('index.change_form', login_url='/')
 def contact_form_template(request):
     # Creator must be authenticated
     if not request.user.is_authenticated:
@@ -708,6 +731,7 @@ def contact_form_template(request):
         form.save()
         return JsonResponse({"message": "Sucess", "code": code})
 
+@permission_required('index.change_form', login_url='/')
 def customer_feedback_template(request):
     # Creator must be authenticated
     if not request.user.is_authenticated:
@@ -738,6 +762,11 @@ def customer_feedback_template(request):
         name.save()
         email = Questions(question= "Epasts", question_type="short", required=False)
         email.save()
+        
+        rate = Questions(question= "Novērtējiet pasākumu", question_type="range", required=False)
+        rate.save()
+
+
         form = Form(code = code, title = "Lietotāju atgriezeniskā saite", creator=request.user, background_color="#7af587", confirmation_message="Liels paldies, ka sniedzāt mums atsauksmes!",
         description = "Mēs labprāt uzklausītu jūsu domas vai atsauksmes par to, kā mēs varam uzlabot jūsu pieredzi!", allow_view_score = False, edit_after_submit = True)
         form.save()
@@ -746,8 +775,11 @@ def customer_feedback_template(request):
         form.questions.add(suggestion)
         form.questions.add(name)
         form.questions.add(email)
+
+        form.questions.add(rate)
         return JsonResponse({"message": "Sucess", "code": code})
 
+@permission_required('index.change_form', login_url='/')
 def event_registration_template(request):
     # Creator must be authenticated
     if not request.user.is_authenticated:
@@ -809,6 +841,7 @@ Sazinieties ar mums pa tālruni (123) 456-7890 vai no_reply@example.com", edit_a
         form.save()
         return JsonResponse({"message": "Sucess", "code": code})
 
+@permission_required('index.change_form', login_url='/')
 def delete_responses(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))

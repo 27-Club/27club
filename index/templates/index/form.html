@@ -4,8 +4,12 @@
 {% endblock %}
 {% load static %}
 {% block script %}
-<script src="{% static 'index/form.js' %}"></script>
 <script src="{% static 'lib/cookie.min.js' %}"></script>
+<script src="{% static 'index/form.js' %}" defer></script>
+<script src="{% static 'index/slider.js' %}" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/slider.css' %}">
 {% endblock %}
 {% block body %}
 <div class = "container-fluid">
@@ -15,6 +19,13 @@
         </a>
         <input class="nav-text nav-form-title edit-on-click input-form-title" value  = "{{form.title}}" type="text">
         <div class="float-right">
+
+            {% if form.creator != request.user %}
+                <span class="user-text" style="float: left;">Sveicināti, vienkāršs lietotāj!</span>
+            {% else %}
+                <span class="user-text" style="float: left;">Sveicināti, pasākumu organizators!</span>
+            {% endif %}
+
             <img src="{% static 'Icon/theme.png' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" />
             <a href="{% url 'view_form' form.code %}">
                 <img src="{% static 'Icon/eye.png' %}" alt="Priekšskatīšanas ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />
@@ -47,10 +58,10 @@
             id="input-form-description">{{form.description}}</textarea>
             {% if form.collect_email %}
             <div class="collect-email txt-clr">
-                <h3 class="question-title">Ē-pasta adrese <span class="require-star">*</span></h3>
+                <h3 class="question-title">E-pasta adrese <span class="require-star">*</span></h3>
                 <input type="text" autocomplete="off" aria-label="Valid email address" disabled dir = "auto" class="require-email-edit txtColor"
                 placeholder = "Derīga ē-pasta adrese" />
-                <p class="collect-email-desc">Šī veidlapa ievāc epasta adreses. <span class="open-setting">Mainīt iestatījumus</span></p>
+                <p class="collect-email-desc">Šī veidlapa ievāc e-pasta adreses. <span class="open-setting">Mainīt iestatījumus</span></p>
             </div>
             {% endif %}
         </div>
@@ -61,7 +72,8 @@
                 <option value="short" {% if question.question_type == "short" %}selected{% endif %}>Īsa atbilde</option>
                 <option value="paragraph" {% if question.question_type == "paragraph" %}selected{% endif %}>Rindkopa</option>
                 <option value="multiple choice" {% if question.question_type == "multiple choice" %}selected{% endif %}>Vairākas atbildes</option>
-                <option value="checkbox" {% if question.question_type == "checkbox" %}selected{% endif %}>Izvēlne</option>
+                <option value="checkbox" {% if question.question_type == "checkbox" %}selected{% endif %}>Izvēles</option>
+                <option value="range" {% if question.question_type == "range" %}selected{% endif %}>Novērtējums</option>
             </select>
             {% if question.question_type == "multiple choice" %}
             <div class="choices" data-id="{{question.id}}">
@@ -102,6 +114,20 @@
             {% elif question.question_type == "paragraph" %}
             <div class="answers" data-id="{{question.id}}">
                 <textarea class="long-answer" disabled placeholder="Garas atbildes teksts" ></textarea>
+            </div>
+            {% elif question.question_type == "range" %}
+            <div class="answers" data-id="{{question.id}}">
+                <div class="range">
+                    <div class="value-left">0</div>
+                    <input id="slider" type="range" min="0" max="10" value="1" steps="1">
+                    
+                    <div class="bubble-div">
+                        <output class="bubble"></output>
+                    </div>
+
+                    <div class="value-right">10</div>
+                    <div id="progressBar"></div>
+                  </div>
             </div>
             {% endif %}
             <div class="choice-option">
