@@ -717,7 +717,9 @@ blockquote span{
     margin-top: 0.75rem;
     font-family: "Product Sans";
     padding-right: 1rem;
+    color: white;
 }
+
 @media only screen and (max-width: 768px){
     .nav-form-title{
         width: 100px;

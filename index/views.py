@@ -1,6 +1,7 @@
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import Permission
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
@@ -77,6 +78,7 @@ def signup_view(request):
         return render(request, 'main')
     return render(request, "index/accounts/signup.html")
 
+@permission_required('index.change_form', login_url='/')
 def create_form(request):
     # Creator must be authenticated
     if not request.user.is_authenticated:
@@ -98,6 +100,7 @@ def create_form(request):
         form.save()
         return JsonResponse({"message": "Sucess", "code": code})
 
+@permission_required('index.change_form', login_url='/')
 def edit_form(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -118,6 +121,7 @@ def edit_form(request, code):
         "form": formInfo
     })
 
+@permission_required('index.change_form', login_url='/')
 def edit_title(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -139,6 +143,7 @@ def edit_title(request, code):
             formInfo.save()
         return JsonResponse({"message": "Success", "title": formInfo.title})
 
+@permission_required('index.change_form', login_url='/')
 def edit_description(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -156,6 +161,7 @@ def edit_description(request, code):
         formInfo.save()
         return JsonResponse({"message": "Success", "description": formInfo.description})
 
+@permission_required('index.change_form', login_url='/')
 def edit_bg_color(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -173,6 +179,7 @@ def edit_bg_color(request, code):
         formInfo.save()
         return JsonResponse({"message": "Success", "bgColor": formInfo.background_color})
 
+@permission_required('index.change_form', login_url='/')
 def edit_text_color(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -190,6 +197,7 @@ def edit_text_color(request, code):
         formInfo.save()
         return JsonResponse({"message": "Success", "textColor": formInfo.text_color})
 
+@permission_required('index.change_form', login_url='/')
 def edit_setting(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -212,6 +220,7 @@ def edit_setting(request, code):
         formInfo.save()
         return JsonResponse({'message': "Success"})
 
+@permission_required('index.delete_form', login_url='/')
 def delete_form(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -236,6 +245,7 @@ def delete_form(request, code):
         formInfo.delete()
         return JsonResponse({'message': "Success"})
 
+@permission_required('index.change_form', login_url='/')
 def edit_question(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -262,6 +272,7 @@ def edit_question(request, code):
         question.save()
         return JsonResponse({'message': "Success"})
 
+@permission_required('index.change_choices', login_url='/')
 def edit_choice(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -285,6 +296,7 @@ def edit_choice(request, code):
         choice.save()
         return JsonResponse({'message': "Success"})
 
+@permission_required('index.add_choices', login_url='/')
 def add_choice(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -304,6 +316,7 @@ def add_choice(request, code):
         formInfo.save()
         return JsonResponse({"message": "Success", "choice": choice.choice, "id": choice.id})
 
+@permission_required('index.delete_choices', login_url='/')
 def remove_choice(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -343,6 +356,7 @@ def get_choice(request, code, question):
         choices = [{"choice":i.choice, "is_answer":i.is_answer, "id": i.id} for i in choices]
         return JsonResponse({"choices": choices, "question": question.question, "question_type": question.question_type, "question_id": question.id})
 
+@permission_required('index.add_questions', login_url='/')
 def add_question(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -366,6 +380,7 @@ def add_question(request, code):
         return JsonResponse({'question': {'question': "Jautājums bez nosaukuma", "question_type": "multiple choice", "required": False, "id": question.id}, 
         "choices": {"choice": "Opcija", "is_answer": False, 'id': choices.id}})
 
+@permission_required('index.delete_questions', login_url='/')
 def delete_question(request, code, question):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -558,6 +573,7 @@ def submit_form(request, code):
             "code": code
         })
 
+@permission_required('index.view_answer', login_url='/')
 def responses(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -639,6 +655,7 @@ def response(request, code, response_code):
         "total_score": total_score
     })
 
+@permission_required('index.change_form', login_url='/')
 def edit_response(request, code, response_code):
     formInfo = Form.objects.filter(code = code)
     #Checking if form exists
@@ -686,6 +703,7 @@ def edit_response(request, code, response_code):
         "response": response
     })
 
+@permission_required('index.change_form', login_url='/')
 def contact_form_template(request):
     # Creator must be authenticated
     if not request.user.is_authenticated:
@@ -713,6 +731,7 @@ def contact_form_template(request):
         form.save()
         return JsonResponse({"message": "Sucess", "code": code})
 
+@permission_required('index.change_form', login_url='/')
 def customer_feedback_template(request):
     # Creator must be authenticated
     if not request.user.is_authenticated:
@@ -760,6 +779,7 @@ def customer_feedback_template(request):
         form.questions.add(rate)
         return JsonResponse({"message": "Sucess", "code": code})
 
+@permission_required('index.change_form', login_url='/')
 def event_registration_template(request):
     # Creator must be authenticated
     if not request.user.is_authenticated:
@@ -821,6 +841,7 @@ Sazinieties ar mums pa tālruni (123) 456-7890 vai no_reply@example.com", edit_a
         form.save()
         return JsonResponse({"message": "Sucess", "code": code})
 
+@permission_required('index.change_form', login_url='/')
 def delete_responses(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))

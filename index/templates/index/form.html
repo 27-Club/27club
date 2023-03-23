@@ -20,10 +20,10 @@
         <input class="nav-text nav-form-title edit-on-click input-form-title" value  = "{{form.title}}" type="text">
         <div class="float-right">
 
-            {% if request.user != form.creator %}
-                <span class="user-text">Sveicināti, Simple represantive.</span>
+            {% if form.creator != request.user %}
+                <span class="user-text" style="float: left;">Sveicināti, vienkāršs lietotāj!</span>
             {% else %}
-                <span class="user-text">Sveicināti, Event Organizer.</span>
+                <span class="user-text" style="float: left;">Sveicināti, pasākumu organizators!</span>
             {% endif %}
 
             <img src="{% static 'Icon/theme.png' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" />
