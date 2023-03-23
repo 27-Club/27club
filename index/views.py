@@ -11,6 +11,26 @@ import random
 import string
 
 # Create your views here.
+def FAQ(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    forms = Form.objects.filter(creator = request.user)
+    return render(request, "index/info/FAQ.html")
+
+def iesniedz_kludu(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    forms = Form.objects.filter(creator = request.user)
+    return render(request, "index/info/iesniedz_kludu.html")
+
+def kontakti(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    forms = Form.objects.filter(creator = request.user)
+    return render(request, "index/info/kontakti.html")
+
+
+
 @login_required(login_url='/login')
 def main_view(request):
     if not request.user.is_authenticated:

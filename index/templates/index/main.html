@@ -13,7 +13,7 @@
             <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Veidlapu izveide" class="navbar-icon form-icon" title = "LLKC Veidlapu izveide">
             <span class="nav-text" title = "LLKC Veidlapu izveide"><a href = "{% url 'main' %}" class="nav-link">LLKC Veidlapu izveide</a></span>
             <a href="{% url 'logout' %}">
-                <img src = "{% static 'Icon/Logout.jpg' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
+                <img src = "{% static 'Icon/Logout.png' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
             </a>
         </div>
     </div>
@@ -25,9 +25,9 @@
                     <span>LLKC Veidlapu izveide</span>
                 </a>
             </h4>
-            <p class="text-label">Atradi kļūdu? Iesniedz to <a href="" class="link">šeit</a></p>
-            <p class="text-label">Jautājumi un atbildes uz <a href="" class="link">tiem</a></p>
-            <p class="text-label">Mūsu <a href="" class="link">kontakti</a></p>
+            <p class="text-label">Atradi kļūdu? Iesniedz to <a href="{% url 'iesniedz_kludu' %}" class="link">šeit</a></p>
+            <p class="text-label">Jautājumi un atbildes uz <a href="{% url 'FAQ' %}" class="link">tiem</a></p>
+            <p class="text-label">Mūsu <a href="{% url 'kontakti' %}" class="link">kontakti</a></p>
         </div>
     </div>
     <div class="create-form">
