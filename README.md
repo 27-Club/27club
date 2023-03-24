@@ -19,8 +19,8 @@ Ensure that you have Python (v3.10.9) and PIP installed. [You can download it he
 ## Django 
 Small instruction how to setup django.
 
-1. Open your project at the root level `cd ~/27club-main`
+1. Open your project at the root level `cd ~/27club`
 2. Run commands in powershell
     * `py -m venv lauku_forms_venv`
-    * `lauku_forms_venv\Scripts\activate.bat`
+    * `27club_venv\Scripts\activate.bat`
     * `cd 27club-main`

@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '5&41du-&cv-cazt$r@k84h*gz-s!*jk2b)131ek^2-lpou#2y4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 import socket
 
@@ -84,8 +84,10 @@ WSGI_APPLICATION = 'form.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'VIP',
+        'USER':'vipwork',
+        'PASSWORD': '2022vipWork'
     }
 }
 
@@ -129,6 +131,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/vipwork/site/public/static'
+MEDIA_ROOT = '/vipwork/site/public/media'
 
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
