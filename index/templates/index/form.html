@@ -235,14 +235,79 @@
                 <input type="url" class="form-control" value="http://{{request.get_host}}/form/{{form.code}}/viewform" copy-btn id="copy-url">
                 {% comment %} <input type="url" class="form-control" value="http://{{request.get_host}}/form/{{form.code}}/accept" copy-btn id="copy-url"> {% endcomment %}
             </div>
-            <button class="btn btn-submit" copy-btn>Kopēt</button>
-            <div class="qrcode-container" style="display: flex; justify-content: center; margin-top: 10px;">
+            <button class="btn btn-submit" id="copy-btn">Kopēt</button>
+            <button class="btn btn-primary" id="qr-btn">QR Kods</button>
+            <div class="qrcode-container" style="display: none; justify-content: center; margin-top: 10px;">
                 <div id="qrcode" style="margin: 0 auto;"></div>
+                <p class="qrcode-text"><em>Uzklikščiniet uz QR koda, lai to kopētu!</em></p>
+            </div>
+            <div id="popup" style="display:none; position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 10px; border-radius: 5px; z-index: 9999;">
+                QR Kods nokopēts!
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    /* QR Koda CSS */
+    .qrcode-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .qrcode-text {
+        margin-top: 10px;
+    }
+
+    /* "Kopēt" pogas CSS */
+    .popup {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(27, 27, 27, 0.8);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    }
+
+    .popup.show {
+    opacity: 1;
+    }
+</style>
+
+<!-- "Kopēt" pogas JS -->
+<script>
+    const copyBtn = document.getElementById("copy-btn");
+    const copyUrl = document.getElementById("copy-url");
+
+    copyBtn.addEventListener("click", () => {
+        copyUrl.select();
+        document.execCommand("copy");
+
+        const popup = document.createElement("div");
+        popup.classList.add("popup");
+        popup.textContent = "Saite ir nokopēta!";
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            popup.classList.add("show");
+            setTimeout(() => {
+                popup.classList.remove("show");
+                setTimeout(() => {
+                    popup.remove();
+                }, 300);
+            }, 1500);
+        }, 0);
+    });
+</script>
+
+</script>
 <!-- Skripts, kas izveido un attēlo QR kodu -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
@@ -252,5 +317,44 @@
     });
     qrCode.makeCode("http://{{request.get_host}}/form/{{form.code}}/viewform");
 
+    const qrBtn = document.getElementById("qr-btn");
+    const qrContainer = document.querySelector(".qrcode-container");
+    const qrCodeElem = document.getElementById("qrcode");
+    const popupElem = document.getElementById("popup");
+
+    qrCodeElem.addEventListener("click", () => {
+        // create temporary canvas element to hold QR code image
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = qrCodeElem.offsetWidth;
+        tempCanvas.height = qrCodeElem.offsetHeight;
+        const ctx = tempCanvas.getContext("2d");
+        const img = qrCodeElem.querySelector("img");
+        ctx.drawImage(img, 0, 0);
+
+        // convert canvas to data URL and copy to clipboard
+        tempCanvas.toBlob(blob => {
+            navigator.clipboard.write([
+                new ClipboardItem({
+                    [blob.type]: blob
+                })
+            ]);
+            // show popup when QR code is copied
+            popupElem.style.display = "block";
+            setTimeout(() => {
+                popupElem.style.display = "none";
+            }, 2000); // hide popup after 2 seconds
+        });
+
+        // remove temporary canvas element
+        document.body.removeChild(tempCanvas);
+    });
+
+    qrBtn.addEventListener("click", () => {
+        if (qrContainer.style.display === "none") {
+            qrContainer.style.display = "flex";
+        } else {
+            qrContainer.style.display = "none";
+        }
+    });
 </script>
 {% endblock %}
