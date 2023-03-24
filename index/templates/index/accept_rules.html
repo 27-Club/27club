@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'dist/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/accept_rules.css' %}">
+</head>
+<body>
+<div class="container mt-5 bg-white rounded-2">
+    <div class="w-100 p-6">
+        <h2 class="mb-5">Privātuma politika</h2>
+
+        <p>Piekrītu savu personas datu un informācijas apstrādei, t.sk. saglabāšanai LLKC datubāzē atbilstoši Eiropas Parlamenta un Padomes Regulas (ES) 2016/679 par fizisku personu aizsardzību attiecībā uz personas datu apstrādi un šādu datu brīvu apriti (Vispārīgā datu aizsardzības regula (GDPR)) prasībām.
+        Informējam, ka pasākuma laikā iespējama fotografēšana, filmēšana, audio un videoierakstu veikšana.
+        </p>
+    </div>
+</div>
+    
+    <script src="{% static 'lib/cookie.min.js' %}"></script>
+    <script src="{% static 'index/accept_rules.js' %}"></script>
+</body>
+</html>

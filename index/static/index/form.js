@@ -119,10 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if(!document.querySelector(".collect-email")){
                 let collect_email = document.createElement("div");
                 collect_email.classList.add("collect-email")
-                collect_email.innerHTML = `<h3 class="question-title">Email address <span class="require-star">*</span></h3>
-                <input type="text" autoComplete="off" aria-label="Valid email address" disabled dir = "auto" class="require-email-edit"
-                placeholder = "Valid email address" />
-                <p class="collect-email-desc">This form is collecting email addresses. <span class="open-setting">Change settings</span></p>`
+                collect_email.innerHTML = `<h3 class="question-title">E-pasta adrese <span class="require-star">*</span></h3>
+                <input type="text" autoComplete="off" aria-label="Derīga e-pasta adrese" disabled dir = "auto" class="require-email-edit"
+                placeholder = "Derīga e-pasta adrese" />
+                <p class="collect-email-desc">Šī veidlapa apkopo e-pasta adreses. <span class="open-setting">Nomainīt iestatījumus</span></p>`
                 document.querySelector("#form-head").appendChild(collect_email)
             }
         }
@@ -292,6 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteQuestion = () => {
         document.querySelectorAll(".delete-question").forEach(question => {
             question.addEventListener("click", function(){
+                console.log(this.dataset.id);
                 fetch(`delete_question/${this.dataset.id}`, {
                     method: "DELETE",
                     headers: {'X-CSRFToken': csrf},
@@ -309,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteQuestion()
     const changeType = () => {
         document.querySelectorAll(".input-question-type").forEach(ele => {
-            ele.addEventListener('input', function(){
+            ele.addEventListener('input', function() {
                 let required;
                 let question;
                 document.querySelectorAll('.required-checkbox').forEach(rc => {
@@ -384,12 +385,26 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <input type ="text" class="short-answer" disabled placeholder="Īsas atbildes teksts" />
                                 </div>`
                                     this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
+
                                 }else if(this.value === "paragraph"){
                                     choicesElement.parentNode.removeChild(choicesElement)
                                     let ele = document.createElement("div");
                                     ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
                                     <textarea class="long-answer" disabled placeholder="Garas atbildes teksts" ></textarea>
                                 </div>`
+                                    this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
+
+                                } else if (this.value === "range"){
+                                    choicesElement.parentNode.removeChild(choicesElement)
+                                    let ele = document.createElement("div");
+                                    ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
+                                        <div class="range">
+                                            <div class="value-left">0</div>
+                                            <input id="slider" type="range" min="0" max="10" value="1" steps="1">
+                                            <div class="value-right">10</div>
+                                            <div id="progress"></div>
+                                        </div>
+                                    </div>`
                                     this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
                                 }
                             }
@@ -447,16 +462,27 @@ document.addEventListener("DOMContentLoaded", () => {
                                 deleteQuestion()
                             })
                         }else{
-                            if(this.value === "short"){
+                            if(this.value === "short") {
                                 let ele = document.createElement("div");
                                 ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
                                 <input type ="text" class="short-answer" disabled placeholder="Īsas atbildes teksts" />
                             </div>`
                                 this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
-                            }else if(this.value === "paragraph"){
+                            }else if(this.value === "paragraph") {
                                 let ele = document.createElement("div");
                                 ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
                                 <textarea class="long-answer" disabled placeholder="Garas atbildes teksts" ></textarea>
+                            </div>`
+                                this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
+                            } else if (this.value === "range") {
+                                let ele = document.createElement("div");
+                                ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
+                                    <div class="range">
+                                        <div class="value-left">0</div>
+                                        <input id="slider" type="range" min="0" max="10" value="1" steps="1">
+                                        <div class="value-right">10</div>
+                                        <div id="progress"></div>
+                                    </div>
                             </div>`
                                 this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
                             }
@@ -489,6 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <option value="paragraph">Rindkopa</option>
                 <option value="multiple choice" selected>Vairākas atbildes</option>
                 <option value="checkbox">Izvēles</option>
+                <option value="range">Novērtējums</option>
             </select>
             <div class="choices" data-id="${result["question"].id}">
                 <div class="choice">
@@ -506,7 +533,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <div class="choice-option">
                 <input type="checkbox" class="required-checkbox" id="${result["question"].id}" data-id="${result["question"].id}">
-                <label for="${result["question"].id}" class="required">Required</label>
+                <label for="${result["question"].id}" class="required">Obligāts</label>
                 <div class="float-right">
                     <img src="/static/Icon/dustbin.png" alt="Dzēst jautājumu ikona" class="question-option-icon delete-question" title="Dzēst jautājumu"
                     data-id="${result["question"].id}">

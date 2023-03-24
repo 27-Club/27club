@@ -2,7 +2,14 @@
 {% load static %}
 {% block title %}{{form.title}} ~ LLKC Veidlapu izveide{% endblock %}
 {% block script %}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
 <script src="{% static 'index/viewform.js' %}" defer></script>
+<script src="{% static 'index/accept_rules.js' %}" defer></script>
+<script src="{% static 'index/slider.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'css/slider.css' %}">
+<link rel="stylesheet" href="{% static 'dist/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/view_form.css' %}">
 {% endblock %}
 {% block body %}
 <div class="container-fluid">
@@ -14,6 +21,12 @@
             <div class="form-title-box">
                 <h1 class="form-title txtClr">{{form.title}}</h1>
                 <p class="required-info">* Obligāts</p>
+
+                <div class="d-flex gap-2">
+                    <input type="checkbox" id="accept_rules" class="p-0">
+                    <label for="accept_rules">Es piekrītu <a id="rules" href="{% url 'rules' form.code %}">noteikumiem un nosacījumiem</a> </label>
+                </div>
+
             </div>
             <div class="form-description txtClr">{{form.description|linebreaksbr}}</div>
         </div>
@@ -28,8 +41,25 @@
             <h1 class="question-title txtClr">{{question.question}} {% if question.required %}<span class="require-star">*</span>{% endif %}</h1>
             {% if question.question_type == "short" %}
                 <input type="text" name="{{question.id}}" class="short-answer" placeholder = "Jūsu atbilde" {% if question.required %} required {% endif %}>
+
             {% elif question.question_type == "paragraph" %}
                 <textarea name="{{question.id}}" placeholder="Jūsu atbilde" class="long-answer textarea-adjust" {% if question.required %} required {% endif %}></textarea>
+
+            {% elif question.question_type == "range" %}
+                <div class="answers" data-id="{{question.id}}">
+                    <div class="range">
+                        <div class="value-left">0</div>
+                        <input id="slider" type="range" min="0" max="10" value="1" steps="1" name="{{question.id}}" {% if question.required %} required {% endif %}>
+                        
+                        <div class="bubble-div">
+                            <output class="bubble"></output>
+                        </div>
+
+                        <div class="value-right">10</div>
+                        <div id="progressBar" style="top: 11px;"></div>
+                    </div>
+                </div>
+
             {% elif question.question_type == "multiple choice" %}
                 {% for choice in question.choices.all %}
                 <div class="multiple-choice">
@@ -48,7 +78,8 @@
         </div>
         {% endfor %}
         <div class="margin-top-bottom">
-            <input type="submit" value="Iesniegt" class="btn btn-submit">
+            {% comment %} <input type="submit" value="Iesniegt" class="btn btn-submit" disabled> {% endcomment %}
+            <button id="submitControl" class="btn btn-lg btn-primary rounded-2 m-2 ms-0" type="submit" disabled>Iesniegt</button>
         </div>
     </form>
     {% if user == form.creator %}
