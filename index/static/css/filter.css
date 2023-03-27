@@ -1,0 +1,121 @@
+.form-list-info{ 
+    display: flex;
+    justify-content: space-between;
+}
+
+#filter {
+    width: 60%;
+    text-align: end;
+    position: relative;
+}
+
+.filter-btn {
+    position: relative;
+    background-color: #5e6738; 
+    color: white;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    overflow-anchor: none;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, border-radius .15s ease;
+}
+
+.btn-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-icon {
+    margin-right: 0.7rem;
+    filter: invert(100%) sepia(1%) saturate(2%) hue-rotate(113deg) brightness(111%) contrast(100%);
+}
+
+.filter-count {
+    margin-left: 0.7rem;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    padding: 3px;
+
+    background: #fff;
+    color: #666;
+    text-align: center;
+}
+
+.popup-menu {
+    position: absolute;
+    top: 100%;
+    width: 70%;
+    right: 0;
+    z-index: 1;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    opacity: 0;
+}
+
+.show {
+    opacity: 1;
+}
+
+.filter-body {
+    width: 100%;
+    text-align: start;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    border-radius: 7px;
+    box-shadow: 0 2px 30px rgba(0,0,0,.2);;
+    -webkit-text-size-adjust: 10%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.filters-list {
+    list-style: none;
+    padding: 5px 8px !important;
+    margin: 0 !important;
+}
+
+.filter-item {
+    margin-bottom: 0.8rem !important;
+    border-radius: 5px;
+}
+
+.filter-item:last-child {
+    margin: 0 !important;
+}
+
+.filter-item li {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.filter-item:hover,
+.filter-item .form-check-label:hover{
+    background: #f7f6f9;
+    font-weight: 500;
+}
+
+.form-check-input {
+    appearance: none;
+}
+
+.form-check-input:checked {
+    background-color: #5e6738 !important;
+    border-color: #5e6738 !important;
+}
+
+@media only screen and (min-width: 1024px){
+    #filter {
+        width: 30%;
+    }
+}
