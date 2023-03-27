@@ -1,19 +1,25 @@
-{% extends 'index/layout.html' %}
 {% load static %}
-{% block script %}
-<script src = "{% static 'index/index.js' %}" defer></script>
-<script src="{% static 'lib/cookie.min.js' %}" defer></script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
-{% endblock %}
-{% load static %}
-{% block body %}
-<div class="container-fluid">
+<!DOCTYPE html>
+<html lang="en" style="background-color: #b9975b;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LLKC Veidlapu izveide{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static 'index/HurlUI.css' %}">
+    <link rel="stylesheet" href="{% static 'index/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/filter.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="top-containter">
     <div class="topnav nav-effect">
         <div class="nav-padding">
             <span class="nav-ham" id="nav-ham">&#9776;</span>
-            <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Veidlapu izveide" class="navbar-icon form-icon" title = "LLKC Veidlapu izveide">
-            <span class="nav-text" title = "LLKC Veidlapu izveide"><a href = "{% url 'main' %}" class="nav-link">LLKC Veidlapu izveide</a></span>
+            <a href="/main/"><img src="/static/Icon/icon.png" alt="LLKC Veidlapu izveide"  class="navbar-icon form-icon" title="LLKC Veidlapu izveide"></a>
+            <p class="nav-text" style="color: white;">LLKC Veidlapu izveide</p>
             
             <a href="{% url 'logout' %}">
                 <img src = "{% static 'Icon/Logout.png' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
@@ -24,7 +30,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="sidebar" id = "sidebar">
+    <div class="sidebar" id="sidebar">
         <span class="close-sidebar" id="close-sidebar">&times;</span>
         <div class="sidebar-content">
             <h4 class="sidebar-title">
@@ -85,7 +91,61 @@
 
     <div class="container">
         <div class="form-list">
-            <p class="forms-label">Visas veidlapas:</p>
+            <div class="form-list-info">
+                <p class="forms-label">Visas veidlapas:</p>
+
+                <div id="filter">
+                    <button id="filter-btn" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse">
+                        <div class="btn-content">
+                            <span class="filter-icon"><img src="{% static 'Icon/filter_icon.svg' %}" alt="filter_icon" width="25" height="25"></span>
+                            Filtri
+                            <span id="filter-count" class="filter-count">0</span>
+                        </div>
+                    </button>
+                      
+                    <div id="popup-menu" class="popup-menu" aria-labelledby="flush-heading">
+                        <div class="filter-body">
+                            <ul class="filters-list">
+                                <div class="filter-item">
+                                    <li>
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" onchange="statCheck()">
+                                        <label class="form-check-label" for="flexCheckDefault1">
+                                            Pēc datuma
+                                        </label>
+                                    </li>
+                                </div>
+
+                                <div class="filter-item">
+                                    <li>
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" onchange="statCheck()">
+                                        <label class="form-check-label" for="flexCheckDefault2">
+                                            Pēc autora
+                                        </label>
+                                    </li>
+                                </div>
+
+                                <div class="filter-item">
+                                    <li>
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" onchange="statCheck()">
+                                        <label class="form-check-label" for="flexCheckDefault3">
+                                            Pēc ofisa
+                                        </label>
+                                    </li>
+                                </div>
+
+                                <div class="filter-item">
+                                    <li>
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4" onchange="statCheck()">
+                                        <label class="form-check-label" for="flexCheckDefault4">
+                                            Pēc nosaukuma
+                                        </label>
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% for i in allForms %}
                 {% if i.creator != request.user %}
                         <a href = "{% url 'responses' i.code %}" class="form-list-link">
@@ -114,4 +174,10 @@
         </div>
     </div>
 </div>
-{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="{% static 'lib/cookie.min.js' %}" defer></script>
+<script src = "{% static 'index/index.js' %}" defer></script>
+<script src="{% static 'index/filter.js' %}" defer></script>
+</body>
+</html>
