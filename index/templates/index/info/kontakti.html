@@ -20,13 +20,26 @@
 </head>
 <body>
   <div class="topnav nav-effect" style="background-color:#b9975b">
-    <div class="nav-padding">
+      <div class="nav-padding">
         <span class="nav-ham" id="nav-ham">&#9776;</span>
         <a href="/main/"><img src="/static/Icon/icon.png" alt="LLKC Veidlapu izveide"  class="navbar-icon form-icon" title="LLKC Veidlapu izveide"></a>
-        <span class="nav-text" title="LLKC Veidlapu izveide"><p style="color:white">LLKC Veidlapu izveide</p></span>
-        
+        <span class="nav-text" title="LLKC Veidlapu izveide"><p style="color:white">LLKC Veidlapu izveide</p></span>        
+      </div>
+  </div>
+
+  <div class="sidebar" id = "sidebar">
+    <span class="close-sidebar" id="close-sidebar">&times;</span>
+    <div class="sidebar-content">
+        <h4 class="sidebar-title">
+            <a href = "{% url 'main' %}" class="sidebar-title-link">
+                <span>LLKC Veidlapu izveide</span>
+            </a>
+        </h4>
+        <p class="text-label">Atradi kļūdu? Iesniedz to <a href="{% url 'iesniedz_kludu' %}" class="link">šeit</a></p>
+        <p class="text-label">Jautājumi un atbildes uz <a href="{% url 'FAQ' %}" class="link">tiem</a></p>
+        <p class="text-label">Mūsu <a href="{% url 'kontakti' %}" class="link">kontakti</a></p>
     </div>
-</div>
+  </div>
     
     <div class="container row m-5">
       <div class = "col-12">
