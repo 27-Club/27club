@@ -99,78 +99,55 @@
                         <div class="btn-content">
                             <span class="filter-icon"><img src="{% static 'Icon/filter_icon.svg' %}" alt="filter_icon" width="25" height="25"></span>
                             Filtri
-                            <span id="filter-count" class="filter-count">0</span>
+                            <span id="filter-arrow" ><img src="{% static 'Icon/arrow.svg' %}" alt="arrow" width="25" height="25"></span>
                         </div>
                     </button>
                       
                     <div id="popup-menu" class="popup-menu" aria-labelledby="flush-heading">
                         <div class="filter-body">
-                            <ul class="filters-list">
-                                <div class="filter-item">
-                                    <li>
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" onchange="statCheck()">
-                                        <label class="form-check-label" for="flexCheckDefault1">
-                                            Pēc datuma
-                                        </label>
-                                    </li>
-                                </div>
-
-                                <div class="filter-item">
-                                    <li>
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" onchange="statCheck()">
-                                        <label class="form-check-label" for="flexCheckDefault2">
-                                            Pēc autora
-                                        </label>
-                                    </li>
-                                </div>
-
-                                <div class="filter-item">
-                                    <li>
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" onchange="statCheck()">
-                                        <label class="form-check-label" for="flexCheckDefault3">
-                                            Pēc ofisa
-                                        </label>
-                                    </li>
-                                </div>
-
-                                <div class="filter-item">
-                                    <li>
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4" onchange="statCheck()">
-                                        <label class="form-check-label" for="flexCheckDefault4">
-                                            Pēc nosaukuma
-                                        </label>
-                                    </li>
-                                </div>
-                            </ul>
+                            <div class="filter-container">
+                                <ul class="filters-list">
+                                    <div class="filter-item">
+                                        <li>
+                                            <input class="form-check-input" type="radio" value="createdAt" name="choose" id="flexCheckDefault1">
+                                            <label class="form-check-label" for="flexCheckDefault1">
+                                                Pēc datuma
+                                            </label>
+                                        </li>
+                                    </div>
+    
+                                    <div class="filter-item">
+                                        <li>
+                                            <input class="form-check-input" type="radio" value="creator" name="choose" id="flexCheckDefault2">
+                                            <label class="form-check-label" for="flexCheckDefault2">
+                                                Pēc autora
+                                            </label>
+                                        </li>
+                                    </div>
+    
+                                    <div class="filter-item">
+                                        <li>
+                                            <input class="form-check-input" type="radio" value="title" name="choose" id="flexCheckDefault3">
+                                            <label class="form-check-label" for="flexCheckDefault3">
+                                                Pēc nosaukuma
+                                            </label>
+                                        </li>
+                                    </div>
+                                </ul>
+                                <button id="apply-btn" type="submit">Apply</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% for i in allForms %}
-                {% if i.creator != request.user %}
-                        <a href = "{% url 'responses' i.code %}" class="form-list-link">
-                            <div class="form-box">
-                                <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
-                                {% if i.createdAt == i.updatedAt %}
-                                <p class="form-list-timestamp">{{i.createdAt}}</p>
-                                {% else %}
-                                <p class="form-list-timestamp">{{i.updatedAt}}</p>
-                                {% endif %}
-                            </div>
-                        </a>
-                {% else %}
-                    <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
-                        <div class="form-box">
-                            <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
-                            {% if i.createdAt == i.updatedAt %}
-                            <p class="form-list-timestamp">{{i.createdAt}}</p>
-                            {% else %}
-                            <p class="form-list-timestamp">{{i.updatedAt}}</p>
-                            {% endif %}
-                        </div>
-                    </a>
-                {% endif %}
-            {% endfor %}
+
+            <div id="form-list">
+                {% block content %}         
+                <div class="div">
+                    {% include 'index/partials/all_forms.html' %}
+                </div>       
+                {% endblock %}
+            </div>
         </div>
     </div>
 </div>
@@ -179,5 +156,6 @@
 <script src="{% static 'lib/cookie.min.js' %}" defer></script>
 <script src = "{% static 'index/index.js' %}" defer></script>
 <script src="{% static 'index/filter.js' %}" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 </body>
 </html>

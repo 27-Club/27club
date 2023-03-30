@@ -5,6 +5,7 @@
 body{
     scroll-behavior: smooth;
     background-color: rgb(185, 151, 91);
+    overflow-x: hidden;
 }
 
 .form-error{

@@ -34,12 +34,31 @@ def kontakti(request):
 def main_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
+    
     allForms = Form.objects.all()
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        formList = data.get('filterData')
+
+        for value in formList:
+            if value == 'createdAt':
+                valueForms = allForms.order_by('-createdAt')
+
+            elif value == 'creator':
+                valueForms = allForms.order_by('creator')
+
+            elif value == 'title':
+                valueForms = allForms.order_by('title')
+            
+            # returns newly sorted forms as context to partial template
+            return render(request, 'index/partials/all_forms.html', {'allForms': valueForms})
+        
+    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/main.html", {
         "forms": forms,
         "allForms": allForms
-    })
+})
 
 def login_view(request):
     if not request.user.is_authenticated:
