@@ -5,6 +5,7 @@
 <script src="{% static 'lib/cookie.min.js' %}" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 {% endblock %}
 {% load static %}
 {% block body %}
@@ -84,9 +85,7 @@
             <button class="btn" id="prev-page-btn">Iepriekšējā</button>
             <span id="page-num"></span>
             <button class="btn" id="next-page-btn">Nākamā</button>
-        </div>
-        <div>
-            <a href="{% url 'allyourforms' %}" class="link">Visas</a>
+            <button><a href="{% url 'allyourforms' %}" class="link bi bi-three-dots"></a></button>
         </div>
     </div>
     

@@ -33,7 +33,9 @@ def allyourforms(request):
     if not request.user.is_authenticated:
         return redirect('login')
     forms = Form.objects.filter(creator = request.user)
-    return render(request, "index/allyourforms.html")
+    return render(request, "index/allyourforms.html", {
+        "forms": forms
+    })
 
 
 @login_required(login_url='/')
