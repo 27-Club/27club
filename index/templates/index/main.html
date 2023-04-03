@@ -1,22 +1,29 @@
-{% extends 'index/layout.html' %}
 {% load static %}
-{% block script %}
-<script src = "{% static 'index/index.js' %}" defer></script>
-<script src="{% static 'lib/cookie.min.js' %}" defer></script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
-{% endblock %}
-{% load static %}
-{% block body %}
-<div class="container-fluid">
+<!DOCTYPE html>
+<html lang="en" style="background-color: #b9975b;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LLKC Veidlapu izveide{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static 'index/HurlUI.css' %}">
+    <link rel="stylesheet" href="{% static 'index/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/filter.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="top-containter">
     <div class="topnav nav-effect">
         <div class="nav-padding">
             <span class="nav-ham" id="nav-ham">&#9776;</span>
             <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Veidlapu izveide" class="navbar-icon form-icon" title = "LLKC Veidlapu izveide">
-            <span class="nav-text" title = "LLKC Veidlapu izveide"><a href = "{% url 'main' %}" class="nav-link">LLKC Veidlapu izveide</a></span>
+            <p class="nav-text" style="color: white;">LLKC Veidlapu izveide</p>
             
             <a href="{% url 'logout' %}">
-                <img src = "{% static 'Icon/Logout.jpg' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
+                <img src = "{% static 'Icon/Logout.png' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
             </a>
             
             {% if user.is_authenticated %}
@@ -32,9 +39,9 @@
                     <span>LLKC Veidlapu izveide</span>
                 </a>
             </h4>
-            <p class="text-label">Atradi kļūdu? Iesniedz to <a href="" class="link">šeit</a></p>
-            <p class="text-label">Jautājumi un atbildes uz <a href="" class="link">tiem</a></p>
-            <p class="text-label">Mūsu <a href="" class="link">kontakti</a></p>
+            <p class="text-label">Atradi kļūdu? Iesniedz to <a href="{% url 'iesniedz_kludu' %}" class="link">šeit</a></p>
+            <p class="text-label">Jautājumi un atbildes uz <a href="{% url 'FAQ' %}" class="link">tiem</a></p>
+            <p class="text-label">Mūsu <a href="{% url 'kontakti' %}" class="link">kontakti</a></p>
         </div>
     </div>
     {% if perms.index.add_form %}
@@ -62,86 +69,99 @@
             </div>
         </div>
     {% endif %}
-    <div class="container">
-        <div class="form-list">
-            {% if perms.index.add_form %}
-                <p class="forms-label">Jūsu veidlapas:</p>
-                <div class="form-list-data">
-                    {% for i in forms %}
-                        <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
-                            <div class="form-box">
-                                <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
-                                {% if i.createdAt == i.updatedAt %}
-                                <p class="form-list-timestamp">{{i.createdAt}}</p>
-                                {% else %}
-                                <p class="form-list-timestamp">{{i.updatedAt}}</p>
-                                {% endif %}
-                            </div>
-                        </a>
-                    {% endfor %}
+    <div class="user-forms">
+        <div class="container">
+            <div class="forms">
+                <div id="form-list-user" class="form-list">
+                    {% if perms.index.add_form %}
+                        <p class="forms-label">Jūsu veidlapas:</p>
+                        <div class="form-list-data">
+                            {% for i in forms %}
+                                <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
+                                    <div class="form-box">
+                                        <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
+                                        {% if i.createdAt == i.updatedAt %}
+                                        <p class="form-list-timestamp">{{i.createdAt}}</p>
+                                        {% else %}
+                                        <p class="form-list-timestamp">{{i.updatedAt}}</p>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="form-list-pagination">
+                        <button class="btn pagination-btn" id="prev-page-btn">❮</button>
+                        <span id="page-num" class="page-num"></span>
+                        <button class="btn pagination-btn" id="next-page-btn">❯</button>
+                    </div>
                 </div>
-            {% endif %}
+            </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="form-list">
-            <div class="form-list-info">
-                <p class="forms-label">Visas veidlapas:</p>
+    <div class="all-forms">
+        <div class="container">
+            <div class="forms">
+                <div class="form-list-info">
+                    <p class="forms-label">Visas veidlapas:</p>
 
-                <div id="filter">
-                    <button id="filter-btn" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse">
-                        <div class="btn-content">
-                            <span class="filter-icon"><img src="{% static 'Icon/filter_icon.svg' %}" alt="filter_icon" width="25" height="25"></span>
-                            Filtri
-                            <span id="filter-arrow" ><img src="{% static 'Icon/arrow.svg' %}" alt="arrow" width="25" height="25"></span>
-                        </div>
-                    </button>
-                      
-                    <div id="popup-menu" class="popup-menu" aria-labelledby="flush-heading">
-                        <div class="filter-body">
-                            <div class="filter-container">
-                                <ul class="filters-list">
-                                    <div class="filter-item">
-                                        <li>
-                                            <input class="form-check-input" type="radio" value="createdAt" name="choose" id="flexCheckDefault1">
-                                            <label class="form-check-label" for="flexCheckDefault1">
-                                                Pēc datuma
-                                            </label>
-                                        </li>
-                                    </div>
-    
-                                    <div class="filter-item">
-                                        <li>
-                                            <input class="form-check-input" type="radio" value="creator" name="choose" id="flexCheckDefault2">
-                                            <label class="form-check-label" for="flexCheckDefault2">
-                                                Pēc autora
-                                            </label>
-                                        </li>
-                                    </div>
-    
-                                    <div class="filter-item">
-                                        <li>
-                                            <input class="form-check-input" type="radio" value="title" name="choose" id="flexCheckDefault3">
-                                            <label class="form-check-label" for="flexCheckDefault3">
-                                                Pēc nosaukuma
-                                            </label>
-                                        </li>
-                                    </div>
-                                </ul>
-                                <button id="apply-btn" type="submit">Apply</button>
+                    <div id="filter">
+                        <button id="filter-btn" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse">
+                            <div class="btn-content">
+                                <span><img id="filter-icon" src="{% static 'Icon/filter.svg' %}" alt="filter_icon" width="25" height="25"></span>
+                                Filtri
+                                <span id="filter-arrow" ><img src="{% static 'Icon/arrow.svg' %}" alt="arrow" width="25" height="25"></span>
+                            </div>
+                        </button>
+                        
+                        <div id="popup-menu" class="popup-menu" aria-labelledby="flush-heading">
+                            <div class="filter-body">
+                                <div class="filter-container">
+                                    <ul class="filters-list">
+                                        <div class="filter-item">
+                                            <li>
+                                                <input id="createdAt-input" class="form-check-input" type="radio" value="createdAt" name="choose" id="flexCheckDefault1">
+                                                <label class="form-check-label" for="flexCheckDefault1">
+                                                    Pēc datuma
+                                                </label>
+                                            </li>
+                                        </div>
+        
+                                        <div class="filter-item">
+                                            <li>
+                                                <input id="creator-input" class="form-check-input" type="radio" value="creator" name="choose" id="flexCheckDefault2">
+                                                <label class="form-check-label" for="flexCheckDefault2">
+                                                    Pēc autora
+                                                </label>
+                                            </li>
+                                        </div>
+        
+                                        <div class="filter-item">
+                                            <li>
+                                                <input id="title-input" class="form-check-input" type="radio" value="title" name="choose" id="flexCheckDefault3">
+                                                <label class="form-check-label" for="flexCheckDefault3">
+                                                    Pēc nosaukuma
+                                                </label>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="form-list">
-                {% block content %}         
-                <div class="div">
-                    {% include 'index/partials/all_forms.html' %}
-                </div>       
-                {% endblock %}
+                <div id="form-list-all" class="form-list">
+                    {% block content %}
+                        {% include 'index/partials/all_forms.html' %}
+                    {% endblock %}
+                </div>
+                <div class="form-list-pagination">
+                    <button class="btn btn pagination-btn" id="prev-page-btn-all">❮</button>
+                    <span id="page-num-all" class="page-num"></span>
+                    <button class="btn pagination-btn" id="next-page-btn-all">❯</button>
+                </div>
             </div>
         </div>
     </div>
@@ -151,7 +171,7 @@
 <script src="{% static 'lib/cookie.min.js' %}" defer></script>
 <script src = "{% static 'index/index.js' %}" defer></script>
 <script src="{% static 'index/filter.js' %}" defer></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 <script src="{% static 'index/pagination.js' %}" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 </body>
 </html>

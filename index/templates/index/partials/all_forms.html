@@ -1,8 +1,20 @@
 {% load static %}
 {% block content %}
-    {% for i in allForms %}
-        {% if i.creator != request.user %}
-                <a href = "{% url 'responses' i.code %}" class="form-list-link">
+    <div class="form-list-data">
+        {% for i in allForms %}
+            {% if i.creator != request.user %}
+                    <a href = "{% url 'responses' i.code %}" class="form-list-link">
+                        <div class="form-box">
+                            <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
+                            {% if i.createdAt == i.updatedAt %}
+                            <p class="form-list-timestamp">{{i.createdAt}}</p>
+                            {% else %}
+                            <p class="form-list-timestamp">{{i.updatedAt}}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+            {% else %}
+                <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
                     <div class="form-box">
                         <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
                         {% if i.createdAt == i.updatedAt %}
@@ -12,17 +24,7 @@
                         {% endif %}
                     </div>
                 </a>
-        {% else %}
-            <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
-                <div class="form-box">
-                    <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
-                    {% if i.createdAt == i.updatedAt %}
-                    <p class="form-list-timestamp">{{i.createdAt}}</p>
-                    {% else %}
-                    <p class="form-list-timestamp">{{i.updatedAt}}</p>
-                    {% endif %}
-                </div>
-            </a>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}
