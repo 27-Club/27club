@@ -5,6 +5,7 @@
 body{
     scroll-behavior: smooth;
     background-color: rgb(185, 151, 91);
+    overflow-x: hidden;
 }
 
 .form-error{
@@ -137,6 +138,7 @@ body{
 .form-box{
     width: 250px;
     border: 1px solid rgb(94, 103, 56);
+    background-color: rgb(94, 103, 56);
     padding: 5px;
     cursor: pointer;
     margin: 10px;
@@ -147,7 +149,7 @@ body{
     border: 1px solid rgb(255, 255, 255);
 }
 
-.form-list{
+.forms{
     float: left;
     margin-top: 20px;
 }
@@ -181,6 +183,35 @@ body{
     text-decoration: none;
     float: left;
 }
+
+
+#page-num{
+    color:white;
+}
+
+.page-num {
+    color:white;
+    border-radius: 100%;
+    padding: 0.285em 0.8em;
+    background-color: #5e6738;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    -webkit-tap-highlight-color: transparent;
+    margin-block-end: auto;
+}
+
+
+.pagination-btn {
+    width: 85px;
+    color: #FFF !important;
+    border-radius: 5px;
+    transition: background-color .3s;
+    cursor: pointer;
+}
+
+.pagination-btn:focus {
+    box-shadow: none !important;
+}
+
 
 .error-page{
     text-align: center;
