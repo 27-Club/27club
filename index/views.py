@@ -37,6 +37,14 @@ def allyourforms(request):
         "forms": forms
     })
 
+def alluserforms(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    allForms = Form.objects.all()
+    return render(request, "index/alluserforms.html", {
+        "allForms": allForms
+    })
+
 
 @login_required(login_url='/')
 def main_view(request):

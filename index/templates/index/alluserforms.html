@@ -38,57 +38,6 @@
             <p class="text-label">Mūsu <a href="" class="link">kontakti</a></p>
         </div>
     </div>
-    <div class="create-form">
-        <div class="container">
-            <p class="forms-label">Izveidot jaunu veidlapu</p>
-            <div class="create-forms">
-                <div class="form-template-box">
-                    <img src = "{% static 'Icon/blank-form.png' %}" alt = "Tukša veidlapa" title = "Tukša veidlapa" id="create-blank-form">
-                    <span class="form-template-label">Tukša veidlapa</span>
-                </div>
-                <div class="form-template-box big-screen">
-                    <img src = "{% static 'Template/contact_information.png' %}" alt = "Kontaktu informācija" title = "Kontaktu informācija" id="create-contact-form">
-                    <span class="form-template-label">Kontaktu informācija</span>
-                </div>
-                <div class="form-template-box big-screen">
-                    <img src = "{% static 'Template/customer_feedback.png' %}" alt = "Dalībnieku atbalsts" title = "Dalībnieku atbalsts" id="create-customer-feedback">
-                    <span class="form-template-label">Dalībnieku atbalsts</span>
-                </div>
-                <div class="form-template-box big-screen">
-                    <img src = "{% static 'Template/event_registration.png' %}" alt = "Pasākuma reģistrācija" title = "Pasākuma reģistrācija" id="create-event-registration">
-                    <span class="form-template-label">Pasākuma reģistrācija</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="form-list">
-            <p class="forms-label">Jūsu veidlapas:</p>
-            <div class="form-list-data">
-                {% for i in forms %}
-                    <a href="{% url 'edit_form' i.code %}" class="form-list-link">
-                        <div class="form-box">
-                            <div class="form-list-title">
-                                <h5 class="form-list-title-text">{{i.title}}</h5>
-                            </div>
-                            {% if i.createdAt == i.updatedAt %}
-                                <p class="form-list-timestamp">{{i.createdAt}}</p>
-                            {% else %}
-                                <p class="form-list-timestamp">{{i.updatedAt}}</p>
-                            {% endif %}
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="form-list-pagination">
-            <button class="btn" id="prev-page-btn">Iepriekšējā</button>
-            <span id="page-num"></span>
-            <button class="btn" id="next-page-btn">Nākamā</button>
-            <button><a href="{% url 'allyourforms' %}" class="link bi bi-three-dots"></a></button>
-        </div>
-    </div>
-    
     <div class="container">
         <div class="form-list">
             <p class="forms-label">Visas veidlapas:</p>
@@ -120,13 +69,4 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="form-list-pagination2">
-            <button class="btn" id="prev-page-btn-all">Iepriekšējā</button>
-            <span id="page-num-all"></span>
-            <button class="btn" id="next-page-btn-all">Nākamā</button>
-            <button><a href="{% url 'alluserforms' %}" class="link bi bi-three-dots"></a></button>
-        </div>
-    </div>
-
-<script src="{% static 'index/pagination.js' %}" defer></script>
 {% endblock %}
