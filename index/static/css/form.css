@@ -1,0 +1,171 @@
+body {
+    margin: auto;
+    background-color: white;
+}
+
+.user-text {
+    margin: auto;
+    color: #506031;
+}
+
+.nav-form-menu-icon{
+    width: 1.5rem;
+    margin: 10px 15px;
+    cursor: pointer;
+    float: left;
+    filter: invert(31%) sepia(56%) saturate(350%) hue-rotate(39deg) brightness(97%) contrast(89%);
+}
+
+.form-qa a{
+    text-decoration: none !important;
+}
+
+#form-qa-responses {
+    color: #00000035;
+}
+
+.form-qa-active {
+    color: #506031;
+}
+
+.edit-on-click{
+    border: none;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    overflow-y: hidden;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.edit-on-click:focus{
+    outline: none !important;
+    border-bottom: 1px solid #202124;
+}
+
+.form-description {
+    border: none;
+    font-size: 1.2rem;
+}
+
+.form-description:focus {
+    outline: none !important;
+}
+
+.form-input {
+    border: none;
+    transition: 0.3s;
+    overflow-y: hidden;
+}
+
+.form-input:focus{
+    outline: none !important;
+    border-bottom: 1px solid #202124;
+}
+
+.question-type-select {
+    background-color: #50603120 !important;
+    border: 1px solid #506031 !important;
+    border-radius: 10px;
+}
+
+.text-answer {
+    background-color: #eeededb9;
+    border-bottom: 1px solid #000000 !important;
+    border-radius: 5px;
+}
+
+.question-options {
+    background-color: #fff;
+    margin: 20px 0;
+    position: fixed;
+    bottom: 10%;
+    right: 0;
+    border: 1px solid #506031;
+    border-radius: 5px;
+    z-index: 20;
+}
+
+.content {
+    position: relative;
+}
+
+.side-logo {
+    position: relative;
+    right: 0;
+    z-index: 10;
+}
+
+.form-option-icon{
+    width: 2rem;
+    margin: 5px;
+    cursor: pointer;
+    display: block;
+}
+
+#nav {
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: 10; 
+    padding-left: 2.5rem;
+    padding-right: 2.5rem; 
+    padding-top: 15rem;
+    padding-bottom: 15rem; 
+    background-color: #ffffff; 
+    transition-property: opacity; 
+    transition-duration: 500ms; 
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); 
+    text-align: center; 
+    width: 100%; 
+    min-height: 100vh; 
+    opacity: 0;
+}
+
+#nav-links {
+    display: flex; 
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform; 
+    transition-duration: 300ms; 
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1); 
+    flex-direction: column; 
+    opacity: 0; 
+}
+
+#nav-items {
+    flex-direction: column;
+}
+
+@media (min-width: 768px) { 
+    #navbarNav {
+        display: block;
+    }
+
+    #nav-items {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+}
+
+@media (min-width: 1024px) { 
+    #nav {
+        display: block; 
+        position: static; 
+        padding: 0; 
+        text-align: left; 
+        width: auto; 
+        opacity: 1; 
+    }
+}
+
+.delete-question {
+    filter: invert(31%) sepia(56%) saturate(350%) hue-rotate(39deg) brightness(97%) contrast(89%);
+}
+
+.btn-save-setting {
+    background-color: #506031 !important;
+    color: #fff !important;
+}
+
+.delete-form-btn {
+    background-color: #e20026 !important;
+    color: #fff !important;
+}

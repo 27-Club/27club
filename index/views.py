@@ -155,7 +155,8 @@ def edit_form(request, code):
             "code": code,
             "form": formInfo
         })
-    return render(request, "index/form.html", {
+    return render(request, "index/tests/form_test.html", {
+    # return render(request, "index/form.html", {
         "code": code,
         "form": formInfo
     })

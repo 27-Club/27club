@@ -69,11 +69,10 @@
             </div>
         </div>
     {% endif %}
-    <div class="user-forms">
-        <div class="container">
-            <div class="forms">
-                <div id="form-list-user" class="form-list">
-                    {% if perms.index.add_form %}
+        <div class="user-forms">
+            <div class="container">
+                <div class="forms">
+                    <div id="form-list-user" class="form-list">
                         <p class="forms-label">Jūsu veidlapas:</p>
                         <div class="form-list-data">
                             {% for i in forms %}
@@ -94,11 +93,10 @@
                             <span id="page-num" class="page-num"></span>
                             <button class="btn pagination-btn" id="next-page-btn">❯</button>
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <div class="all-forms">
         <div class="container">

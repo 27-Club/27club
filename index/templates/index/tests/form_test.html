@@ -1,0 +1,457 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLKC Veidlapu izveide</title>
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hamburger.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+
+<style>
+    /* QR Koda CSS */
+    .qrcode-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .qrcode-text {
+        margin-top: 10px;
+    }
+
+    /* "Kopēt" pogas CSS */
+    .popup {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(27, 27, 27, 0.8);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    }
+
+    .popup.show {
+    opacity: 1;
+    }
+</style>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="nav-left d-flex justify-content-between p-2 col col-md-4 col-lg-8">
+                <div class="form-info d-flex justify-content-start">
+                    <a href="/">
+                        <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Ikona" class="navbar-icon form-icon" title = "LLKC Veidlapas" />
+                    </a>
+                    <input class="nav-text nav-form-title edit-on-click input-form-title d-none d-md-block bg-transparent border-0 ms-2" value="{{form.title}}" type="text">
+                </div>
+    
+                <button class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around align-self-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="toggler-icon top-bar"></span>
+                    <span class="toggler-icon middle-bar"></span>
+                    <span class="toggler-icon bottom-bar"></span>
+                </button>
+            </div>
+    
+            <div class="nav-right d-flex flex-row justify-content-center p-2 col-md-8 col-lg-4">
+                <div class="user-greet d-none d-md-flex">
+                    {% if form.creator != request.user %}
+                        <p class="user-text text-nowrap" style="float: left;">Sveicināti, vienkāršs lietotāj!</p>
+                    {% else %}
+                        <p class="user-text text-nowrap" style="float: left;">Sveicināti, pasākumu organizators!</p>
+                    {% endif %}
+                </div>
+    
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav" id="nav-items">
+                        <li class="nav-item d-flex flex-wrap align-content-center">
+                            <img src="{% static 'Icon/color-palette-icon.svg' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" data-bs-toggle="modal" data-bs-target="#customize-theme" />
+                            <p class="mt-auto mb-auto d-md-none">Krāsa</p>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'view_form' form.code %}">
+                                <img src="{% static 'Icon/eye-icon.svg' %}" alt="Priekšskatīšanas ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />
+                            </a>
+                            <p class="mt-auto mb-auto"><a href="{% url 'view_form' form.code %}" class="text-decoration-none text-black mt-auto mb-auto d-md-none">Apskatīt</a></p>
+                        </li>
+                        <li class="nav-item">                            
+                            <img src="{% static 'Icon/settings-icon.svg' %}" alt="Iestatījumu ikona" title = "Iestatījumi" class="nav-form-menu-icon open-setting" data-bs-toggle="modal" data-bs-target="#setting"/>
+                            <p class="mt-auto mb-auto d-md-none">Iestatījumi</p>
+                        </li>
+                        <li class="nav-item">
+                            <img src="{% static 'Icon/send-icon.svg' %}" alt ="Sūtīšanas ikona" title = "Sūtīt" class="nav-form-menu-icon small-screen" id="send-form-btn" data-bs-toggle="modal" data-bs-target="#send-form"/>
+                            <p class="mt-auto mb-auto d-md-none">Sūtīt</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-qa w-100">
+            <div class="form-navigation center d-flex justify-content-center align-content-center gap-5">
+                {% if form.is_quiz %}
+                <span class="col-4 navigation active text-center">Jautājumi</span>
+                <span class="col-4 navigation score text-center"><a href="{% url 'score' form.code %}" class="link">Rezultāti</a></span>
+                <span class="col-4 navigation text-center"><a href="{% url 'responses' form.code %}" class="link">Atbildes</a></span>
+                {% else %}
+                <span class="form-qa-active navigation text-center">Jautājumi</span>
+                <span class="navigation text-center text-decoration-none"><a href = "{% url 'responses' form.code %}" class="link" id="form-qa-responses">Atbildes</a></span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="content mt-3">
+            <div class="row">
+                <div class="container mt-5 w-75">
+                    <span id="bg-color" style="display: none;">{{form.background_color}}</span>
+                    <span id="text-color" style="display: none;">{{form.text_color}}</span>
+                    
+                    <div class="card shadow-sm p-3 mb-5 bg-white rounded" id="form-head">
+                        <div class="card-body w-100">
+                            <div class="form-title-box mb-3">
+                                <input type="text" class="form-title edit-on-click input-form-title txt-clr w-100" value="{{form.title}}">
+                            </div>
+            
+                            <textarea class="form-description textarea-adjust w-100" rows="1" placeholder="Veidlapas apraksts" spellCheck = "false"
+                            id="input-form-description">{{form.description}}</textarea>
+            
+                            {% if form.collect_email %}
+                                <div class="collect-email txt-clr">
+                                    <h3 class="question-title">E-pasta adrese <span class="require-star">*</span></h3>
+                                    <input type="text" autocomplete="off" aria-label="Valid email address" disabled dir = "auto" class="require-email-edit txtColor"
+                                    placeholder = "Derīga ē-pasta adrese" />
+                                    <p class="collect-email-desc">Šī veidlapa ievāc e-pasta adreses. <span class="open-setting">Mainīt iestatījumus</span></p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+        
+                    {% for question in form.questions.all %}
+                    <div class="card shadow-sm p-3 mb-5 bg-white rounded question-box box question" data-id="{{question.id}}">
+                        <input type="text" data-id="{{question.id}}" class="question-title edit-on-click input-question mb-3 w-100" value="{{question.question}}">
+        
+                            <select class="question-type-select input-question-type form-select mb-2" data-id="{{question.id}}" data-origin_type = "{{question.question_type}}">
+                                <option value="short" {% if question.question_type == "short" %}selected{% endif %}>Īsa atbilde</option>
+                                <option value="paragraph" {% if question.question_type == "paragraph" %}selected{% endif %}>Rindkopa</option>
+                                <option value="multiple choice" {% if question.question_type == "multiple choice" %}selected{% endif %}>Vairākas atbildes</option>
+                                <option value="checkbox" {% if question.question_type == "checkbox" %}selected{% endif %}>Izvēles</option>
+                                <option value="range" {% if question.question_type == "range" %}selected{% endif %}>Novērtējums</option>
+                            </select>
+        
+                            {% if question.question_type == "multiple choice" %}
+                            <div class="choices mb-2" data-id="{{question.id}}">
+                                {% for choice in question.choices.all %}
+                                    <div class="choice d-flex justify-content-between mb-1">
+                                        <div class="d-flex justify-content-start">
+                                            <input type="radio" id="{{choice.id}}" disabled>
+                                            <label class="ms-2" for="{{choice.id}}">
+                                                <input type="text" value="{{choice.choice}}" class="edit-choice form-input w-100" data-id="{{choice.id}}">
+                                            </label>
+                                        </div>
+                                        <span class="remove-option" title = "Noņemt" data-id="{{choice.id}}">&times;</span>
+                                    </div>
+                                {% endfor %}
+                                <div class="choice">
+                                    <div class="d-flex justify-content-start">
+                                        <input type="radio" id="add-choice" disabled />
+                                        <label for="add-choice" class="add-option ms-2" data-question="{{question.id}}" data-type="{{question.question_type}}">Pievienot opciju</label>
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif question.question_type == "checkbox" %}
+                            <div class="choices mb-2" data-id="{{question.id}}">
+                                {% for choice in question.choices.all %}
+                                    <div class="choice d-flex justify-content-between mb-1">
+                                        <div class="d-flex justify-content-start">
+                                            <input type="checkbox" id="{{choice.id}}" disabled>
+                                            <label class="ms-2" for="{{choice.id}}">
+                                                <input type="text" data-id="{{choice.id}}" class="edit-choice form-input w-100" value="{{choice.choice}}">
+                                            </label>
+                                        </div>
+                                        <span class="remove-option" title="Noņemt" data-id="{{choice.id}}">&times;</span>
+                                    </div>
+                                {% endfor %}
+                                <div class="choice">
+                                    <div class="d-flex justify-content-start">
+                                        <input type="checkbox" id="add-choice" disabled />
+                                        <label for="add-choice" class="add-option ms-2" id="add-option" data-question="{{question.id}}" data-type = "{{question.question_type}}">Pievienot opciju</label>
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif question.question_type == "short" %}
+                            <div class="answers" data-id="{{question.id}}">
+                                <input type ="text" class="short-answer text-answer w-100 my-2 py-1 px-2" disabled placeholder="Īsas atbildes teksts" />
+                            </div>
+                            {% elif question.question_type == "paragraph" %}
+                            <div class="answers" data-id="{{question.id}}">
+                                <textarea class="long-answer text-answer w-100 my-2 p-1" disabled placeholder="Garas atbildes teksts" ></textarea>
+                            </div>
+                            {% elif question.question_type == "range" %}
+                            <div class="answers" data-id="{{question.id}}">
+                                <div class="range">
+                                    <div class="value-left">0</div>
+                                    <input id="slider" type="range" min="0" max="10" value="1" steps="1">
+                                    
+                                    <div class="bubble-div">
+                                        <output class="bubble"></output>
+                                    </div>
+        
+                                    <div class="value-right">10</div>
+                                    <div id="progressBar"></div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="choice-option d-flex justify-content-between">
+                                
+                                <div class="d-flex justify-content-start">
+                                    <input type="checkbox" class="required-checkbox" id="required-{{question.id}}" data-id="{{question.id}}" {% if question.required %}checked{% endif %}>
+                                    <label for="required-{{question.id}}" class="required ms-2">Obligāts</label>
+                                </div>
+        
+                                <div class="float-right">
+                                    <img src="{% static 'Icon/trash-icon.svg' %}"  width="24" height="24" alt="Dzēst jautājumu ikona" class="question-option-icon delete-question" title="Dzēst jautājumu"
+                                    data-id="{{question.id}}">
+                                </div>
+                            </div>
+                    </div>
+                    {% endfor %}
+                </div>    
+            </div>
+
+            <div class="question-options">
+                <img src = "{% static 'Icon/add.png' %}" class="form-option-icon" title = "Pievienot jautājumu" alt = "Pievienot jautājumu ikona" id="add-question" />
+                <a href="{% url 'view_form' form.code %}">
+                    <img src = "{% static 'Icon/eye.png' %}" class = "form-option-icon" title = "Priekšskats" alt = "Priekšskata ikona" />
+                </a>
+                {% if form.is_quiz %}
+                <a href = "{% url 'score' form.code %}" id="add-score">
+                    <img src = "{% static 'Icon/score.png' %}" class = "form-option-icon" title = "Pievienot rezultātu" alt = "Rezultātu ikona" />
+                </a>
+                {% endif %}
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-save-setting col-6 text">Saglabāt</button>
+            </div>
+        </div>
+
+        <div class="modals">
+            <div class="modal fade" id="customize-theme" tabindex="-1" aria-labelledby="customize-theme" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title">Krāsu opcijas</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+    
+                        <div class="modal-body">
+                            <div class="modal-division">
+                                <h3 class="modal-subtitle">Fona krāsa:</h3>
+                                <input type="color"  value = "{{form.background_color}}" list="bgColors" class="form-control" id="input-bg-color" />
+                                <datalist id="bgColors">
+                                    <option value="#506031"></option>
+                                    <option value="#ae8643"></option>
+                                    <option value="#F5F5F5"></option>
+                                    <option value="#b9975b"></option>
+                                </datalist>
+                            </div>
+    
+                            <div class="modal-division">
+                                <h3 class="modal-subtitle">Teksta krāsa:</h3>
+                                <input type="color"  value = {{form.text_color}} list="textColors" class="form-control" id="input-text-color" />
+                                <datalist id="textColors">                
+                                    <option value="#506031"></option>
+                                    <option value="#ae8643"></option>                
+                                    <option value="#000000"></option>
+                                </datalist>
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal fade" id="setting" tabindex="-1" aria-labelledby="form settings" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class = "modal-title">Iestatījumi</h1>
+                            <button type="button" class="btn-close modal-close-btn" id="close-setting" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+    
+                        <div class="modal-body">
+                            <form id="setting-form">
+                                <h3 class="setting-preview-form small-screen mb-3"><a class="text-black" href="{% url 'view_form' form.code %}">Priekšskats</a></h4>
+                                <div class="modal-division mb-5">
+                                    <h4 class="modal-subtitle">Galvenais</h4>
+                                    <div class="form-group mb-2">
+                                        <input type="checkbox" id="collect_email"{% if form.collect_email %} checked {% endif %}>
+                                        <label for="collect_email" class="setting-form-label">Saglabāt epasta adreses</label>
+                                    </div>
+                                    <div class="form-group mb-2 ">
+                                        <input type="checkbox" id="is_quiz" {% if form.is_quiz %} checked {% endif %}>
+                                        <label for="is_quiz" class="setting-form-label">Veidot šo veidlapu kā viktorīnu</label>
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <input type="checkbox" id="authenticated_responder" {% if form.authenticated_responder %} checked {% endif %}>
+                                        <label for="authenticated_responder" class="setting-form-label text-nowrap">Respondenta profilam ir jābūt apstiprinātam. (Pieteikšanās ir obligāta)</label>
+                                    </div>
+                                </div>
+                                <div class="modal-division mb-5">
+                                    <div class="form-group">
+                                        <h3 class="modal-subtitle">Apstiprinājuma ziņojums:</h3>
+                                        <textarea rows="1" class="text-answer w-100 my-2 px-2 py-1" spellcheck="false" id="comfirmation_message" placeholder="{{form.confirmation_message}}">{{form.confirmation_message}}</textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-division mb-5">
+                                    <div class="form-group mb-2">
+                                        <h3 class="modal-subtitle">Respondenti drīkst:</h3>
+                                        <input type="checkbox" id="edit_after_submit" {% if form.edit_after_submit %}checked{% endif %}>
+                                        <label for="edit_after_submit" class="setting-form-label">Rediģēt atbildi pēc iesniegšanas</label>
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <input type="checkbox" id="allow_view_score" {% if form.allow_view_score %}checked{% endif %}>
+                                        <label for="allow_view_score" class="setting-form-label">Skatīt rezultātu</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Saglabāt" class="form-control btn btn-save-setting col-12 col-md-8 col-lg-4">
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="delete-form" class="modal-division">
+                                <fieldset class="form-group">
+                                    <legend class="modal-subtitle text-danger danger-zone">Uzmanību</legend>
+                                    <h3 class="delete-form-title">Dzēst šo veidlapu</h3>
+                                    <p class="delete-form-description">Kad veidlapa ir izdzēsta, tā netiek atgriezta. Lūdzu, esiet droši.</p>
+                                    <input type="submit" value="Dzēst" class="form-control delete-form-btn btn col-12 col-md-8 col-lg-4">
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal fade" id="send-form" tabindex="-1" aria-labelledby="send form info" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class = "modal-title">Sūtīt veidlapu</h1>
+                            <button type="button" id="close-send-form" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-division mb-3">
+                                <h4 class="modal-subtitle">Saite:</h4>
+                                <input type="url" class="form-control" value="http://{{request.get_host}}/form/{{form.code}}/viewform" copy-btn id="copy-url">
+                            </div>
+    
+                            <div class="modal-division mb-3">
+                                <button class="btn btn-submit" id="copy-btn">Kopēt</button>
+                                <button class="btn btn-primary" id="qr-btn">QR Kods</button>
+                            </div>
+    
+                            <div class="qrcode-container" style="display: none; justify-content: center; margin-top: 10px;">
+                                <div id="qrcode" style="margin: 0 auto;"></div>
+                                <p class="qrcode-text"><em>Nospiediet uz QR koda, lai to kopētu!</em></p>
+                            </div>
+                            <div id="popup" style="display:none; position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 10px; border-radius: 5px; z-index: 9999;">
+                                QR Kods nokopēts!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+<!-- "Kopēt" pogas JS -->
+<script>
+    const copyBtn = document.getElementById("copy-btn");
+    const copyUrl = document.getElementById("copy-url");
+
+    copyBtn.addEventListener("click", () => {
+        copyUrl.select();
+        document.execCommand("copy");
+
+        const popup = document.createElement("div");
+        popup.classList.add("popup");
+        popup.textContent = "Saite ir nokopēta!";
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            popup.classList.add("show");
+            setTimeout(() => {
+                popup.classList.remove("show");
+                setTimeout(() => {
+                    popup.remove();
+                }, 300);
+            }, 1500);
+        }, 0);
+    });
+</script>
+
+</script>
+<!-- Skripts, kas izveido un attēlo QR kodu -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    var qrCode = new QRCode(document.getElementById("qrcode"), {
+        width: 150,
+        height: 150,
+    });
+    qrCode.makeCode("http://{{request.get_host}}/form/{{form.code}}/viewform");
+
+    const qrBtn = document.getElementById("qr-btn");
+    const qrContainer = document.querySelector(".qrcode-container");
+    const qrCodeElem = document.getElementById("qrcode");
+    const popupElem = document.getElementById("popup");
+
+    qrCodeElem.addEventListener("click", () => {
+        // create temporary canvas element to hold QR code image
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = qrCodeElem.offsetWidth;
+        tempCanvas.height = qrCodeElem.offsetHeight;
+        const ctx = tempCanvas.getContext("2d");
+        const img = qrCodeElem.querySelector("img");
+        ctx.drawImage(img, 0, 0);
+
+        // convert canvas to data URL and copy to clipboard
+        tempCanvas.toBlob(blob => {
+            navigator.clipboard.write([
+                new ClipboardItem({
+                    [blob.type]: blob
+                })
+            ]);
+            // show popup when QR code is copied
+            popupElem.style.display = "block";
+            setTimeout(() => {
+                popupElem.style.display = "none";
+            }, 2000); // hide popup after 2 seconds
+        });
+
+        // remove temporary canvas element
+        document.body.removeChild(tempCanvas);
+    });
+
+    qrBtn.addEventListener("click", () => {
+        if (qrContainer.style.display === "none") {
+            qrContainer.style.display = "flex";
+        } else {
+            qrContainer.style.display = "none";
+        }
+    });
+</script>
+<script src="{% static 'lib/cookie.min.js' %}"></script>
+<script src="{% static 'index/slider.js' %}" defer></script>
+<script src="{% static 'index/formTest.js' %}" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
