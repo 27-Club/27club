@@ -178,3 +178,25 @@ body {
     background-color: #e20026 !important;
     color: #fff !important;
 }
+
+blockquote{
+    font-size: 0.9em;
+    color: #555555;
+    padding: 0.8rem;
+    border-left: 8px solid rgb(94, 103, 56);
+    position: relative;
+    background:#EDEDED;
+}
+  
+blockquote span{
+    display:block;
+    color:#333333;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.pie-chart{
+    width: 70% !important;
+    height: 70% !important;
+    margin: auto;
+}

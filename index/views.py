@@ -639,10 +639,8 @@ def responses(request, code):
         keys = choiceAnswered[answr].values()
         for choice in choiceAnswered[answr]:
             filteredResponsesSummary[answr][choice] = choiceAnswered[answr][choice]
-    #Checking if form creator is user
-    # if formInfo.creator != request.user:
-    #     return HttpResponseRedirect(reverse("403"))
-    return render(request, "index/responses.html", {
+    # return render(request, "index/responses.html", {
+    return render(request, "index/tests/form_responses_test.html", {
         "form": formInfo,
         "responses": Responses.objects.filter(response_to = formInfo),
         "responsesSummary": responsesSummary,
@@ -688,7 +686,8 @@ def response(request, code, response_code):
                         if k.is_answer and k.pk not in answer_keys: answer_keys.append(k.pk)
                     _temp.append(i.answer_to.pk)
                 if answers == answer_keys: score += i.answer_to.score
-    return render(request, "index/response.html", {
+    # return render(request, "index/response.html", {
+    return render(request, "index/tests/form_response.html", {
         "form": formInfo,
         "response": responseInfo,
         "score": score,
