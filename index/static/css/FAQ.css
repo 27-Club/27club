@@ -1,0 +1,79 @@
+.body{
+    background-color: white;
+}
+
+
+.green-text{
+    color: rgba(70, 83, 45, 1)!important;
+    
+}
+
+.title{
+    font-size: 30px;
+}
+
+.brown-sideimage{
+    position: absolute;
+    right: 0;
+    position: fixed;
+    top:0;
+}
+
+.accordion-button{
+    background-color: rgba(80, 96, 49, 0.03)!important;
+    border-bottom: none!important;
+}
+
+.accordion-button::after {
+    padding-top: 10px!important;
+    background-image: url(/static/Icon/dropdown_brown.svg)!important;
+    position: absolute!important;
+    right: 30px!important;
+    top: 22px!important;
+    
+
+}
+
+.accordion-button {
+    box-shadow: none!important;
+    border-color: rgb(0, 0, 0)!important;
+}
+
+
+
+
+.accordion-button:not(.collapsed)::after {
+    top: 10px!important;
+}
+
+
+.accordion-body{
+    border-top: none!important;
+    background-color: rgba(80, 96, 49, 0.03)!important;
+}
+
+
+
+.floatbottom {
+
+    height: 100%;
+    position: absolute;
+    bottom:0;
+    width: 500px;
+    
+    }
+
+.the-img {
+
+        width: 100%;
+        vertical-align: bottom;
+        position: relative;
+        /* display: inline-block;     */
+    
+}
+
+@media only screen and (max-width: 575px) {
+    .title{
+        font-size: 20px;
+    }
+  }
