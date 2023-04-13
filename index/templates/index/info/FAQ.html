@@ -7,6 +7,7 @@
     <title>{% block title %}Bieži uzdotie jautājumi{% endblock %}</title>
     
     <link rel="stylesheet" href="{% static 'css/FAQ.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav-bar.css' %}">
     
     <link rel="stylesheet" href="{% static 'index/HurlUI.css' %}">
     <link rel="stylesheet" href="{% static 'index/style.css' %}">
@@ -46,11 +47,35 @@
 
 
               <nav class="sticky-top navbar navbar-light bg-light justify-content-between">
-                <a class="navbar-brand">Navbar</a>
-                <form class="form-inline">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                <a href="/main/" class="ms-2 navbar-brand">
+                  <img class="logo" src="/static/Icon/logo.svg">
+                </a>
+                <div class="d-inline-flex me-2">
+                  <a href="#" class="nav-green-text mt-3">
+                    <p class="" >
+                      Profils
+                    </p>
+                  </a>
+                  <a href="{% url 'kontakti' %}" class="nav-green-text mt-3">
+                    <p>
+                      Kontakti
+                    </p>
+                  </a>
+                  <a href="{% url 'FAQ' %}" class="nav-green-text mt-3">
+                    <p>
+                      Q&A
+                    </p>
+                  </a>
+                  <a href="{% url 'iesniedz_kludu' %}" class="nav-green-text mt-3">
+                    <p>
+                      Iesniegt kļūdu
+                    </p>
+                  </a>
+                  <a href="#" class="nav-green-text mt-2 pt-1">
+                    <img class="logout-icon" src="/static/Icon/logout-icon.svg">
+                  </a>
+                  
+                </div>
               </nav>
 
 

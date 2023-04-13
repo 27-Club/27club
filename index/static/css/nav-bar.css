@@ -1,0 +1,27 @@
+.logo{
+    height: 55px;
+}
+
+.nav-green-text{
+    color: rgba(70, 83, 45, 1);
+    text-decoration: none;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+.nav-green-text:hover{
+    color: rgb(57, 67, 36); 
+}
+
+
+.logout-icon:hover{
+    color: rgb(57, 67, 36)!important; 
+}
+
+
+.logout-icon{
+    height: 35px!important;
+}
