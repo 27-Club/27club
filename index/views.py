@@ -37,9 +37,13 @@ def main_view(request):
 
     allForms = Form.objects.all()
 
+    test = request.body
+    print(test)
+
     if request.method == 'POST':
         data = json.loads(request.body)
         formList = data.get('filterData')
+        formType = data.get('type') # gets typeof field for which section filter is needed 
 
         for value in formList:
             if value == 'createdAt':
@@ -50,10 +54,15 @@ def main_view(request):
 
             elif value == 'title':
                 valueForms = allForms.order_by('title')
-
-            return render(request, 'index/partials/all_forms.html', {
-                'allForms': valueForms,
-            })
+             
+            if formType == 'all':
+                return render(request, 'index/partials/all_forms.html', {
+                    'allForms': valueForms,
+                })
+            elif formType == 'user':
+                return render(request, 'index/partials/user_forms.html', {
+                    'forms': valueForms,
+                })
 
     forms = Form.objects.filter(creator = request.user)
     return render(request, "index/main.html", {

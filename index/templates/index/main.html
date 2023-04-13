@@ -68,35 +68,70 @@
                 </div>
             </div>
         </div>
-    {% endif %}
+
         <div class="user-forms">
             <div class="container">
                 <div class="forms">
-                    <div id="form-list-user" class="form-list">
+                    <div class="form-list-info">
                         <p class="forms-label">Jūsu veidlapas:</p>
-                        <div class="form-list-data">
-                            {% for i in forms %}
-                                <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
-                                    <div class="form-box">
-                                        <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
-                                        {% if i.createdAt == i.updatedAt %}
-                                        <p class="form-list-timestamp">{{i.createdAt}}</p>
-                                        {% else %}
-                                        <p class="form-list-timestamp">{{i.updatedAt}}</p>
-                                        {% endif %}
+                        <div id="filter-user">
+                            <button id="filter-btn-user" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse">
+                                <div class="btn-content">
+                                    <span><img id="filter-icon-user" class="filter-icon" src="{% static 'Icon/filter.svg' %}" alt="filter_icon" width="25" height="25"></span>
+                                    Filtri
+                                    <span id="filter-arrow-user" class="filter-arrow" ><img src="{% static 'Icon/arrow.svg' %}" alt="arrow" width="25" height="25"></span>
+                                </div>
+                            </button>
+                            
+                            <div id="popup-menu-user" class="popup-menu" aria-labelledby="flush-heading-user">
+                                <div class="filter-body">
+                                    <div class="filter-container">
+                                        <ul class="filters-list">
+                                            <div class="filter-item">
+                                                <li>
+                                                    <input id="createdAt-input-user" class="form-check-input" type="radio" value="createdAt" name="choose" id="createdAtUser">
+                                                    <label class="form-check-label" for="chooseUser">
+                                                        Pēc datuma
+                                                    </label>
+                                                </li>
+                                            </div>
+            
+                                            <div class="filter-item">
+                                                <li>
+                                                    <input id="creator-input-user" class="form-check-input" type="radio" value="creator" name="choose" id="creatorUser">
+                                                    <label class="form-check-label" for="creatorUser">
+                                                        Pēc autora
+                                                    </label>
+                                                </li>
+                                            </div>
+            
+                                            <div class="filter-item">
+                                                <li>
+                                                    <input id="title-input-user" class="form-check-input" type="radio" value="title" name="choose" id="titleUser">
+                                                    <label class="form-check-label" for="titleUser">
+                                                        Pēc nosaukuma
+                                                    </label>
+                                                </li>
+                                            </div>
+                                        </ul>
                                     </div>
-                                </a>
-                            {% endfor %}
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-list-pagination">
-                            <button class="btn pagination-btn" id="prev-page-btn">❮</button>
-                            <span id="page-num" class="page-num"></span>
-                            <button class="btn pagination-btn" id="next-page-btn">❯</button>
-                        </div>
+                    </div>   
+                    <div id="form-list-user" class="form-list">
+                        {% include 'index/partials/user_forms.html' %}
+                    </div>
+
+                    <div class="form-list-pagination">
+                        <button class="btn pagination-btn" id="prev-page-btn">❮</button>
+                        <span id="page-num" class="page-num"></span>
+                        <button class="btn pagination-btn" id="next-page-btn">❯</button>
                     </div>
                 </div>
             </div>
         </div>
+    {% endif %}
 
     <div class="all-forms">
         <div class="container">
@@ -104,23 +139,23 @@
                 <div class="form-list-info">
                     <p class="forms-label">Visas veidlapas:</p>
 
-                    <div id="filter">
-                        <button id="filter-btn" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse">
+                    <div id="filter-all">
+                        <button id="filter-btn-all" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse">
                             <div class="btn-content">
-                                <span><img id="filter-icon" src="{% static 'Icon/filter.svg' %}" alt="filter_icon" width="25" height="25"></span>
+                                <span><img id="filter-icon-all" class="filter-icon" src="{% static 'Icon/filter.svg' %}" alt="filter_icon" width="25" height="25"></span>
                                 Filtri
-                                <span id="filter-arrow" ><img src="{% static 'Icon/arrow.svg' %}" alt="arrow" width="25" height="25"></span>
+                                <span id="filter-arrow-all" class="filter-arrow" ><img src="{% static 'Icon/arrow.svg' %}" alt="arrow" width="25" height="25"></span>
                             </div>
                         </button>
                         
-                        <div id="popup-menu" class="popup-menu" aria-labelledby="flush-heading">
+                        <div id="popup-menu-all" class="popup-menu" aria-labelledby="flush-heading-all">
                             <div class="filter-body">
                                 <div class="filter-container">
                                     <ul class="filters-list">
                                         <div class="filter-item">
                                             <li>
-                                                <input id="createdAt-input" class="form-check-input" type="radio" value="createdAt" name="choose" id="flexCheckDefault1">
-                                                <label class="form-check-label" for="flexCheckDefault1">
+                                                <input id="createdAt-input-all" class="form-check-input" type="radio" value="createdAt" name="choose" id="createdAtAll">
+                                                <label class="form-check-label" for="createdAtAll">
                                                     Pēc datuma
                                                 </label>
                                             </li>
@@ -128,8 +163,8 @@
         
                                         <div class="filter-item">
                                             <li>
-                                                <input id="creator-input" class="form-check-input" type="radio" value="creator" name="choose" id="flexCheckDefault2">
-                                                <label class="form-check-label" for="flexCheckDefault2">
+                                                <input id="creator-input-all" class="form-check-input" type="radio" value="creator" name="choose" id="creatorAll">
+                                                <label class="form-check-label" for="creatorAll">
                                                     Pēc autora
                                                 </label>
                                             </li>
@@ -137,8 +172,8 @@
         
                                         <div class="filter-item">
                                             <li>
-                                                <input id="title-input" class="form-check-input" type="radio" value="title" name="choose" id="flexCheckDefault3">
-                                                <label class="form-check-label" for="flexCheckDefault3">
+                                                <input id="title-input-all" class="form-check-input" type="radio" value="title" name="choose" id="titleAll">
+                                                <label class="form-check-label" for="titleAll">
                                                     Pēc nosaukuma
                                                 </label>
                                             </li>
@@ -168,8 +203,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="{% static 'lib/cookie.min.js' %}" defer></script>
 <script src = "{% static 'index/index.js' %}" defer></script>
-<script src="{% static 'index/filter.js' %}" defer></script>
+<script src="{% static 'index/filterAllForms.js' %}" defer></script>
+<script src="{% static 'index/filterUserForms.js' %}" defer></script>
 <script src="{% static 'index/pagination.js' %}" defer></script>
+<script src="{% static 'index/paginationAllForms.js' %}" defer></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 </body>
 </html>
