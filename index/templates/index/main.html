@@ -93,11 +93,11 @@
                         </div>
                     {% endif %}
                     <div class="form-list-pagination">
-                        <button class="btn pagination-btn" id="prev-page-btn">❮</button>
+                        <button class="btn pagination-btn" id="prev-page-btn" title="Iepriekšējā lappuse">❮</button>
                         <span id="page-num" class="page-num"></span>
-                        <button class="btn pagination-btn" id="next-page-btn">❯</button>
-                        <a href="{% url 'alluserforms' %}" class="link text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                        <button class="btn pagination-btn" id="next-page-btn" title="Nākama lappuse">❯</button>
+                        <a href="{% url 'allyourforms' %}" class="link text-white" title="Visas jūsu veidlapas">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-three-dots" viewBox="0 0 16 16">
                                 <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                             </svg>
                         </a>
@@ -113,7 +113,7 @@
                 <div class="form-list-info">
                     <p class="forms-label">Visas veidlapas:</p>
                     <div id="filter">
-                        <button id="filter-btn" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse">
+                        <button id="filter-btn" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse" title="Veidlapu filtrēšana">
                             <div class="btn-content">
                                 <span><img id="filter-icon" src="{% static 'Icon/filter.svg' %}" alt="filter_icon" width="25" height="25"></span>
                                 Filtri
@@ -164,11 +164,11 @@
                     {% endblock %}
                 </div>
                 <div class="form-list-pagination">
-                    <button class="btn btn pagination-btn" id="prev-page-btn-all">❮</button>
+                    <button class="btn btn pagination-btn" id="prev-page-btn-all" title="Iepriekšējā lappuse">❮</button>
                     <span id="page-num-all" class="page-num"></span>
-                    <button class="btn pagination-btn" id="next-page-btn-all">❯</button>
-                    <a href="{% url 'alluserforms' %}" class="link text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                    <button class="btn pagination-btn" id="next-page-btn-all" title="Nākamā lappuse">❯</button>
+                    <a href="{% url 'alluserforms' %}" class="link text-white" title="Visas veidlapas">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-three-dots" viewBox="0 0 16 16">
                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                         </svg>
                     </a>

@@ -128,13 +128,6 @@ body{
 }
 
 .forms-label{
-    /* font-family: "Ubuntu";
-    font-size: 21px;
-    font-weight: 400;
-    line-height: 50px;
-    margin: 0;
-    color: rgb(70, 83, 45); */
-
     font-family: "Ubuntu";
     margin: 10px 10px 5px 10px;
     color: rgb(70, 83, 45);;
@@ -292,7 +285,6 @@ body{
     margin-block-end: auto;
 }
 
-
 .pagination-btn {
     width: 85px;
     color: rgb(70, 83, 45) !important;
@@ -301,6 +293,7 @@ body{
     cursor: pointer;
     justify-content: center;
 }
+
 
 
 .error-page{
