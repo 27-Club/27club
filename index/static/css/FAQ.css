@@ -2,15 +2,14 @@
     background-color: white;
 }
 
-
 .green-text{
-    color: rgba(70, 83, 45, 1)!important;
-    
+    color: rgba(70, 83, 45, 1)!important;  
 }
 
 .title{
     font-size: 30px;
 }
+
 
 .brown-sideimage{
     position: absolute;
@@ -19,6 +18,7 @@
     top:0;
 }
 
+/* accordion button styling */
 .accordion-button{
     background-color: rgba(80, 96, 49, 0.03)!important;
     border-bottom: none!important;
@@ -30,8 +30,6 @@
     position: absolute!important;
     right: 30px!important;
     top: 22px!important;
-    
-
 }
 
 .accordion-button {
@@ -39,13 +37,9 @@
     border-color: rgb(0, 0, 0)!important;
 }
 
-
-
-
 .accordion-button:not(.collapsed)::after {
     top: 10px!important;
 }
-
 
 .accordion-body{
     border-top: none!important;
@@ -63,13 +57,20 @@
     
     }
 
+
 .the-img {
 
         width: 100%;
-        vertical-align: bottom;
-        position: relative;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        margin-top: 100px;
         /* display: inline-block;     */
     
+}
+
+.big-containter{
+    position: relative;
 }
 
 @media only screen and (max-width: 575px) {
