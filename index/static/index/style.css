@@ -25,7 +25,6 @@ body{
     color: rgb(0, 0, 0);
     box-shadow: 0 0 7px -2px rgba(0,0,0);
     position: relative;
-    z-index: 9999;
 }
 
 .topnav span{
@@ -277,10 +276,6 @@ body{
 .form-list-open.btn.btn-primary:hover{
     background-color: rgb(70, 83, 45);
     color: white;
-}
-
-#page-num{
-    color:rgb(255, 255, 255);
 }
 
 .page-num {
