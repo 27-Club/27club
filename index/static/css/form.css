@@ -1,6 +1,8 @@
 body {
     margin: auto;
     background-color: white;
+    overflow-x: hidden;
+    background-color: #fff;
 }
 
 .user-text {
@@ -143,6 +145,48 @@ body {
     flex-direction: column;
 }
 
+
+.delete-question {
+    filter: invert(31%) sepia(56%) saturate(350%) hue-rotate(39deg) brightness(97%) contrast(89%);
+}
+
+.btn-save-setting {
+    background-color: #506031 !important;
+    color: #fff !important;
+    padding-top: 0.575rem !important;
+    padding-bottom: 0.575rem !important;
+}
+
+.delete-form-btn {
+    background-color: #e20026 !important;
+    color: #fff !important;
+    padding-top: 0.575rem !important;
+    padding-bottom: 0.575rem !important;
+}
+
+.side-logo {
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.top {
+    position: relative;
+    z-index: 100;
+}
+
+.form-maker {
+    z-index: 100;
+}
+
+#form-maker {
+    width: 100%;
+}
+
+#side-logo {
+    width: 10%;
+}
+
 @media (min-width: 768px) { 
     #navbarNav {
         display: block;
@@ -151,6 +195,10 @@ body {
     #nav-items {
         flex-direction: row;
         justify-content: space-evenly;
+    }
+
+    #form-maker {
+        width: 90%;
     }
 }
 
@@ -163,18 +211,4 @@ body {
         width: auto; 
         opacity: 1; 
     }
-}
-
-.delete-question {
-    filter: invert(31%) sepia(56%) saturate(350%) hue-rotate(39deg) brightness(97%) contrast(89%);
-}
-
-.btn-save-setting {
-    background-color: #506031 !important;
-    color: #fff !important;
-}
-
-.delete-form-btn {
-    background-color: #e20026 !important;
-    color: #fff !important;
 }

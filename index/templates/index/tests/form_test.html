@@ -48,73 +48,75 @@
 </style>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="nav-left d-flex justify-content-between p-2 col col-md-4 col-lg-8">
-                <div class="form-info d-flex justify-content-start">
-                    <a href="/">
-                        <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Ikona" class="navbar-icon form-icon" title = "LLKC Veidlapas" />
-                    </a>
-                    <input class="nav-text nav-form-title edit-on-click input-form-title d-none d-md-block bg-transparent border-0 ms-2" value="{{form.title}}" type="text">
+    <div class="content">
+        <div class="top bg-light py-2 px-2 shadow-sm">
+            <div class="row">
+                <div class="nav-left d-flex justify-content-between p-2 col col-md-4 col-lg-8">
+                    <div class="form-info d-flex justify-content-start">
+                        <a href="/">
+                            <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Ikona" class="navbar-icon form-icon" title = "LLKC Veidlapas" />
+                        </a>
+                        <input class="nav-text nav-form-title edit-on-click input-form-title d-none d-md-block bg-transparent border-0 ms-2" value="{{form.title}}" type="text">
+                    </div>
+        
+                    <button class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around align-self-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="toggler-icon top-bar"></span>
+                        <span class="toggler-icon middle-bar"></span>
+                        <span class="toggler-icon bottom-bar"></span>
+                    </button>
                 </div>
-    
-                <button class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around align-self-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="toggler-icon top-bar"></span>
-                    <span class="toggler-icon middle-bar"></span>
-                    <span class="toggler-icon bottom-bar"></span>
-                </button>
+        
+                <div class="nav-right d-flex flex-row justify-content-center p-2 col-md-8 col-lg-4">
+                    <div class="user-greet d-none d-lg-flex">
+                        {% if form.creator != request.user %}
+                            <p class="user-text text-nowrap" style="float: left;">Sveicināti, vienkāršs lietotāj!</p>
+                        {% else %}
+                            <p class="user-text text-nowrap" style="float: left;">Sveicināti, pasākumu organizators!</p>
+                        {% endif %}
+                    </div>
+        
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav" id="nav-items">
+                            <li class="nav-item d-flex flex-wrap align-content-center">
+                                <img src="{% static 'Icon/color-palette-icon.svg' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" data-bs-toggle="modal" data-bs-target="#customize-theme" />
+                                <p class="mt-auto mb-auto d-md-none">Krāsa</p>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'view_form' form.code %}">
+                                    <img src="{% static 'Icon/eye-icon.svg' %}" alt="Priekšskatīšanas ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />
+                                </a>
+                                <p class="mt-auto mb-auto"><a href="{% url 'view_form' form.code %}" class="text-decoration-none text-black mt-auto mb-auto d-md-none">Apskatīt</a></p>
+                            </li>
+                            <li class="nav-item">                            
+                                <img src="{% static 'Icon/settings-icon.svg' %}" alt="Iestatījumu ikona" title = "Iestatījumi" class="nav-form-menu-icon open-setting" data-bs-toggle="modal" data-bs-target="#setting"/>
+                                <p class="mt-auto mb-auto d-md-none">Iestatījumi</p>
+                            </li>
+                            <li class="nav-item">
+                                <img src="{% static 'Icon/send-icon.svg' %}" alt ="Sūtīšanas ikona" title = "Sūtīt" class="nav-form-menu-icon small-screen" id="send-form-btn" data-bs-toggle="modal" data-bs-target="#send-form"/>
+                                <p class="mt-auto mb-auto d-md-none">Sūtīt</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
     
-            <div class="nav-right d-flex flex-row justify-content-center p-2 col-md-8 col-lg-4">
-                <div class="user-greet d-none d-lg-flex">
-                    {% if form.creator != request.user %}
-                        <p class="user-text text-nowrap" style="float: left;">Sveicināti, vienkāršs lietotāj!</p>
+            <div class="form-qa w-100">
+                <div class="form-navigation center d-flex justify-content-center align-content-center gap-5">
+                    {% if form.is_quiz %}
+                    <span class="col-4 navigation active text-center">Jautājumi</span>
+                    <span class="col-4 navigation score text-center"><a href="{% url 'score' form.code %}" class="link">Rezultāti</a></span>
+                    <span class="col-4 navigation text-center"><a href="{% url 'responses' form.code %}" class="link">Atbildes</a></span>
                     {% else %}
-                        <p class="user-text text-nowrap" style="float: left;">Sveicināti, pasākumu organizators!</p>
+                    <span class="navigation text-center text-decoration-none"><a href="{% url 'edit_form' form.code %}" class="link form-qa-active">Jautājumi</a></span>
+                    <span class="navigation navigation text-center"><a href = "{% url 'responses' form.code %}" class="link form-qa">Atbildes</a></span>
                     {% endif %}
                 </div>
-    
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav" id="nav-items">
-                        <li class="nav-item d-flex flex-wrap align-content-center">
-                            <img src="{% static 'Icon/color-palette-icon.svg' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" data-bs-toggle="modal" data-bs-target="#customize-theme" />
-                            <p class="mt-auto mb-auto d-md-none">Krāsa</p>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'view_form' form.code %}">
-                                <img src="{% static 'Icon/eye-icon.svg' %}" alt="Priekšskatīšanas ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />
-                            </a>
-                            <p class="mt-auto mb-auto"><a href="{% url 'view_form' form.code %}" class="text-decoration-none text-black mt-auto mb-auto d-md-none">Apskatīt</a></p>
-                        </li>
-                        <li class="nav-item">                            
-                            <img src="{% static 'Icon/settings-icon.svg' %}" alt="Iestatījumu ikona" title = "Iestatījumi" class="nav-form-menu-icon open-setting" data-bs-toggle="modal" data-bs-target="#setting"/>
-                            <p class="mt-auto mb-auto d-md-none">Iestatījumi</p>
-                        </li>
-                        <li class="nav-item">
-                            <img src="{% static 'Icon/send-icon.svg' %}" alt ="Sūtīšanas ikona" title = "Sūtīt" class="nav-form-menu-icon small-screen" id="send-form-btn" data-bs-toggle="modal" data-bs-target="#send-form"/>
-                            <p class="mt-auto mb-auto d-md-none">Sūtīt</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-qa w-100">
-            <div class="form-navigation center d-flex justify-content-center align-content-center gap-5">
-                {% if form.is_quiz %}
-                <span class="col-4 navigation active text-center">Jautājumi</span>
-                <span class="col-4 navigation score text-center"><a href="{% url 'score' form.code %}" class="link">Rezultāti</a></span>
-                <span class="col-4 navigation text-center"><a href="{% url 'responses' form.code %}" class="link">Atbildes</a></span>
-                {% else %}
-                <span class="navigation text-center text-decoration-none"><a href="{% url 'edit_form' form.code %}" class="link form-qa-active">Jautājumi</a></span>
-                <span class="navigation navigation text-center"><a href = "{% url 'responses' form.code %}" class="link form-qa">Atbildes</a></span>
-                {% endif %}
             </div>
         </div>
 
         <div class="content mt-3">
-            <div class="row">
-                <div class="container mt-5 w-75">
+            <div class="row" id="form-maker">
+                <div class="form-maker container mt-5 w-75">
                     <span id="bg-color" style="display: none;">{{form.background_color}}</span>
                     <span id="text-color" style="display: none;">{{form.text_color}}</span>
                     
@@ -153,7 +155,7 @@
                             {% if question.question_type == "multiple choice" %}
                             <div class="choices mb-2" data-id="{{question.id}}">
                                 {% for choice in question.choices.all %}
-                                    <div class="choice d-flex justify-content-between mb-1">
+                                    <div class="choice d-flex justify-content-between mb-1 border-bottom">
                                         <div class="d-flex justify-content-start">
                                             <input type="radio" id="{{choice.id}}" disabled>
                                             <label class="ms-2" for="{{choice.id}}">
@@ -173,7 +175,7 @@
                             {% elif question.question_type == "checkbox" %}
                             <div class="choices mb-2" data-id="{{question.id}}">
                                 {% for choice in question.choices.all %}
-                                    <div class="choice d-flex justify-content-between mb-1">
+                                    <div class="choice d-flex justify-content-between mb-1 border-bottom">
                                         <div class="d-flex justify-content-start">
                                             <input type="checkbox" id="{{choice.id}}" disabled>
                                             <label class="ms-2" for="{{choice.id}}">
@@ -230,6 +232,10 @@
                 </div>    
             </div>
 
+            <div id="side-logo" class="col lg-4 md-4 d-none d-md-block">
+                <img class="side-logo" src="{% static 'Icon/brown_side.png' %}" alt="side logo">
+            </div>
+
             <div class="question-options">
                 <img src = "{% static 'Icon/add.png' %}" class="form-option-icon" title = "Pievienot jautājumu" alt = "Pievienot jautājumu ikona" id="add-question" />
                 <a href="{% url 'view_form' form.code %}">
@@ -241,10 +247,6 @@
                 </a>
                 {% endif %}
             </div>
-
-            {% comment %} <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-save-setting col-6 text">Saglabāt</button>
-            </div> {% endcomment %}
         </div>
 
         <div class="modals">
@@ -263,7 +265,7 @@
                                 <datalist id="bgColors">
                                     <option value="#506031"></option>
                                     <option value="#ae8643"></option>
-                                    <option value="#F5F5F5"></option>
+                                    <option value="#ffffff" style="border: 1px #333 solid;"></option>
                                     <option value="#b9975b"></option>
                                 </datalist>
                             </div>
@@ -334,7 +336,7 @@
                                     <legend class="modal-subtitle text-danger danger-zone">Uzmanību</legend>
                                     <h3 class="delete-form-title">Dzēst šo veidlapu</h3>
                                     <p class="delete-form-description">Kad veidlapa ir izdzēsta, tā netiek atgriezta. Lūdzu, esiet droši.</p>
-                                    <input type="submit" value="Dzēst" class="form-control delete-form-btn btn col-12 col-md-8 col-lg-4">
+                                    <input type="submit" value="Dzēst" class="form-control btn delete-form-btn col-12 col-md-8 col-lg-4">
                                 </fieldset>
                             </form>
                         </div>

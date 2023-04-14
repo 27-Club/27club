@@ -51,136 +51,146 @@
 </style>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="nav-left d-flex justify-content-between p-2 col col-md-4 col-lg-8">
-                <div class="form-info d-flex justify-content-start">
-                    <a href="/">
-                        <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Ikona" class="navbar-icon form-icon" title = "LLKC Veidlapas" />
-                    </a>
-                    <input class="nav-text nav-form-title edit-on-click input-form-title d-none d-md-block bg-transparent border-0 ms-2" value="{{form.title}}" type="text">
+    <div class="content">
+        <div class="top bg-light py-2 px-2 shadow-sm">
+            <div class="row">
+                <div class="nav-left d-flex justify-content-between p-2 col col-md-4 col-lg-8">
+                    <div class="form-info d-flex justify-content-start">
+                        <a href="/">
+                            <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Ikona" class="navbar-icon form-icon" title = "LLKC Veidlapas" />
+                        </a>
+                        <input class="nav-text nav-form-title edit-on-click input-form-title d-none d-md-block bg-transparent border-0 ms-2" value="{{form.title}}" type="text">
+                    </div>
+        
+                    <button class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around align-self-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="toggler-icon top-bar"></span>
+                        <span class="toggler-icon middle-bar"></span>
+                        <span class="toggler-icon bottom-bar"></span>
+                    </button>
                 </div>
-    
-                <button class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around align-self-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="toggler-icon top-bar"></span>
-                    <span class="toggler-icon middle-bar"></span>
-                    <span class="toggler-icon bottom-bar"></span>
-                </button>
+        
+                <div class="nav-right d-flex flex-row justify-content-center p-2 col-md-8 col-lg-4">
+                    <div class="user-greet d-none d-lg-flex">
+                        {% if form.creator != request.user %}
+                            <p class="user-text text-nowrap" style="float: left;">Sveicināti, vienkāršs lietotāj!</p>
+                        {% else %}
+                            <p class="user-text text-nowrap" style="float: left;">Sveicināti, pasākumu organizators!</p>
+                        {% endif %}
+                    </div>
+        
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav" id="nav-items">
+                            <li class="nav-item d-flex flex-wrap align-content-center">
+                                <img src="{% static 'Icon/color-palette-icon.svg' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" data-bs-toggle="modal" data-bs-target="#customize-theme" />
+                                <p class="mt-auto mb-auto d-md-none">Krāsa</p>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'view_form' form.code %}">
+                                    <img src="{% static 'Icon/eye-icon.svg' %}" alt="Priekšskatīšanas ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />
+                                </a>
+                                <p class="mt-auto mb-auto"><a href="{% url 'view_form' form.code %}" class="text-decoration-none text-black mt-auto mb-auto d-md-none">Apskatīt</a></p>
+                            </li>
+                            <li class="nav-item">                            
+                                <img src="{% static 'Icon/settings-icon.svg' %}" alt="Iestatījumu ikona" title = "Iestatījumi" class="nav-form-menu-icon open-setting" data-bs-toggle="modal" data-bs-target="#setting"/>
+                                <p class="mt-auto mb-auto d-md-none">Iestatījumi</p>
+                            </li>
+                            <li class="nav-item">
+                                <img src="{% static 'Icon/send-icon.svg' %}" alt ="Sūtīšanas ikona" title = "Sūtīt" class="nav-form-menu-icon small-screen" id="send-form-btn" data-bs-toggle="modal" data-bs-target="#send-form"/>
+                                <p class="mt-auto mb-auto d-md-none">Sūtīt</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
     
-            <div class="nav-right d-flex flex-row justify-content-center p-2 col-md-8 col-lg-4">
-                <div class="user-greet d-none d-lg-flex">
-                    {% if form.creator != request.user %}
-                        <p class="user-text text-nowrap" style="float: left;">Sveicināti, vienkāršs lietotāj!</p>
+            <div class="form-qa w-100">
+                <div class="form-navigation center d-flex justify-content-center align-content-center gap-5">
+                    {% if form.is_quiz %}
+                    <span class="col-4 navigation active text-center"><a href="{% url 'edit_form' form.code %}" class="link">Jautājumi</a></span>
+                    <span class="col-4 navigation score text-center"><a href="{% url 'score' form.code %}" class="link">Rezultāti</a></span>
+                    <span class="col-4 navigation text-center"><a href="{% url 'responses' form.code %}" class="link">Atbildes</a></span>
                     {% else %}
-                        <p class="user-text text-nowrap" style="float: left;">Sveicināti, pasākumu organizators!</p>
+    
+                    {% if form.creator != request.user %}
+                        <span class="navigation navigation text-center"><a href = "{% url 'responses' form.code %}" class="link form-qa-active">Atbildes</a></span>
+                    {% else %}
+                        <span class="navigation text-center text-decoration-none"><a href="{% url 'edit_form' form.code %}" class="link form-qa">Jautājumi</a></span>
+                        <span class="navigation navigation text-center"><a href = "{% url 'responses' form.code %}" class="link form-qa-active">Atbildes</a></span>
+                    {% endif %}
+    
                     {% endif %}
                 </div>
-    
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav" id="nav-items">
-                        <li class="nav-item d-flex flex-wrap align-content-center">
-                            <img src="{% static 'Icon/color-palette-icon.svg' %}" alt="Krāsu maiņas ikona" id="customize-theme-btn" title = "Krāsu maiņa" class="nav-form-menu-icon" data-bs-toggle="modal" data-bs-target="#customize-theme" />
-                            <p class="mt-auto mb-auto d-md-none">Krāsa</p>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'view_form' form.code %}">
-                                <img src="{% static 'Icon/eye-icon.svg' %}" alt="Priekšskatīšanas ikona" title = "Priekšskats" class="nav-form-menu-icon big-screen" />
-                            </a>
-                            <p class="mt-auto mb-auto"><a href="{% url 'view_form' form.code %}" class="text-decoration-none text-black mt-auto mb-auto d-md-none">Apskatīt</a></p>
-                        </li>
-                        <li class="nav-item">                            
-                            <img src="{% static 'Icon/settings-icon.svg' %}" alt="Iestatījumu ikona" title = "Iestatījumi" class="nav-form-menu-icon open-setting" data-bs-toggle="modal" data-bs-target="#setting"/>
-                            <p class="mt-auto mb-auto d-md-none">Iestatījumi</p>
-                        </li>
-                        <li class="nav-item">
-                            <img src="{% static 'Icon/send-icon.svg' %}" alt ="Sūtīšanas ikona" title = "Sūtīt" class="nav-form-menu-icon small-screen" id="send-form-btn" data-bs-toggle="modal" data-bs-target="#send-form"/>
-                            <p class="mt-auto mb-auto d-md-none">Sūtīt</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-qa w-100">
-            <div class="form-navigation center d-flex justify-content-center align-content-center gap-5">
-                {% if form.is_quiz %}
-                <span class="col-4 navigation active text-center"><a href="{% url 'edit_form' form.code %}" class="link">Jautājumi</a></span>
-                <span class="col-4 navigation score text-center"><a href="{% url 'score' form.code %}" class="link">Rezultāti</a></span>
-                <span class="col-4 navigation text-center"><a href="{% url 'responses' form.code %}" class="link">Atbildes</a></span>
-                {% else %}
-
-                {% if form.creator != request.user %}
-                    <span class="navigation navigation text-center"><a href = "{% url 'responses' form.code %}" class="link form-qa-active">Atbildes</a></span>
-                {% else %}
-                    <span class="navigation text-center text-decoration-none"><a href="{% url 'edit_form' form.code %}" class="link form-qa">Jautājumi</a></span>
-                    <span class="navigation navigation text-center"><a href = "{% url 'responses' form.code %}" class="link form-qa-active">Atbildes</a></span>
-                {% endif %}
-
-                {% endif %}
             </div>
         </div>
 
         <div class="content mt-5">
-            {% if form.creator == request.user %}
-                <div class="container">
-                    <span id="bg-color" style="display: none;">{{form.background_color}}</span>
-                    <span id="text-color" style="display: none;">{{form.text_color}}</span>
-                    <div class="card shadow-sm p-3 mb-5 bg-white rounded margin-top-bottom box question-box" id="responses">
-                        {% if responses.count > 0 %}
-                        <h1 class="response-title">Individuāla atbilde:</h1>
-                        <ul>
-                            {% for i in responses %}
-                                {% if form.collect_email %}
-                                    <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_email}} atbilde</a></li>
-                                {% elif form.authenticated_responder %}
-                                    <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder.username}} atbilde</a></li>
+            <div class="row" id="form-responses">
+                <div class="form-responses container mt-5 w-75">
+                    {% if form.creator == request.user %}
+                        <div class="container">
+                            <span id="bg-color" style="display: none;">{{form.background_color}}</span>
+                            <span id="text-color" style="display: none;">{{form.text_color}}</span>
+                            <div class="card shadow-sm p-3 mb-5 bg-white rounded margin-top-bottom box question-box" id="responses">
+                                {% if responses.count > 0 %}
+                                <h1 class="response-title">Individuāla atbilde:</h1>
+                                <ul>
+                                    {% for i in responses %}
+                                        {% if form.collect_email %}
+                                            <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_email}} atbilde</a></li>
+                                        {% elif form.authenticated_responder %}
+                                            <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder.username}} atbilde</a></li>
+                                        {% else %}
+                                            {% comment %} <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_ip}} atbilde</a></li> {% endcomment %}
+                                            <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{ forloop.counter }} atbilde</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                                <button class="btn btn-danger col-12 col-md-6 col-lg-4" id="delete-responses">Dzēst visas atbildes</button>
                                 {% else %}
-                                    {% comment %} <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_ip}} atbilde</a></li> {% endcomment %}
-                                    <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{ forloop.counter }} atbilde</a></li>
+                                <h1 class="response-title">0 atbildes</h1>
                                 {% endif %}
-                            {% endfor %}
-                        </ul>
-                        <button class="btn btn-danger col-12 col-md-6 col-lg-4" id="delete-responses">Dzēst visas atbildes</button>
-                        {% else %}
-                        <h1 class="response-title">0 atbildes</h1>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
 
-            <div class="container">
-                <div class="card shadow-sm p-3 mb-5 bg-white rounded margin-top-bottom box question-box">
-                    <h1 class="response-title mb-3">Atbilžu kopsavilkums:</h1>
-                    {% for r in responsesSummary %}
-                    <div class="response-summary mb-3">
-                        <h4 class="response-summary-title">{{r.question.question}}</h4>
-                        {% if r.answers|count > 0 or filteredResponsesSummary|get_property:r.question.question|count > 0 %}
-                            {% if r.question.question_type == 'short' or r.question.question_type == 'paragraph' or r.question.question_type == 'range'%}
-                                {% for i in r.answers %}
-                                    <blockquote>{{i.answer}}</blockquote>
-                                {% endfor %}
-                            {% else %}
-                                    <canvas id="myChart{{r.question.id}}" class="pie-chart"></canvas>
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-                                    <script>
-                                        Chart.defaults.global.defaultFontFamily = "Roboto";
-                                        Chart.defaults.global.defaultFontSize = 30;
-                                        var ctx = document.getElementById("myChart{{r.question.id}}");
-                                        let chartData{{r.question.id}} = {labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
-                                        datasets: [{
-                                            data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
-                                            backgroundColor: [{% for _ in filteredResponsesSummary|get_property:r.question.question %}"{{0|generate_color}}",{% endfor %}],
-                                        }]}
-                                        new Chart(ctx, {type: 'pie', data: chartData{{r.question.id}}, options: {responsive: true}});
-                                    </script>
-                            {% endif %}
-                        {% else %}
-                        <blockquote><span>Nav atbilžu</span></blockquote>
-                        {% endif %}
+                    <div class="container">
+                        <div class="card shadow-sm p-3 mb-5 bg-white rounded margin-top-bottom box question-box">
+                            <h1 class="response-title mb-3">Atbilžu kopsavilkums:</h1>
+                            {% for r in responsesSummary %}
+                            <div class="response-summary mb-3">
+                                <h4 class="response-summary-title">{{r.question.question}}</h4>
+                                {% if r.answers|count > 0 or filteredResponsesSummary|get_property:r.question.question|count > 0 %}
+                                    {% if r.question.question_type == 'short' or r.question.question_type == 'paragraph' or r.question.question_type == 'range'%}
+                                        {% for i in r.answers %}
+                                            <blockquote>{{i.answer}}</blockquote>
+                                        {% endfor %}
+                                    {% else %}
+                                            <canvas id="myChart{{r.question.id}}" class="pie-chart"></canvas>
+                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                                            <script>
+                                                Chart.defaults.global.defaultFontFamily = "Roboto";
+                                                Chart.defaults.global.defaultFontSize = 30;
+                                                var ctx = document.getElementById("myChart{{r.question.id}}");
+                                                let chartData{{r.question.id}} = {labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                                datasets: [{
+                                                    data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
+                                                    backgroundColor: [{% for _ in filteredResponsesSummary|get_property:r.question.question %}"{{0|generate_color}}",{% endfor %}],
+                                                }]}
+                                                new Chart(ctx, {type: 'pie', data: chartData{{r.question.id}}, options: {responsive: true}});
+                                            </script>
+                                    {% endif %}
+                                {% else %}
+                                <blockquote><span>Nav atbilžu</span></blockquote>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    {% endfor %}
                 </div>
+            </div>
+
+            <div id="side-logo" class="col lg-4 md-4 d-none d-md-block">
+                <img class="side-logo" src="{% static 'Icon/brown_side.png' %}" alt="side logo">
             </div>
 
             <div class="question-options">

@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     let element = document.createElement("div");
                     element.classList.add('choice');
                     if(this.dataset.type === "multiple choice"){
-                        element.innerHTML =  `<div class="choice d-flex justify-content-between mb-1">
+                        element.innerHTML =  `<div class="choice d-flex justify-content-between mb-1 border-bottom">
                         <div class="d-flex justify-content-start">
                             <input type="radio" id="${result["id"]}" disabled>
                             <label class="ms-2" for="${result["id"]}">
@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>`;
 
                     }else if(this.dataset.type === "checkbox"){
-                        element.innerHTML = `<div class="choice d-flex justify-content-between mb-1">
+                        element.innerHTML = `<div class="choice d-flex justify-content-between mb-1 border-bottom">
                         <div class="d-flex justify-content-start">
                             <input type="checkbox" id="${result["id"]}" disabled>
                                 <label class="ms-2" for="${result["id"]}">
@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     let choices = '';
                                     if(this.value === "multiple choice"){
                                         for(let i in result["choices"]){
-                                            if(i){ choices += `<div class="choice d-flex justify-content-between mb-1">
+                                            if(i){ choices += `<div class="choice d-flex justify-content-between mb-1 border-bottom">
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" id="${result["choices"][i].id}" disabled>
                                                 <label class="ms-2" for="${result["choices"][i].id}">
@@ -365,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                     } else if (this.value === "checkbox"){
                                         for(let i in result["choices"]){
-                                            if(i){choices += `<div class="choice d-flex justify-content-between mb-1">
+                                            if(i){choices += `<div class="choice d-flex justify-content-between mb-1 border-bottom">
                                             <div class="d-flex justify-content-start">
                                                 <input type="checkbox" id="${result["choices"][i].id}" disabled>
                                                 <label for="${result["choices"][i].id}" class="ms-2">
@@ -442,7 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 let choices = '';
                                 if(this.value === "multiple choice"){
                                     for(let i in result["choices"]){
-                                        if(i){ choices += `<div class="choice d-flex justify-content-between mb-1">
+                                        if(i){ choices += `<div class="choice d-flex justify-content-between mb-1 border-bottom">
                                         <div class="d-flex justify-content-start">
                                             <input type="radio" id="${result["choices"][i].id}" disabled>
                                             <label class="ms-2" for="${result["choices"][i].id}">
@@ -455,7 +455,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                                 } else if (this.value === "checkbox"){
                                     for(let i in result["choices"]){
-                                        if(i){choices += `<div class="choice d-flex justify-content-between mb-1">
+                                        if(i){choices += `<div class="choice d-flex justify-content-between mb-1 border-bottom">
                                         <div class="d-flex justify-content-start">
                                             <input type="checkbox" id="${result["choices"][i].id}" disabled>
                                             <label for="${result["choices"][i].id}" class="ms-2">
