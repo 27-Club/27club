@@ -7,7 +7,9 @@
     <title>{% block title %}LLKC Veidlapu izveide{% endblock %}</title>
     
     <link rel="stylesheet" href="{% static 'css/iesniedz_kludu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav-bar.css' %}">
 
+    
     <link rel="stylesheet" href="{% static 'index/HurlUI.css' %}">
     <link rel="stylesheet" href="{% static 'index/style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,36 +23,48 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 <body>
-  <!-- <div class="topnav nav-effect" style="background-color:#b9975b">
-    <div class="nav-padding">
-        <span class="nav-ham" id="nav-ham">&#9776;</span>
-        <a href="/main/"><img src="/static/Icon/icon.png" alt="LLKC Veidlapu izveide"  class="navbar-icon form-icon" title="LLKC Veidlapu izveide"></a>
-        <span class="nav-text" title="LLKC Veidlapu izveide"><p style="color:white">LLKC Veidlapu izveide</p></span>
-    </div>
+    <nav class="sticky-top navbar  bg-light justify-content-between">
+        <a href="/main/" class="ms-2 navbar-brand">
+          <img class="logo" src="/static/Icon/logo.svg">
+        </a>
+        <div class="d-md-inline-flex  me-2 collapse" id="navbarNav">
+          <a href="#" class="nav-green-text mt-3">
+            <p class="navbar-text-dropdown" >
+              Profils
+            </p>
+          </a>
+          <a href="{% url 'kontakti' %}" class="nav-green-text mt-3">
+            <p class="navbar-text-dropdown">
+              Kontakti
+            </p>
+          </a>
+          <a href="{% url 'FAQ' %}" class="nav-green-text mt-3">
+            <p class="navbar-text-dropdown">
+              Q&A
+            </p>
+          </a>
+          <a href="{% url 'iesniedz_kludu' %}" class="nav-green-text mt-3">
+            <p class="navbar-text-dropdown">
+              Iesniegt kļūdu
+            </p>
+          </a>
+          <a href="#" class="mt-3 d-md-none iziet-text">
+            <p class=" navbar-text-dropdown">
+              Izrakstīties
+            </p>
+          </a>
+          <a href="#" class="nav-green-text mt-2 pt-1">
+            <img class="logout-icon" src="/static/Icon/logout-icon.svg">
+          </a>
+          
+        </div>
 
-    <div class="sidebar" id = "sidebar">
-      <span class="close-sidebar" id="close-sidebar">&times;</span>
-      <div class="sidebar-content">
-          <h4 class="sidebar-title">
-              <a href = "{% url 'main' %}" class="sidebar-title-link">
-                  <span>LLKC Veidlapu izveide</span>
-              </a>
-          </h4>
-          <p class="text-label">Atradi kļūdu? Iesniedz to <a href="{% url 'iesniedz_kludu' %}" class="link">šeit</a></p>
-          <p class="text-label">Jautājumi un atbildes uz <a href="{% url 'FAQ' %}" class="link">tiem</a></p>
-          <p class="text-label">Mūsu <a href="{% url 'kontakti' %}" class="link">kontakti</a></p>
-      </div>
-    </div>
-</div> -->
-
-
-<nav class="sticky-top navbar navbar-light bg-light justify-content-between">
-    <a class="navbar-brand">Navbar</a>
-    <form class="form-inline">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </nav>
+        <button class="navbar-toggler collapsed d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="toggler-icon top-bar"></span>
+          <span class="toggler-icon middle-bar"></span>
+          <span class="toggler-icon bottom-bar"></span>
+        </button>
+      </nav>
 
 
 <div class="container ps-5 pe-5 mt-5">
