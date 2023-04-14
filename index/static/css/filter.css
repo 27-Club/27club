@@ -1,12 +1,24 @@
 .form-list-info{ 
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 #filter {
     width: 60%;
-    text-align: end;
+    left: 15px;
     position: relative;
+}
+
+@media (min-width: 375px) {
+    .form-list-info{
+        flex-direction: row;
+        align-items:center;
+    }
+    #filter{
+        width: 40%;
+        /* margin-right: 15px; */
+    }
 }
 
 .filter-btn {
