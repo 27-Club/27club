@@ -1,24 +1,14 @@
 .form-list-info{ 
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 #filter {
-    width: 60%;
-    left: 15px;
+    margin-right: 10px;
     position: relative;
-}
-
-@media (min-width: 375px) {
-    .form-list-info{
-        flex-direction: row;
-        align-items:center;
-    }
-    #filter{
-        width: 40%;
-        margin-right: 15px;
-    }
+    text-align: end;
+    width: 60%;
 }
 
 .filter-btn {
@@ -87,12 +77,14 @@
     margin-top: 0.5rem;
     background-color: #fff;
     border-radius: 5px;
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transition: visibility 0.2s ease-in-out, transform 0.2s ease-in-out;
     opacity: 0;
+    visibility: hidden;
 }
 
 .show {
     opacity: 1;
+    visibility: visible;
 }
 
 .filter-body {
@@ -184,7 +176,16 @@
 }
 
 @media only screen and (min-width: 1024px){
+    .form-list-info {
+        justify-content: start;
+    }
+
     #filter {
         width: 30%;
+        text-align: start;
+    }
+
+    .popup-menu {
+        left: 0;
     }
 }
