@@ -45,6 +45,12 @@ class Form(models.Model):
     updatedAt = models.DateTimeField(auto_now = True)
     questions = models.ManyToManyField(Questions, related_name = "questions")
 
+    def get_created_date(self):
+        return self.createdAt.date()
+
+    def get_updated_date(self):
+        return self.updatedAt.date()
+    
 class Responses(models.Model):
     response_code = models.CharField(max_length=20)
     response_to = models.ForeignKey(Form, on_delete = models.CASCADE, related_name = "response_to")
