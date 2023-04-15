@@ -29,6 +29,22 @@ def kontakti(request):
     forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/kontakti.html")
 
+def allyourforms(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    forms = Form.objects.filter(creator = request.user)
+    return render(request, "index/allyourforms.html", {
+        "forms": forms
+    })
+
+def alluserforms(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    allForms = Form.objects.all()
+    return render(request, "index/alluserforms.html", {
+        "allForms": allForms
+    })
+
 
 @login_required(login_url='/')
 def main_view(request):
