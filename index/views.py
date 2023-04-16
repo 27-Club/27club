@@ -53,32 +53,43 @@ def main_view(request):
 
     allForms = Form.objects.all()
 
-    test = request.body
-    print(test)
-
     if request.method == 'POST':
         data = json.loads(request.body)
         formList = data.get('filterData')
-        formType = data.get('type') # gets typeof field for which section filter is needed 
+        formUserType = data.get('type') # gets typeof field for which section filter is needed 
 
-        for value in formList:
-            if value == 'createdAt':
-                valueForms = allForms.order_by('-createdAt')
+        if formUserType == 'user':
+            for value in formList:
 
-            elif value == 'creator':
-                valueForms = allForms.order_by('creator')
+                if value == 'createdAt':
+                    # userForms.order_by('-createdAt')
+                    # userForms = Form.objects.filter(creator = request.user).order_by('-createdAt')
+                    userFilteredForms = Form.objects.filter(creator = request.user).order_by('-createdAt')
+                    print(userFilteredForms)
 
-            elif value == 'title':
-                valueForms = allForms.order_by('title')
-             
-            if formType == 'all':
+                elif value == 'title':
+                    # userForms.order_by('title')
+                    userFilteredForms = Form.objects.filter(creator = request.user).order_by('title')
+                    print(userFilteredForms)
+                
+            return render(request, 'index/partials/user_forms.html', {
+                'forms': userFilteredForms,
+            })
+
+        if formUserType == 'all':
+            for value in formList:
+                if value == 'createdAt':
+                    valueForms = allForms.order_by('-createdAt')
+
+                elif value == 'creator':
+                    valueForms = allForms.order_by('creator')
+
+                elif value == 'title':
+                    valueForms = allForms.order_by('title')
+                
                 return render(request, 'index/partials/all_forms.html', {
                     'allForms': valueForms,
-                })
-            elif formType == 'user':
-                return render(request, 'index/partials/user_forms.html', {
-                    'forms': valueForms,
-                })
+                })            
 
     forms = Form.objects.filter(creator = request.user)
     return render(request, "index/main.html", {

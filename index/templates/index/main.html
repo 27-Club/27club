@@ -1,51 +1,28 @@
+{% extends 'index/tests/layout_main.html' %}
+{% block title %}Bieži uzdotie jautājumi{% endblock %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" style="background-color: #b9975b;">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}LLKC Veidlapu izveide{% endblock %}</title>
-    
-    <link rel="stylesheet" href="{% static 'index/HurlUI.css' %}">
-    <link rel="stylesheet" href="{% static 'index/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/filter.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-<body>
+{% block script %}
+<link rel="stylesheet" href="{% static 'index/HurlUI.css' %}">
+<link rel="stylesheet" href="{% static 'index/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/filter.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+<script src="{% static 'lib/cookie.min.js' %}" defer></script>
+<script src="{% static 'index/index.js' %}" defer></script>
+<script src="{% static 'index/filterAllForms.js' %}" defer></script>
+<script src="{% static 'index/filterUserForms.js' %}" defer></script>
+<script src="{% static 'index/pagination.js' %}" defer></script>
+<script src="{% static 'index/paginationAllForms.js' %}" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
 <div class="top-containter">
-    <div class="topnav nav-effect">
-        <div class="nav-padding">
-            <span class="nav-ham" id="nav-ham">&#9776;</span>
-            <img src = "{% static 'Icon/icon.png' %}" alt = "LLKC Veidlapu izveide" class="navbar-icon form-icon" title = "LLKC Veidlapu izveide">
-            <p class="nav-text" style="color: white;">LLKC Veidlapu izveide</p>
-            
-            <a href="{% url 'logout' %}">
-                <img src = "{% static 'Icon/Logout.png' %}" alt = "Iziet ikona" class="navbar-icon float-right logout-icon" title = "Iziet">
-            </a>
-            
-            {% if user.is_authenticated %}
-                <span class="user-text">Sveicināti, {{ user.username }}.</span>
-            {% endif %}
-        </div>
-    </div>
-    <div class="sidebar" id = "sidebar">
-        <span class="close-sidebar" id="close-sidebar">&times;</span>
-        <div class="sidebar-content">
-            <h4 class="sidebar-title">
-                <a href = "{% url 'main' %}" class="sidebar-title-link">
-                    <span>LLKC Veidlapu izveide</span>
-                </a>
-            </h4>
-            <p class="text-label">Atradi kļūdu? Iesniedz to <a href="{% url 'iesniedz_kludu' %}" class="link">šeit</a></p>
-            <p class="text-label">Jautājumi un atbildes uz <a href="{% url 'FAQ' %}" class="link">tiem</a></p>
-            <p class="text-label">Mūsu <a href="{% url 'kontakti' %}" class="link">kontakti</a></p>
-        </div>
-    </div>
     {% if perms.index.add_form %}
-        <div class="create-form">
+        <div class="create-form mb-5">
             <div class="container">
                 <p class="forms-label">Izveidot jaunu veidlapu</p>
                 <div class="create-forms">
@@ -71,8 +48,8 @@
 
         <div class="user-forms">
             <div class="container">
-                <div class="forms">
-                    <div class="form-list-info">
+                <div class="forms mb-5">
+                    <div class="form-list-info mb-2">
                         <p class="forms-label">Jūsu veidlapas:</p>
                         <div id="filter-user">
                             <button id="filter-btn-user" class="filter-btn" type="button" data-bs-toggle="collapse"  aria-expanded="false" aria-controls="flush-collapse">
@@ -98,15 +75,6 @@
             
                                             <div class="filter-item">
                                                 <li>
-                                                    <input id="creator-input-user" class="form-check-input" type="radio" value="creator" name="choose" id="creatorUser">
-                                                    <label class="form-check-label" for="creatorUser">
-                                                        Pēc autora
-                                                    </label>
-                                                </li>
-                                            </div>
-            
-                                            <div class="filter-item">
-                                                <li>
                                                     <input id="title-input-user" class="form-check-input" type="radio" value="title" name="choose" id="titleUser">
                                                     <label class="form-check-label" for="titleUser">
                                                         Pēc nosaukuma
@@ -124,11 +92,11 @@
                     </div>
 
                     <div class="form-list-pagination">
-                        <button class="btn pagination-btn" id="prev-page-btn">❮</button>
+                        <button class="btn pagination-btn" id="prev-page-btn" title="Iepriekšējā lappuse">❮</button>
                         <span id="page-num" class="page-num"></span>
-                        <button class="btn pagination-btn" id="next-page-btn">❯</button>
-                        <a href="{% url 'alluserforms' %}" class="link text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                        <button class="btn pagination-btn" id="next-page-btn" title="Nākama lappuse">❯</button>
+                        <a href="{% url 'allyourforms' %}" class="link text-white" title="Visas jūsu veidlapas">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-three-dots" viewBox="0 0 16 16">
                                 <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                             </svg>
                         </a>
@@ -140,8 +108,8 @@
 
     <div class="all-forms">
         <div class="container">
-            <div class="forms">
-                <div class="form-list-info">
+            <div class="forms mb-5">
+                <div class="form-list-info mb-2">
                     <p class="forms-label">Visas veidlapas:</p>
 
                     <div id="filter-all">
@@ -196,11 +164,11 @@
                     {% endblock %}
                 </div>
                 <div class="form-list-pagination">
-                    <button class="btn btn pagination-btn" id="prev-page-btn-all">❮</button>
+                    <button class="btn btn pagination-btn" id="prev-page-btn-all" title="Iepriekšējā lappuse">❮</button>
                     <span id="page-num-all" class="page-num"></span>
-                    <button class="btn pagination-btn" id="next-page-btn-all">❯</button>
-                    <a href="{% url 'alluserforms' %}" class="link text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                    <button class="btn pagination-btn" id="next-page-btn-all" title="Nākamā lappuse">❯</button>
+                    <a href="{% url 'alluserforms' %}" class="link text-white" title="Visas veidlapas">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-three-dots" viewBox="0 0 16 16">
                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                         </svg>
                     </a>
@@ -209,14 +177,4 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="{% static 'lib/cookie.min.js' %}" defer></script>
-<script src = "{% static 'index/index.js' %}" defer></script>
-<script src="{% static 'index/filterAllForms.js' %}" defer></script>
-<script src="{% static 'index/filterUserForms.js' %}" defer></script>
-<script src="{% static 'index/pagination.js' %}" defer></script>
-<script src="{% static 'index/paginationAllForms.js' %}" defer></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}

@@ -3,7 +3,6 @@ const filterMenuUser = document.getElementById("popup-menu-user");
 const filterArrowUser = document.getElementById("filter-arrow-user");
 const filterIconUser = document.getElementById("filter-icon-user");
 const createdAtUser = document.getElementById("createdAt-input-user");
-const creatorUser = document.getElementById("creator-input-user");
 const titleUser = document.getElementById("title-input-user");
 
 filterBtnUser.addEventListener('click', function() {
@@ -23,9 +22,6 @@ filterBtnUser.addEventListener('click', function(e) {
 function showUserFormPage(page) {
     let currentFormPage = 1;
     const formListData = document.querySelector('.form-list-data-user');
-
-    console.log(formListData);
-
     const formPageNumEl = document.querySelector('#page-num');
     const formDataRows = Array.from(formListData.children);
 
@@ -65,42 +61,6 @@ createdAtUser.addEventListener('change', function(e) {
       success: (response) => {
         console.log(response);
         $('#form-list-user').html(response);
-
-        const test = document.querySelector('#form-list-user');
-        console.log(test);
-        showUserFormPage(currentFormPage);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
-})
-
-creatorUser.addEventListener('change', function(e) {
-  e.preventDefault();
-  let filterValues = [];
-  filterValues.push(this.value);
-  
-  filterIconUser.classList.add('filled');
-
-  var url = "/main/";
-  $.ajax({
-      url: url,
-      type: "POST",
-      dataType: 'html',
-      accepts: {
-        text: "text/html; charset=utf-8"
-      },
-      data: JSON.stringify({
-        "filterData": filterValues,
-        "type": "user"
-      }),
-      headers: {
-        "X-Requested-With": "XMLHttpRequest",
-        "X-CSRFToken": Cookies.get("csrftoken"),
-      },
-      success: (response) => {
-        $('#form-list-user').html(response);
         showUserFormPage(currentFormPage);
       },
       error: (error) => {
@@ -133,6 +93,7 @@ titleUser.addEventListener('change', function(e) {
         "X-CSRFToken": Cookies.get("csrftoken"),
       },
       success: (response) => {
+        console.log(response);
         $('#form-list-user').html(response);
         showUserFormPage(currentFormPage);
       },
