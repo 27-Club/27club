@@ -9,6 +9,7 @@ urlpatterns = [
     path('FAQ/', views.FAQ, name="FAQ"),
     path('kontakti/', views.kontakti, name="kontakti"),
     path('iesniedz_kludu/', views.iesniedz_kludu, name="iesniedz_kludu"),
+    path('profils/', views.profils, name="profils"),
     path('allyourforms/', views.allyourforms, name="allyourforms"),
     path('alluserforms/', views.alluserforms, name="alluserforms"),
     path('form/create', views.create_form, name="create_form"),

@@ -1,0 +1,141 @@
+.bottom-img{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.card{
+    box-shadow: 0px 0px 16px -6px rgba(0, 0, 0, 0.35);
+
+}
+
+.tittle{
+    font-size: x-large;
+    color: rgba(70, 83, 45, 1);
+    font-weight: 400;
+    z-index: 100;
+    position: relative;
+}
+
+.card-text-top{
+    font-weight: 400;
+    z-index: 100;
+    position: relative;
+}
+
+.card-text-bot{
+   color: rgba(102, 102, 102, 1);
+   font-size: small;
+   z-index: 100;
+   position: relative;
+}
+
+.side-image{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 0;
+}
+
+.text-holder{
+    height: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.text-holder{
+    margin-top: 20px;
+}
+
+
+
+body, html {
+    height: 75%;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .card {
+    border: 0;
+    text-align: center;
+    flex: 0 1 calc(40% - 1em);
+    min-width: 300px;
+    max-width: 700px; /* Set the max-width as needed */
+
+  }
+
+  @media (min-width: 430px){
+    .card{
+    min-width: 340px;
+  }
+
+  .text-holder{
+
+    margin-left: 10px;
+}
+  
+.tittle{
+  margin-top: 10px;
+}
+  
+}
+
+
+@media only screen and (min-width: 576px) {
+    .card{
+        height: 280px;
+        min-width: 401px;
+    
+    }
+
+    .text-holder{
+        margin-top: 10px;
+        margin-left: 20px;
+    }
+
+    .tittle{
+        margin-top: 10px;
+    }
+
+    body, html {
+      height: 90%;
+    }
+  }
+
+
+  @media (min-width: 768px) { 
+
+    .card{
+      height: 320px;
+      min-width: 455px;
+    }
+    .text-holder{
+      margin-top: 30px;
+      margin-left: 45px;
+  }
+
+   }
+
+  @media (min-width: 1020px){
+
+   
+
+    .card{
+      height: 415px;
+      min-width: 600px;
+    }
+    .text-holder{
+        margin-top: 50px;
+        margin-left: 55px;
+    }
+    .tittle{
+        margin-top: 35px;
+    }
+  }
