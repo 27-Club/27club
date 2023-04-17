@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Bieži uzdotie jautājumi{% endblock %}</title>
     
-    <link rel="stylesheet" href="{% static 'css/FAQ.css' %}">
+    
     <link rel="stylesheet" href="{% static 'css/nav-bar.css' %}">
     
     <link rel="stylesheet" href="{% static 'index/HurlUI.css' %}">
@@ -14,6 +14,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{% static 'css/FAQ.css' %}">
     
     {% block script %}
     <script src = "{% static 'index/index.js' %}" defer></script>
@@ -67,10 +69,10 @@
 
 
 
-  <div class="col lg-4 md-4 d-none d-md-block ">
+  <div class="col lg-4 md-4 d-none d-md-block">
     <img class="brown-sideimage" src="/static/Icon/brown_side.png">
   </div>
-  <div class="container-fluid" style="height:81%">
+  <div class="container-fluid" style="height: 92%;">
     <div class="container pt-lg-5 pt-md-5 ps-lg-5 mt-5 ml-sm-3 mr-sm-3 ">  
       <p class="green-text title mb-5"> Biežāk uzdotie jautājumi </p> 
       <div class="col col-lg-7 col-md-7 col-sm-12"> 
@@ -126,9 +128,8 @@
           </div>
         </div>
       </div> 
-      
     </div>
-    <div class=" d-md-none ml-sm-n3 mr-sm-n3"> 
+    <div class="mt-5 d-md-none ml-sm-n3 mr-sm-n3"> 
       <img class="the-img" src="/static/Icon/green-bottom.png">   
     </div> 
   </div>
