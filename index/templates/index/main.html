@@ -1,4 +1,4 @@
-{% extends 'index/tests/layout_main.html' %}
+{% extends 'index/layout_main.html' %}
 {% block title %}LLKC Veidlapu Izveide{% endblock %}
 {% load static %}
 {% block script %}
@@ -94,7 +94,7 @@
                     <div id="form-list-user" class="form-list">
                         {% include 'index/partials/user_forms.html' %}
                     </div>
-
+                    
                     <div class="form-list-pagination">
                         <button class="btn pagination-btn" id="prev-page-btn" title="Iepriekšējā lappuse">❮</button>
                         <span id="page-num" class="page-num"></span>

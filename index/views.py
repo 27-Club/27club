@@ -15,26 +15,21 @@ import string
 def profils(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/profils.html")
-
 
 def FAQ(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/FAQ.html")
 
 def iesniedz_kludu(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/iesniedz_kludu.html")
 
 def kontakti(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/kontakti.html")
 
 def allyourforms(request):
@@ -70,13 +65,10 @@ def main_view(request):
             for value in formList:
 
                 if value == 'createdAt':
-                    # userForms.order_by('-createdAt')
-                    # userForms = Form.objects.filter(creator = request.user).order_by('-createdAt')
                     userFilteredForms = Form.objects.filter(creator = request.user).order_by('-createdAt')
                     print(userFilteredForms)
 
                 elif value == 'title':
-                    # userForms.order_by('title')
                     userFilteredForms = Form.objects.filter(creator = request.user).order_by('title')
                     print(userFilteredForms)
                 
@@ -199,8 +191,7 @@ def edit_form(request, code):
             "code": code,
             "form": formInfo
         })
-    return render(request, "index/tests/form_test.html", {
-    # return render(request, "index/form.html", {
+    return render(request, "index/form.html", {
         "code": code,
         "form": formInfo
     })
@@ -683,8 +674,7 @@ def responses(request, code):
         keys = choiceAnswered[answr].values()
         for choice in choiceAnswered[answr]:
             filteredResponsesSummary[answr][choice] = choiceAnswered[answr][choice]
-    # return render(request, "index/responses.html", {
-    return render(request, "index/tests/form_responses_test.html", {
+    return render(request, "index/responses.html", {
         "form": formInfo,
         "responses": Responses.objects.filter(response_to = formInfo),
         "responsesSummary": responsesSummary,
@@ -730,8 +720,7 @@ def response(request, code, response_code):
                         if k.is_answer and k.pk not in answer_keys: answer_keys.append(k.pk)
                     _temp.append(i.answer_to.pk)
                 if answers == answer_keys: score += i.answer_to.score
-    # return render(request, "index/response.html", {
-    return render(request, "index/tests/form_response.html", {
+    return render(request, "index/response.html", {
         "form": formInfo,
         "response": responseInfo,
         "score": score,

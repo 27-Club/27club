@@ -2,7 +2,7 @@ body {
     margin: auto;
     background-color: white;
     overflow-x: hidden;
-    background-color: #fff;
+    background-color: #fff !important;
 }
 
 .user-text {

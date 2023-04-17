@@ -47,16 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if(e.target == document.querySelector("#customize-theme")) document.querySelector("#customize-theme").style.display = "none";
         }
     })
-    document.querySelector("#input-bg-color").addEventListener("input", function(){
-        document.body.style.backgroundColor = this.value;
-        fetch('edit_background_color', {
-            method: "POST",
-            headers: {'X-CSRFToken': csrf},
-            body: JSON.stringify({
-                "bgColor": this.value
-            })
-        })
-    })
     document.querySelector("#input-text-color").addEventListener("input", function(){
         document.querySelectorAll(".txt-clr").forEach(element => {
             element.style.color = this.value;
@@ -265,17 +255,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     let element = document.createElement("div");
                     element.classList.add('choice');
                     if(this.dataset.type === "multiple choice"){
-                        element.innerHTML = `<input type="radio" id="${result["id"]}" disabled>
-                        <label for="${result["id"]}">
-                            <input type="text" value="${result["choice"]}" class="edit-choice" data-id="${result["id"]}">
-                        </label>
-                        <span class="remove-option" title = "Noņemt" data-id="${result["id"]}">&times;</span>`;
+                        element.innerHTML =  `<div class="choice d-flex justify-content-between mb-1 border-bottom">
+                        <div class="d-flex justify-content-start">
+                            <input type="radio" id="${result["id"]}" disabled>
+                            <label class="ms-2" for="${result["id"]}">
+                                <input type="text" value="${result["choice"]}" class="edit-choice form-input w-100" data-id="${result["id"]}">
+                            </label>
+                        </div>
+                        <span class="remove-option" title = "Noņemt" data-id="${result["id"]}">&times;</span>
+                    </div>`;
+
                     }else if(this.dataset.type === "checkbox"){
-                        element.innerHTML = `<input type="checkbox" id="${result["id"]}" disabled>
-                        <label for="${result["id"]}">
-                            <input type="text" value="${result["choice"]}" class="edit-choice" data-id="${result["id"]}">
-                        </label>
-                        <span class="remove-option" title = "Noņemt" data-id="${result["id"]}">&times;</span>`;
+                        element.innerHTML = `<div class="choice d-flex justify-content-between mb-1 border-bottom">
+                        <div class="d-flex justify-content-start">
+                            <input type="checkbox" id="${result["id"]}" disabled>
+                                <label class="ms-2" for="${result["id"]}">
+                                    <input type="text" data-id="${result["id"]}" class="edit-choice form-input w-100" value="${result["choice"]}">
+                                </label>
+                            </div>
+                        <span class="remove-option" title="Noņemt" data-id="${result["id"]}">&times;</span>
+                        </div>`;
                     }
                     document.querySelectorAll(".choices").forEach(choices => {
                         if(choices.dataset.id === this.dataset.question){
@@ -345,29 +344,33 @@ document.addEventListener("DOMContentLoaded", () => {
                                     let choices = '';
                                     if(this.value === "multiple choice"){
                                         for(let i in result["choices"]){
-                                            if(i){ choices += `<div class="choice">
-                                            <input type="radio" id="${result["choices"][i].id}" disabled>
-                                            <label for="${result["choices"][i].id}">
-                                                <input type="text" data-id="${result["choices"][i].id}" class="edit-choice" value="${result["choices"][i].choice}">
-                                            </label>
-                                            <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
+                                            if(i){ choices += `<div class="choice d-flex justify-content-between mb-1 border-bottom">
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" id="${result["choices"][i].id}" disabled>
+                                                <label class="ms-2" for="${result["choices"][i].id}">
+                                                    <input type="text" data-id="${result["choices"][i].id}" class="edit-choice form-input w-100" value="${result["choices"][i].choice}">
+                                                </label>
+                                            </div>
+                                            <span class="remove-option" title = "Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
                                         }
-                                    }else if(this.value === "checkbox"){
+                                    } else if (this.value === "checkbox"){
                                         for(let i in result["choices"]){
-                                            if(i){choices += `<div class="choice">
-                                            <input type="checkbox" id="${result["choices"][i].id}" disabled>
-                                            <label for="${result["choices"][i].id}">
-                                                <input type="text" data-id="${result["choices"][i].id}" class="edit-choice" value="${result["choices"][i].choice}">
-                                            </label>
+                                            if(i){choices += `<div class="choice d-flex justify-content-between mb-1 border-bottom">
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" id="${result["choices"][i].id}" disabled>
+                                                <label for="${result["choices"][i].id}" class="ms-2">
+                                                    <input type="text" data-id="${result["choices"][i].id}" class="edit-choice form-input w-100" value="${result["choices"][i].choice}">
+                                                </label>
+                                            </div>
                                             <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
                                         }
                                     }
                                     ele.innerHTML = `<div class="choice">${choices}</div>
-                                    <div class="choice">
-                                        <input type = "radio" id = "add-choice" disabled />
-                                        <label for = "add-choice" class="add-option" id="add-option" data-question="${result["question_id"]}"
-                                        data-type = "${this.value}">Pievienot opciju</label>
+                                    <div class="choice d-flex justify-content-start">
+                                        <input type="radio" id="add-choice" disabled />
+                                        <label for="add-choice" class="add-option ms-2" id="add-option" data-question="${result["question_id"]}" data-type = "${this.value}">Pievienot opciju</label>
                                     </div>`;
+                                    console.log(ele);
                                     choicesElement.parentNode.replaceChild(ele, choicesElement);
                                     editChoice()
                                     removeOption()
@@ -382,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     choicesElement.parentNode.removeChild(choicesElement)
                                     let ele = document.createElement("div");
                                     ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
-                                    <input type ="text" class="short-answer" disabled placeholder="Īsas atbildes teksts" />
+                                    <input type ="text" class="short-answer text-answer w-100 my-2 py-1 px-2" disabled placeholder="Īsas atbildes teksts" />                        
                                 </div>`
                                     this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
 
@@ -390,7 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     choicesElement.parentNode.removeChild(choicesElement)
                                     let ele = document.createElement("div");
                                     ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
-                                    <textarea class="long-answer" disabled placeholder="Garas atbildes teksts" ></textarea>
+                                    <textarea class="long-answer text-answer w-100 my-2 p-1" disabled placeholder="Garas atbildes teksts" ></textarea>
                                 </div>`
                                     this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
 
@@ -429,29 +432,37 @@ document.addEventListener("DOMContentLoaded", () => {
                                 let choices = '';
                                 if(this.value === "multiple choice"){
                                     for(let i in result["choices"]){
-                                        if(i){ choices += `<div class="choice">
-                                        <input type="radio" id="${result["choices"][i].id}" disabled>
-                                        <label for="${result["choices"][i].id}">
-                                            <input type="text" data-id="${result["choices"][i].id}" class="edit-choice" value="${result["choices"][i].choice}">
-                                        </label>
-                                        <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
+                                        if(i){ choices += `<div class="choice d-flex justify-content-between mb-1 border-bottom">
+                                        <div class="d-flex justify-content-start">
+                                            <input type="radio" id="${result["choices"][i].id}" disabled>
+                                            <label class="ms-2" for="${result["choices"][i].id}">
+                                                <input type="text" data-id="${result["choices"][i].id}" class="edit-choice form-input w-100" value="${result["choices"][i].choice}">
+                                            </label>
+                                        </div>
+                                        <span class="remove-option" title = "Noņemt" data-id="${result["choices"][i].id}">&times;</span>
+                                        </div>`}
                                     }
-                                }else if(this.value === "checkbox"){
+
+                                } else if (this.value === "checkbox"){
                                     for(let i in result["choices"]){
-                                        if(i){choices += `<div class="choice">
-                                        <input type="checkbox" id="${result["choices"][i].id}" disabled>
-                                        <label for="${result["choices"][i].id}">
-                                            <input type="text" data-id="${result["choices"][i].id}" class="edit-choice" value="${result["choices"][i].choice}">
-                                        </label>
-                                        <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span></div>`}
+                                        if(i){choices += `<div class="choice d-flex justify-content-between mb-1 border-bottom">
+                                        <div class="d-flex justify-content-start">
+                                            <input type="checkbox" id="${result["choices"][i].id}" disabled>
+                                            <label for="${result["choices"][i].id}" class="ms-2">
+                                                <input type="text" data-id="${result["choices"][i].id}" class="edit-choice form-input w-100" value="${result["choices"][i].choice}">
+                                            </label>
+                                        </div>
+                                        <span class="remove-option" title="Noņemt" data-id="${result["choices"][i].id}">&times;</span>
+                                        </div>`}
                                     }
                                 }
                                 ele.innerHTML = `<div class="choice">${choices}</div>
                                 <div class="choice">
-                                    <input type = "radio" id = "add-choice" disabled />
-                                    <label for = "add-choice" class="add-option" id="add-option" data-question="${result["question_id"]}"
-                                    data-type = "${this.value}">Pievienot opciju</label>
-                                </div>`;
+                                        <div class="d-flex justify-content-start">
+                                            <input type="radio" id="add-choice" disabled />
+                                            <label for="add-choice" class="add-option ms-2" id="add-option" data-question="${result["question_id"]}" data-type = "${this.value}">Pievienot opciju</label>
+                                        </div>
+                                    </div>`;
                                 question.insertBefore(ele, question.childNodes[4])
                                 editChoice()
                                 removeOption()
@@ -465,13 +476,13 @@ document.addEventListener("DOMContentLoaded", () => {
                             if(this.value === "short") {
                                 let ele = document.createElement("div");
                                 ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
-                                <input type ="text" class="short-answer" disabled placeholder="Īsas atbildes teksts" />
+                                <input type ="text" class="short-answer text-answer w-100 my-2 py-1 px-2" disabled placeholder="Īsas atbildes teksts" />                        
                             </div>`
                                 this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
                             }else if(this.value === "paragraph") {
                                 let ele = document.createElement("div");
                                 ele.innerHTML = `<div class="answers" data-id="${this.dataset.id}">
-                                <textarea class="long-answer" disabled placeholder="Garas atbildes teksts" ></textarea>
+                                <textarea class="long-answer text-answer w-100 my-2 p-1" disabled placeholder="Garas atbildes teksts" ></textarea>
                             </div>`
                                 this.parentNode.insertBefore(ele, this.parentNode.childNodes[4])
                             } else if (this.value === "range") {
@@ -503,43 +514,58 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(result => {
             let ele = document.createElement('div')
-            ele.classList.add('margin-top-bottom');
-            ele.classList.add('box');
+            ele.classList.add('card');
+            ele.classList.add('shadow-sm');
+            ele.classList.add('p-3');
+            ele.classList.add('mb-5');
+            ele.classList.add('bg-white');
+            ele.classList.add('rounded');
             ele.classList.add('question-box');
+            ele.classList.add('box');
             ele.classList.add('question');
+
             ele.setAttribute("data-id", result["question"].id)
             ele.innerHTML = `
-            <input type="text" data-id="${result["question"].id}" class="question-title edit-on-click input-question" value="${result["question"].question}">
-            <select class="question-type-select input-question-type" data-id="${result["question"].id}" data-origin_type = "${result["question"].question_type}">
+            <input type="text" data-id="${result["question"].id}" class="question-title edit-on-click input-question mb-3 w-100" value="${result["question"].question}">
+
+            <select class="question-type-select input-question-type form-select mb-2" data-id="${result["question"].id}" data-origin_type = "${result["question"].question_type}">
                 <option value="short">Īsa atbilde</option>
                 <option value="paragraph">Rindkopa</option>
-                <option value="multiple choice" selected>Vairākas atbildes</option>
+                <option value="multiple choice">Vairākas atbildes</option>
                 <option value="checkbox">Izvēles</option>
                 <option value="range">Novērtējums</option>
             </select>
-            <div class="choices" data-id="${result["question"].id}">
-                <div class="choice">
-                    <input type="radio" id="${result["choices"].id}" disabled>
-                    <label for="${result["choices"].id}">
-                        <input type="text" value="${result["choices"].choice}" class="edit-choice" data-id="${result["choices"].id}">
-                    </label>
+
+            <div class="choices mb-2" data-id="${result["question"].id}">
+                <div class="choice d-flex justify-content-between mb-1">
+                    <div class="d-flex justify-content-start">
+                        <input type="radio" id="${result["choices"].id}" disabled>
+
+                        <label class="ms-2" for="${result["choices"].id}">
+                            <input type="text" value="${result["choices"].choice}" class="edit-choice form-input w-100" data-id="${result["choices"].id}">
+                        </label>
+                    </div>
                     <span class="remove-option" title = "Noņemt" data-id="${result["choices"].id}">&times;</span>
                 </div>
+                
                 <div class="choice">
-                    <input type = "radio" id = "add-choice" disabled />
-                    <label for = "add-choice" class="add-option" id="add-option" data-question="${result["question"].id}" 
-                    data-type = "${result["question"].question_type}">Pievienot opciju</label>
+                    <div class="d-flex justify-content-start">
+                        <input type="radio" id="add-choice" disabled />
+                        <label for="add-choice" class="add-option ms-2" id="add-option" data-question="${result["question"].id}" data-type = "${result["question"].question_type}">Pievienot opciju</label>                        
+                    </div>
                 </div>
             </div>
-            <div class="choice-option">
-                <input type="checkbox" class="required-checkbox" id="${result["question"].id}" data-id="${result["question"].id}">
-                <label for="${result["question"].id}" class="required">Obligāts</label>
+            <div class="choice-option d-flex justify-content-between">                        
+                <div class="d-flex justify-content-start">
+                    <input type="checkbox" class="required-checkbox" id="${result["question"].id}" data-id="${result["question"].id}">
+                    <label for="${result["question"].id}" class="required ms-2">Obligāts</label>
+                </div>
+
                 <div class="float-right">
-                    <img src="/static/Icon/dustbin.png" alt="Dzēst jautājumu ikona" class="question-option-icon delete-question" title="Dzēst jautājumu"
+                    <img src="/static/Icon/trash-icon.svg" width="24" height="24" alt="Dzēst jautājumu ikona" class="question-option-icon delete-question" title="Dzēst jautājumu"
                     data-id="${result["question"].id}">
                 </div>
-            </div>
-            `;
+            </div>`;
             document.querySelector(".container").appendChild(ele);
             editChoice()
             removeOption()
