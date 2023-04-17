@@ -29,17 +29,53 @@ def kontakti(request):
     forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/kontakti.html")
 
+def allyourforms(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    forms = Form.objects.filter(creator = request.user)
+    return render(request, "index/allyourforms.html", {
+        "forms": forms
+    })
+
+def alluserforms(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    allForms = Form.objects.all()
+    return render(request, "index/alluserforms.html", {
+        "allForms": allForms
+    })
+
 
 @login_required(login_url='/')
 def main_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
+
     allForms = Form.objects.all()
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        formList = data.get('filterData')
+
+        for value in formList:
+            if value == 'createdAt':
+                valueForms = allForms.order_by('-createdAt')
+
+            elif value == 'creator':
+                valueForms = allForms.order_by('creator')
+
+            elif value == 'title':
+                valueForms = allForms.order_by('title')
+
+            return render(request, 'index/partials/all_forms.html', {
+                'allForms': valueForms,
+            })
+
+    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/main.html", {
         "forms": forms,
         "allForms": allForms
-    })
+})
 
 def login_view(request):
     if not request.user.is_authenticated:
@@ -52,7 +88,7 @@ def login_view(request):
                 context = {"error": "Invalid username or password."}
                 return render(request, "index/accounts/login.html", context)
 
-            login(request, user)        
+            login(request, user)
             return redirect("main")
     else:
         return redirect("main")
@@ -64,23 +100,23 @@ def logout_view(request):
     return redirect('/')
 
 def signup_view(request):
-    if not request.user.is_authenticated:        
+    if not request.user.is_authenticated:
         if request.method == "POST":
             username = request.POST["user_name"]
             password = request.POST["user_password"]
             email = request.POST["user_email"]
             confirmation = request.POST["password_confirm"]
-            
+
             #check if the password is the same as confirmation
             if password != confirmation:
                 contextPass = {"message": "Passwords must match"}
                 return render(request, "index/accounts/signup.html", contextPass)
-            
+
             #Checks if the username is already in use
             if User.objects.filter(email = email).count() == 1:
                 contextEmail = {"message": "Email already taken."}
                 return render(request, "index/accounts/signup.html", contextEmail)
-            
+
             try:
                 print(username, password)
                 user = User.objects.create_user(username = username, password = password, email = email)
@@ -90,7 +126,7 @@ def signup_view(request):
             except IntegrityError:
                 return render(request, "index/accounts/signup.html", {
                     "message": "Username already taken"
-                }) 
+                })
 
      #Check if the user is logged in
     if request.user.is_authenticated:
@@ -396,7 +432,7 @@ def add_question(request, code):
         question.save()
         formInfo.questions.add(question)
         formInfo.save()
-        return JsonResponse({'question': {'question': "Jautājums bez nosaukuma", "question_type": "multiple choice", "required": False, "id": question.id}, 
+        return JsonResponse({'question': {'question': "Jautājums bez nosaukuma", "question_type": "multiple choice", "required": False, "id": question.id},
         "choices": {"choice": "Opcija", "is_answer": False, 'id': choices.id}})
 
 @permission_required('index.delete_questions', login_url='/')
@@ -547,7 +583,7 @@ def accept_rules(request, code):
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
     return render(request, "index/accept_rules.html")
-    
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -781,7 +817,7 @@ def customer_feedback_template(request):
         name.save()
         email = Questions(question= "Epasts", question_type="short", required=False)
         email.save()
-        
+
         rate = Questions(question= "Novērtējiet pasākumu", question_type="range", required=False)
         rate.save()
 
@@ -842,7 +878,7 @@ def event_registration_template(request):
         agreement.save()
         agreement.choices.add(accept_agreement)
         agreement.save()
-        form = Form(code = code, title = "Pasākuma Reģistrācija", creator=request.user, background_color="#499ff5", 
+        form = Form(code = code, title = "Pasākuma Reģistrācija", creator=request.user, background_color="#499ff5",
         confirmation_message="Mēs esam saņēmuši jūsu reģistrāciju.\n\
 Šeit ievietojiet citu informāciju.\n\
 \n\
