@@ -1,0 +1,94 @@
+html{
+    height: 100%;
+}
+
+body{
+    height: 100%;
+}
+
+.green-text{
+    color: rgba(70, 83, 45, 1);  
+}
+
+
+.title{
+    font-size: 30px;
+}
+
+.brown-sideimage{
+    position: absolute;
+    right: 0;
+    position: fixed;
+    top:0;
+}
+
+
+.container-fluid{
+    display: flex;
+    justify-content:space-between;
+    flex-direction:column;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* accordion button styling */
+.accordion-button{
+    background-color: rgba(80, 96, 49, 0.03)!important;
+    border-bottom: none;
+}
+
+
+.accordion-button::after {
+    padding-top: 10px;
+    background-image: url(/static/Icon/dropdown_brown.svg)!important;
+    position: absolute;
+    right: 30px;
+    top: 22px;
+}
+
+
+.accordion-button {
+    box-shadow: none!important;
+    border-color: rgb(0, 0, 0);
+}
+
+
+.accordion-button:not(.collapsed)::after {
+    top: 10px;
+}
+
+
+.accordion-body{
+    border-top: none;
+    background-color: rgba(80, 96, 49, 0.03);
+}
+
+
+.floatbottom {
+    height: 100%;
+    position: absolute;
+    bottom:0;
+    width: 500px;
+}
+
+
+.the-img {
+        width: 100%;
+}
+
+
+.big-containter{
+    position: relative;
+}
+
+
+@media only screen and (max-width: 576px) {
+    .title{
+        font-size: 20px;
+    }
+  }

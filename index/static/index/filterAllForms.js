@@ -1,28 +1,29 @@
-const filterBtn = document.getElementById("filter-btn");
-const filterMenu = document.getElementById("popup-menu");
-const filterArrow = document.getElementById("filter-arrow");
-const filterIcon = document.getElementById("filter-icon");
-const createdAt = document.getElementById("createdAt-input");
-const creator = document.getElementById("creator-input");
-const title = document.getElementById("title-input");
+const filterBtnAll = document.getElementById("filter-btn-all");
+const filterMenuAll = document.getElementById("popup-menu-all");
+const filterArrowAll = document.getElementById("filter-arrow-all");
+const filterIconAll = document.getElementById("filter-icon-all");
+const createdAtAll = document.getElementById("createdAt-input-all");
+const creatorAll = document.getElementById("creator-input-all");
+const titleAll = document.getElementById("title-input-all");
 
-filterBtn.addEventListener('click', function() {
-  filterMenu.classList.toggle('show');
+filterBtnAll.addEventListener('click', function() {
+  filterMenuAll.classList.toggle('show');
 
-  filterArrow.classList.toggle('opened');
+  filterArrowAll.classList.toggle('opened');
 });
 
 document.addEventListener('click', function() {
-  filterMenu.classList.remove('show');
+  filterMenuAll.classList.remove('show');
 })
 
-filterBtn.addEventListener('click', function(e) {
+filterBtnAll.addEventListener('click', function(e) {
   e.stopPropagation();
 })
 
+// needs to be here so that pagination can work for newly added partial html
 function showAllFormPage(page) {
   let currentAllFormPage = 1;
-  const allFormListData = document.querySelectorAll('.form-list-data')[1];
+  const allFormListData = document.querySelectorAll('.form-list-data-all')[1];
   const allFormPageNumEl = document.querySelector('#page-num-all');
   const allFormDataRows = Array.from(allFormListData.children);
 
@@ -34,12 +35,12 @@ function showAllFormPage(page) {
   allFormPageNumEl.textContent = `${currentAllFormPage}`;
 }
 
-createdAt.addEventListener('change', function(e) {
+createdAtAll.addEventListener('change', function(e) {
   e.preventDefault();
   let filterValues = [];
   filterValues.push(this.value);
   
-  filterIcon.classList.add('filled');
+  filterIconAll.classList.add('filled');
 
   // ajax request that returns html from partial template 
   // and displays in "all forms" section
@@ -51,7 +52,10 @@ createdAt.addEventListener('change', function(e) {
       accepts: {
         text: "text/html; charset=utf-8"
       },
-      data: JSON.stringify({"filterData": filterValues}),
+      data: JSON.stringify({
+        "filterData": filterValues,
+        "type": "all"
+      }),
       headers: {
         "X-Requested-With": "XMLHttpRequest",
         "X-CSRFToken": Cookies.get("csrftoken"),
@@ -66,12 +70,12 @@ createdAt.addEventListener('change', function(e) {
     });
 })
 
-creator.addEventListener('change', function(e) {
+creatorAll.addEventListener('change', function(e) {
   e.preventDefault();
   let filterValues = [];
   filterValues.push(this.value);
   
-  filterIcon.classList.add('filled');
+  filterIconAll.classList.add('filled');
 
   var url = "/main/";
   $.ajax({
@@ -81,7 +85,10 @@ creator.addEventListener('change', function(e) {
       accepts: {
         text: "text/html; charset=utf-8"
       },
-      data: JSON.stringify({"filterData": filterValues}),
+      data: JSON.stringify({
+        "filterData": filterValues,
+        "type": "all"
+      }),
       headers: {
         "X-Requested-With": "XMLHttpRequest",
         "X-CSRFToken": Cookies.get("csrftoken"),
@@ -96,12 +103,12 @@ creator.addEventListener('change', function(e) {
     });
 })
 
-title.addEventListener('change', function(e) {
+titleAll.addEventListener('change', function(e) {
   e.preventDefault();
   let filterValues = [];
   filterValues.push(this.value);
   
-  filterIcon.classList.add('filled');
+  filterIconAll.classList.add('filled');
   
   var url = "/main/";
   $.ajax({
@@ -111,7 +118,10 @@ title.addEventListener('change', function(e) {
       accepts: {
         text: "text/html; charset=utf-8"
       },
-      data: JSON.stringify({"filterData": filterValues}),
+      data: JSON.stringify({
+        "filterData": filterValues,
+        "type": "all"
+      }),
       headers: {
         "X-Requested-With": "XMLHttpRequest",
         "X-CSRFToken": Cookies.get("csrftoken"),

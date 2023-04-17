@@ -118,7 +118,7 @@ AUTH_USER_MODEL = "index.User"
 
 LANGUAGE_CODE = 'lv'
 
-TIME_ZONE = 'Europe/Kyiv'
+TIME_ZONE = 'Europe/Kyiv' 
 
 USE_I18N = True
 
