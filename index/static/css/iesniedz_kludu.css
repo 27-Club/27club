@@ -2,26 +2,18 @@
     background-color: white;
 }
 
-
 .green-text{
     color: rgba(70, 83, 45, 1);
-    
 }
-
 
 .title{
     font-size: 30px;
 }
 
-
 .card-body{
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
- 
 }
-
-
-
 
 .form-control {
     border-color: rgba(90, 97, 75, 0.445);
@@ -38,12 +30,26 @@
     position: absolute;
     height: 329px;
     left: 0;
-    bottom: 0; 
+    bottom: 0;
+    z-index: 10;
+}
 
+.form-container {
+    position: relative;
+    z-index: 20;
+}
+
+#send-bug-btn {
+    outline: 1px solid #506031;
+    color: #506031;
+}
+
+#send-bug-btn:hover {
+    background-color: rgb(70, 83, 45);
+    color: white;
 }
 
 .submit-error-btn{
-
     width: 160px;
     background-color: rgba(80, 96, 49, 0.22);
     border-color: rgba(79, 95, 48, 1);
@@ -62,8 +68,6 @@
 
 
 @media only screen and (max-width: 500px) {
-    
-
     .title{
         margin-bottom: 10px;
     }
@@ -71,7 +75,6 @@
 
   @media (max-width: 768px) { 
     .submit-error-btn{
-
         width: 125px;
         font-size: small;
         padding-top: 5px;
@@ -83,7 +86,6 @@
 
   @media only screen and (min-width: 992px) {
     .form-container{
-
         max-width: 500px;
     }
   }
@@ -91,7 +93,6 @@
 
   @media only screen and (min-width: 1200px) {
     .form-container{
-
         max-width: 590px;
     }
   }

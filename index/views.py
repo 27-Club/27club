@@ -15,26 +15,21 @@ import string
 def profils(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/profils.html")
-
 
 def FAQ(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/FAQ.html")
 
 def iesniedz_kludu(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/iesniedz_kludu.html")
 
 def kontakti(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    forms = Form.objects.filter(creator = request.user)
     return render(request, "index/info/kontakti.html")
 
 def allyourforms(request):
@@ -64,20 +59,37 @@ def main_view(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         formList = data.get('filterData')
+        formUserType = data.get('type') # gets typeof field for which section filter is needed 
 
-        for value in formList:
-            if value == 'createdAt':
-                valueForms = allForms.order_by('-createdAt')
+        if formUserType == 'user':
+            for value in formList:
 
-            elif value == 'creator':
-                valueForms = allForms.order_by('creator')
+                if value == 'createdAt':
+                    userFilteredForms = Form.objects.filter(creator = request.user).order_by('-createdAt')
+                    print(userFilteredForms)
 
-            elif value == 'title':
-                valueForms = allForms.order_by('title')
-
-            return render(request, 'index/partials/all_forms.html', {
-                'allForms': valueForms,
+                elif value == 'title':
+                    userFilteredForms = Form.objects.filter(creator = request.user).order_by('title')
+                    print(userFilteredForms)
+                
+            return render(request, 'index/partials/user_forms.html', {
+                'forms': userFilteredForms,
             })
+
+        if formUserType == 'all':
+            for value in formList:
+                if value == 'createdAt':
+                    valueForms = allForms.order_by('-createdAt')
+
+                elif value == 'creator':
+                    valueForms = allForms.order_by('creator')
+
+                elif value == 'title':
+                    valueForms = allForms.order_by('title')
+                
+                return render(request, 'index/partials/all_forms.html', {
+                    'allForms': valueForms,
+                })            
 
     forms = Form.objects.filter(creator = request.user)
     return render(request, "index/main.html", {
@@ -662,9 +674,6 @@ def responses(request, code):
         keys = choiceAnswered[answr].values()
         for choice in choiceAnswered[answr]:
             filteredResponsesSummary[answr][choice] = choiceAnswered[answr][choice]
-    #Checking if form creator is user
-    # if formInfo.creator != request.user:
-    #     return HttpResponseRedirect(reverse("403"))
     return render(request, "index/responses.html", {
         "form": formInfo,
         "responses": Responses.objects.filter(response_to = formInfo),

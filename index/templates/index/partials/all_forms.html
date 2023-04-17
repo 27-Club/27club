@@ -1,6 +1,6 @@
 {% load static %}
 {% block content %}
-    <div class="form-list-data">
+    <div class="form-list-data-all">
         {% for i in allForms %}
             {% if i.creator != request.user %}
                     <div class="form-list-link">

@@ -34,8 +34,10 @@
             {% if form.is_quiz %}<span class="float-right">{{response|score:question.pk}} / {{question.score}}</span>{% endif %}</h1>
             {% if question.question_type == "short" %}
                 <p class="short-answer">{{response|get_response:question.pk}}</p>
+
             {% elif question.question_type == "paragraph" %}
                 <p class="long-answer">{{response|get_response:question.pk|linebreaksbr}}</p>
+
             {% elif question.question_type == "multiple choice" %}
                 {% for choice in question.choices.all %}
                 <div class="multiple-choice">
@@ -47,6 +49,7 @@
                     <label for="{{choice.id}}" class="txtClr">{{choice.choice}}</label>
                 </div>
                 {% endfor %}
+
             {% elif question.question_type == "checkbox" %}
                 {% for choice in question.choices.all %}
                 <div class="multiple-choice">
@@ -58,6 +61,10 @@
                     <label for="{{choice.id}}" class="txtClr">{{choice.choice}}</label>
                 </div>
                 {% endfor %}
+            
+            {% elif question.question_type == "range" %}
+                <p class="range-answer">{{response|get_response:question.pk}}</p>
+
             {% endif %}
             {% if user != form.creator and question.feedback != None and question.feedback != "" %}
                 <div class="feedback">

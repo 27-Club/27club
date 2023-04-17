@@ -1,0 +1,26 @@
+{% load static %}
+{% block content %}
+    <div class="form-list-data-user">
+        {% for i in forms %}
+            <div class="form-list-link">
+                <div class="form-box">
+                    <div class="form-list-title">
+                        <h5 class="form-list-title-text">{{i.title}}</h5>
+                    </div>
+                    
+                    <div class="form-list-icon">
+                        <img src="{% static 'Icon/Documents.svg' %}">
+                    </div>
+                    
+                    <p class="form-list-creator">{{i.creator}}</p>
+                    {% if i.createdAt == i.updatedAt %}
+                        <p class="form-list-timestamp">{{i.get_created_date}}</p>
+                    {% else %}
+                        <p class="form-list-timestamp">{{i.get_updated_date}}</p>
+                    {% endif %}
+                        <a href = "{% url 'edit_form' i.code %}" class="form-list-open btn btn-primary">Atvērt</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
