@@ -11,6 +11,14 @@ import random
 import string
 
 # Create your views here.
+
+def profils(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    forms = Form.objects.filter(creator = request.user)
+    return render(request, "index/info/profils.html")
+
+
 def FAQ(request):
     if not request.user.is_authenticated:
         return redirect('login')

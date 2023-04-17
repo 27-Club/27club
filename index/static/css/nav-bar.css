@@ -2,6 +2,11 @@
     height: 55px;
 }
 
+
+.navbar{
+    box-shadow: 0px 0px 38px rgba(0, 0, 0, 0.12);
+}
+
 .nav-green-text{
     color: rgba(70, 83, 45, 1);
     text-decoration: none;
@@ -105,7 +110,7 @@
 }
 
 
-@media only screen and (min-width: 767px)  {
+@media only screen and (min-width: 768px)  {
     
     #navbarNav{
         display: block;
