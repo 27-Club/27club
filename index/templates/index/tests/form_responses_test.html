@@ -140,7 +140,6 @@
                                         {% elif form.authenticated_responder %}
                                             <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder.username}} atbilde</a></li>
                                         {% else %}
-                                            {% comment %} <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{i.responder_ip}} atbilde</a></li> {% endcomment %}
                                             <li><a href = "{% url 'response' form.code i.response_code %}" class="link">{{ forloop.counter }} atbilde</a></li>
                                         {% endif %}
                                     {% endfor %}
@@ -165,19 +164,253 @@
                                             <blockquote>{{i.answer}}</blockquote>
                                         {% endfor %}
                                     {% else %}
-                                            <canvas id="myChart{{r.question.id}}" class="pie-chart"></canvas>
-                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-                                            <script>
-                                                Chart.defaults.global.defaultFontFamily = "Roboto";
-                                                Chart.defaults.global.defaultFontSize = 30;
-                                                var ctx = document.getElementById("myChart{{r.question.id}}");
-                                                let chartData{{r.question.id}} = {labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                    <select name="charts" id="charts{{r.question.id}}" onchange="showChart{{r.question.id}}()">
+                                        <option value="">Izvēlies diagrammu</option>
+                                        <option value="area">Area</option>
+                                        <option value="pie">Pie</option>
+                                        <option value="polar">Polar</option>
+                                        <option value="bar">Bar</option>
+                                        <option value="doughnut">Doughnut</option>
+                     
+                                    </select>
+                                    
+                                    <canvas id="myChart{{r.question.id}}" class="line-chart mt-3"></canvas>
+                                    
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                                    <script>
+                                        Chart.defaults.global.defaultFontFamily = "Roboto";
+                                        Chart.defaults.global.defaultFontSize = 30;
+                                                                                                
+                                        var ctx{{r.question.id}} = document.getElementById("myChart{{r.question.id}}");
+                                        var chartData{{r.question.id}} = {
+                                          labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                          datasets: [{
+                                            label: "{{r.question.question}}",
+                                            backgroundColor: [
+                                              'rgba(255, 99, 132, 1)',
+                                              'rgba(54, 162, 235, 1)',
+                                              'rgba(255, 206, 86, 1)',
+                                              'rgba(75, 192, 192, 1)',
+                                              'rgba(153, 102, 255, 1)',
+                                              'rgba(255, 159, 64, 1)'
+                                            ],
+                                            data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}]
+                                          }]
+                                        };
+                                        
+                                        var myChart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+                                          type: 'pie',
+                                          data: chartData{{r.question.id}},
+                                          options: {
+                                            legend: {
+                                              display: true,
+                                              labels: {
+                                                fontSize: 30
+                                              }
+                                            }
+                                          }
+                                        });
+                                        
+                                    
+                                        function showChart{{r.question.id}}() {
+                                            var chartType = document.getElementById("charts{{r.question.id}}").value;
+                                            if (chartType === "area") {
+                                              myChart{{r.question.id}}.destroy(); // destroy the previous chart, if any
+                                              var chartData = {
+                                                labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
                                                 datasets: [{
+                                                  label: "{{r.question.question}}",
+                                                  data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
+                                                  fill: true,
+                                                  borderColor: "rgba(0, 153, 255, 1)",
+                                                  borderWidth: 3,
+                                                  backgroundColor: "rgba(0, 153, 255, 0.2)",
+                                                  pointBackgroundColor: "rgba(0, 153, 255, 1)",
+                                                  pointBorderColor: "#fff",
+                                                  pointHoverBackgroundColor: "#fff",
+                                                  pointHoverBorderColor: "rgba(0, 153, 255, 1)"
+                                                }]
+                                              };
+                                              myChart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+                                                type: 'line',
+                                                data: chartData,
+                                                options: {
+                                                  scales: {
+                                                    xAxes: [{
+                                                      ticks: {
+                                                        fontSize: 20
+                                                      }
+                                                    }],
+                                                    yAxes: [{
+                                                      ticks: {
+                                                        beginAtZero: true,
+                                                        fontSize: 20
+                                                      }
+                                                    }]
+                                                  },
+                                                  legend: {
+                                                    labels: {
+                                                      fontSize: 30
+                                                    }
+                                                  }
+                                                }
+                                              });
+                                            } else if (chartType === "radar") {
+                                              myChart{{r.question.id}}.destroy(); // destroy the previous chart, if any
+                                              var chartData{{r.question.id}} = {
+                                                labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                                datasets: [{
+                                                  label: "{{r.question.question}}",
+                                                  data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
+                                                  borderColor: "rgba(0, 153, 255, 1)",
+                                                  borderWidth: 3,
+                                                  backgroundColor: "rgba(0, 153, 255, 0.2)"
+                                                }]
+                                              };
+                                              myChart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+                                                type: 'radar',
+                                                data: chartData{{r.question.id}},
+                                                options: {
+                                                  scale: {
+                                                    ticks: {
+                                                      beginAtZero: true
+                                                    }
+                                                  }
+                                                }
+                                              });
+                                              
+            
+                                            } else if (chartType === "radar") {
+                                                myChart{{r.question.id}}.destroy(); // destroy the previous chart, if any
+                                                var chartData{{r.question.id}} = {
+                                                  labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                                  datasets: [{
+                                                    label: "{{r.question.question}}",
                                                     data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
-                                                    backgroundColor: [{% for _ in filteredResponsesSummary|get_property:r.question.question %}"{{0|generate_color}}",{% endfor %}],
-                                                }]}
-                                                new Chart(ctx, {type: 'pie', data: chartData{{r.question.id}}, options: {responsive: true}});
-                                            </script>
+                                                    borderColor: "rgba(0, 153, 255, 1)",
+                                                    borderWidth: 3,
+                                                    backgroundColor: "rgba(0, 153, 255, 0.2)"
+                                                  }]
+                                                };
+                                                myChart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+                                                  type: 'radar',
+                                                  data: chartData{{r.question.id}},
+                                                  options: {
+                                                    scale: {
+                                                      ticks: {
+                                                        beginAtZero: true
+                                                      }
+                                                    }
+                                                  }
+                                                }); 
+            
+                                            } else if (chartType === "pie") {
+                                                myChart{{r.question.id}}.destroy(); // destroy the previous chart, if any
+                                                var chartData{{r.question.id}} = {
+                                                  labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                                  datasets: [{
+                                                    label: "{{r.question.question}}",
+                                                    data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
+                                                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#8A2BE2", "#FFA07A"],
+                                                    borderWidth: 1
+                                                  }]
+                                                };
+                                                myChart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+                                                  type: 'pie',
+                                                  data: chartData{{r.question.id}},
+                                                  options: {
+                                                    legend: {
+                                                      labels: {
+                                                        fontSize: 30
+                                                      }
+                                                    }
+                                                  }
+                                                });
+            
+                                            } else if (chartType === "polar") {
+                                                myChart{{r.question.id}}.destroy(); // destroy the previous chart, if any
+                                                var chartData{{r.question.id}} = {
+                                                    labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                                    datasets: [{
+                                                        label: "{{r.question.question}}",
+                                                        data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
+                                                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#8A2BE2", "#FFA07A"],
+                                                        borderWidth: 1
+                                                    }]
+                                                };
+                                                myChart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+                                                    type: 'polarArea',
+                                                    data: chartData{{r.question.id}},
+                                                    options: {
+                                                        legend: {
+                                                            labels: {
+                                                                fontSize: 30
+                                                            }
+                                                        },
+                                                        scale: {
+                                                            ticks: {
+                                                                beginAtZero: true
+                                                            }
+                                                        }
+                                                    }
+                                                });
+            
+            
+            
+                                            } else if (chartType === "doughnut") {
+                                                myChart{{r.question.id}}.destroy(); // destroy the previous chart, if any
+                                                var chartData{{r.question.id}} = {
+                                                  labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                                  datasets: [{
+                                                    label: "{{r.question.question}}",
+                                                    data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
+                                                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#8A2BE2", "#FFA07A"],
+                                                    borderWidth: 1
+                                                  }]
+                                                };
+                                                myChart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+                                                  type: 'doughnut',
+                                                  data: chartData{{r.question.id}},
+                                                  options: {
+                                                    legend: {
+                                                      labels: {
+                                                        fontSize: 30
+                                                      }
+                                                    }
+                                                  }
+                                                });
+                                              } else if (chartType === "bar") {
+                                                myChart{{r.question.id}}.destroy(); // destroy the previous chart, if any
+                                                var chartData{{r.question.id}} = {
+                                                    labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}], 
+                                                    datasets: [{
+                                                        label: "{{r.question.question}}",
+                                                        data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
+                                                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#8A2BE2", "#FFA07A"],
+                                                        borderWidth: 1
+                                                    }]
+                                                };
+                                                myChart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+                                                    type: 'bar',
+                                                    data: chartData{{r.question.id}},
+                                                    options: {
+                                                        legend: {
+                                                            labels: {
+                                                                fontSize: 30
+                                                            }
+                                                        },
+                                                        scales: {
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    beginAtZero: true
+                                                                }
+                                                            }]
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                          }
+                                    </script>
                                     {% endif %}
                                 {% else %}
                                 <blockquote><span>Nav atbilžu</span></blockquote>
@@ -222,10 +455,15 @@
                                 <h3 class="modal-subtitle">Fona krāsa:</h3>
                                 <input type="color"  value = "{{form.background_color}}" list="bgColors" class="form-control" id="input-bg-color" />
                                 <datalist id="bgColors">
-                                    <option value="#506031"></option>
-                                    <option value="#ae8643"></option>
-                                    <option value="#F5F5F5"></option>
-                                    <option value="#b9975b"></option>
+                                    <option value="#03a9f4"></option>
+                                    <option value="#00bcd4"></option>
+                                    <option value="#7ff0e7"></option>
+                                    <option value = "#e1d8f1"></option>
+                                    <option value = "#d1c4e9"></option>
+                                    <option value = "#f6f6f6"></option>
+                                    <option value="#f1f3f4"></option>
+                                    <option value="#9aa0a2"></option>
+                                    <option value="#d8ef89"></option>
                                 </datalist>
                             </div>
     
@@ -233,9 +471,15 @@
                                 <h3 class="modal-subtitle">Teksta krāsa:</h3>
                                 <input type="color"  value = {{form.text_color}} list="textColors" class="form-control" id="input-text-color" />
                                 <datalist id="textColors">                
-                                    <option value="#506031"></option>
-                                    <option value="#ae8643"></option>                
-                                    <option value="#000000"></option>
+                                    <option value="#db4437"></option>
+                                    <option value="#673ab7"></option>
+                                    <option value="#3f51b5"></option>
+                                    <option value="#4285f4"></option>
+                                    <option value="#03a9f4"></option>
+                                    <option value="#00bcd4"></option>
+                                    <option value="#8a8a8a"></option>
+                                    <option value="#4c3d45"></option>
+                                    <option value="#272124"></option>
                                 </datalist>
                             </div>
                         </div>                    
