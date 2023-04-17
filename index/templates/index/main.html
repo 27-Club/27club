@@ -2,7 +2,6 @@
 {% block title %}Bieži uzdotie jautājumi{% endblock %}
 {% load static %}
 {% block script %}
-<link rel="stylesheet" href="{% static 'index/HurlUI.css' %}">
 <link rel="stylesheet" href="{% static 'index/style.css' %}">
 <link rel="stylesheet" href="{% static 'css/filter.css' %}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +19,11 @@
 {% endblock %}
 
 {% block body %}
+
+<div class="col lg-4 md-4 d-none d-md-block ">
+    <img class="side-logo" src="{% static 'Icon/brown_side.png' %}" alt="">
+</div>
+
 <div class="top-containter">
     {% if perms.index.add_form %}
         <div class="create-form mb-5">
@@ -175,6 +179,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="mt-5 d-md-none ml-sm-n3 mr-sm-n3">
+        <img class="footer-logo" src="{% static 'Icon/green-bottom.png' %}" alt="">
     </div>
 </div>
 {% endblock %}
