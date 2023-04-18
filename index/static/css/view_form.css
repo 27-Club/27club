@@ -1,3 +1,10 @@
+.container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    position: relative;
+    z-index: 20;
+}
+
 #rules {
     text-decoration: underline;
     color: red;
@@ -46,6 +53,17 @@ input[type='checkbox'] {
 }
 
 #clearForm:hover {
-    color: #506031;
-    background-color: #f8f8f8;
+    color: red;
+    background-color: #fff0f0;
+}
+
+.side-logo {
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    z-index: 10;
+}
+
+.footer-logo {
+    width: 100%;
 }

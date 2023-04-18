@@ -12,7 +12,12 @@
 <link rel="stylesheet" href="{% static 'css/view_form.css' %}">
 {% endblock %}
 {% block body %}
-<div class="container-fluid">
+
+<div class="col lg-4 md-4 d-none d-md-block ">
+    <img class="side-logo" src="{% static 'Icon/brown_side.png' %}" alt="">
+</div>
+
+<div class="container-fluid">    
     <form id="viewForm" class="container" method="POST" action="{% url 'submit_form' form.code %}" autocomplete="off">
         <span id="bg-color" style="display: none;">{{form.background_color}}</span>
         <span id="text-color" style="display: none;">{{form.text_color}}</span>
@@ -88,6 +93,10 @@
             <img src="{% static 'Icon/question.png' %}" alt="Rediģēt jautājumu" title="Rediģēt šo veidlapu" class="edit-form-link">
         </a>
     {% endif %}
+
+    <div class="mt-5 d-md-none">
+        <img class="footer-logo" src="{% static 'Icon/green-bottom.png' %}" alt="footer logo">
+    </div>
 </div>
 <script>
     function resetForm(){
