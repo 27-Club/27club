@@ -715,7 +715,7 @@ input[type=number]::-webkit-outer-spin-button {
     bottom: 50px;
     right: 0%;
     border-radius: 50%;
-    border: 1px solid #5f6368;
+    border: 1px solid #000000;
 }
 
 .response-title{
