@@ -4,8 +4,8 @@
         {% for i in allForms %}
             {% if i.creator != request.user %}
                     <div class="form-list-link">
-                        <div class="form-box">
-                            <div class="form-list-icon" style="margin-top: 20px;"><img src="{% static 'Icon/Documents.svg' %}"></div>
+                        <div class="form-box shadow-sm">
+                            <div class="form-list-icon" style="margin-top: 20px;"><img src="{% static 'Icon/documents.svg' %}"></div>
                             <p class="form-list-creator" style="margin-top: 17.5px;">{{i.creator}}</p>
                             <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
                             {% if i.createdAt == i.updatedAt %}
@@ -18,8 +18,8 @@
                     </div>
             {% else %}
                 <div class="form-list-link">
-                    <div class="form-box">
-                        <div class="form-list-icon" style="margin-top: 20px;"><img src="{% static 'Icon/Documents.svg' %}"></div>
+                    <div class="form-box shadow-sm">
+                        <div class="form-list-icon" style="margin-top: 20px;"><img src="{% static 'Icon/documents.svg' %}"></div>
                         <p class="form-list-creator" style="margin-top: 17.5px;">{{i.creator}}</p>
                         <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
                         {% if i.createdAt == i.updatedAt %}

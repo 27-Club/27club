@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const csrf = Cookies.get('csrftoken');
-    document.body.style.backgroundColor =  document.querySelector("#bg-color").innerHTML;
+    // document.body.style.backgroundColor =  document.querySelector("#bg-color").innerHTML;
     document.body.style.color =  document.querySelector("#text-color").innerHTML;
     document.querySelector("#customize-theme-btn").addEventListener('click', () => {
         document.querySelector("#customize-theme").style.display = "block";
@@ -11,16 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if(e.target == document.querySelector("#customize-theme")) document.querySelector("#customize-theme").style.display = "none";
         }
     })
-    document.querySelector("#input-bg-color").addEventListener("input", function(){
-        document.body.style.backgroundColor = this.value;
-        fetch('edit_background_color', {
-            method: "POST",
-            headers: {'X-CSRFToken': csrf},
-            body: JSON.stringify({
-                "bgColor": this.value
-            })
-        })
-    })
+    // document.querySelector("#input-bg-color").addEventListener("input", function(){
+    //     document.body.style.backgroundColor = this.value;
+    //     fetch('edit_background_color', {
+    //         method: "POST",
+    //         headers: {'X-CSRFToken': csrf},
+    //         body: JSON.stringify({
+    //             "bgColor": this.value
+    //         })
+    //     })
+    // })
     document.querySelector("#input-text-color").addEventListener("input", function(){
         document.querySelectorAll(".txt-clr").forEach(element => {
             element.style.color = this.value;
