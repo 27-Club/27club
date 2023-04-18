@@ -13,7 +13,7 @@
 {% endblock %}
 {% block body %}
 <div class="container-fluid">
-    <form class="container" method="POST" action="{% url 'submit_form' form.code %}" autocomplete="off">
+    <form id="viewForm" class="container" method="POST" action="{% url 'submit_form' form.code %}" autocomplete="off">
         <span id="bg-color" style="display: none;">{{form.background_color}}</span>
         <span id="text-color" style="display: none;">{{form.text_color}}</span>
         {% csrf_token %}
@@ -22,7 +22,7 @@
                 <h1 class="form-title txtClr">{{form.title}}</h1>
                 <p class="required-info">* Obligāts</p>
 
-                <div class="d-flex gap-2">
+                <div class="rules d-flex gap-2">
                     <input type="checkbox" id="accept_rules" class="p-0">
                     <label for="accept_rules">Es piekrītu <a id="rules" href="{% url 'rules' form.code %}">noteikumiem un nosacījumiem</a> </label>
                 </div>
@@ -77,9 +77,10 @@
             {% endif %}
         </div>
         {% endfor %}
-        <div class="margin-top-bottom">
-            {% comment %} <input type="submit" value="Iesniegt" class="btn btn-submit" disabled> {% endcomment %}
+        <div class="margin-top-bottom d-flex justify-content-between">
             <button id="submitControl" class="btn btn-lg btn-primary rounded-2 m-2 ms-0" type="submit" disabled>Iesniegt</button>
+
+            <button id="clearForm" class="color-primary btn" onclick="resetForm()" value="Reset">Notīrīt veidlapu</button>
         </div>
     </form>
     {% if user == form.creator %}
@@ -88,4 +89,10 @@
         </a>
     {% endif %}
 </div>
+<script>
+    function resetForm(){
+        var element = document.getElementById("viewForm");
+        element.reset()
+    }
+ </script>
 {% endblock %}
