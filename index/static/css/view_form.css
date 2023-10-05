@@ -41,11 +41,11 @@
 }
 
 input[type='radio'] {
-    accent-color: #506031;
+    accent-color: rgb(57, 116, 153);
 }
 
 input[type='checkbox'] {
-    accent-color: #506031;
+    accent-color: rgb(57, 116, 153);
 }
 
 #clearForm {

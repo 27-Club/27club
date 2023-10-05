@@ -6,7 +6,7 @@ body {
 
 .user-text {
     margin: auto;
-    color: #506031;
+    color: rgb(57, 116, 153);
 }
 
 .nav-form-menu-icon{
@@ -26,11 +26,11 @@ body {
 }
 
 .form-qa-active {
-    color: #506031 !important;
+    color: rgb(57, 116, 153) !important;
 }
 
 .form-qa a:hover{
-    color: #567c0d !important;
+    color: rgb(95, 170, 216) !important;
 }
 
 .edit-on-click{
@@ -68,7 +68,7 @@ body {
 
 .question-type-select {
     background-color: #50603120 !important;
-    border: 1px solid #506031 !important;
+    border: 1px solid rgb(57, 116, 153) !important;
     border-radius: 10px;
 }
 
@@ -84,7 +84,7 @@ body {
     position: fixed;
     bottom: 10%;
     right: 0;
-    border: 1px solid #506031;
+    border: 1px solid rgb(57, 116, 153);
     border-radius: 5px;
     z-index: 20;
 }
@@ -120,7 +120,7 @@ body {
 }
 
 .btn-save-setting {
-    background-color: #506031 !important;
+    background-color: rgb(57, 116, 153) !important;
     color: #fff !important;
     padding-top: 0.575rem !important;
     padding-bottom: 0.575rem !important;
@@ -137,7 +137,7 @@ blockquote{
     font-size: 0.9em;
     color: #555555;
     padding: 0.8rem;
-    border-left: 8px solid rgb(94, 103, 56);
+    border-left: 8px solid rgb(57, 116, 153);
     position: relative;
     background:#EDEDED;
 }

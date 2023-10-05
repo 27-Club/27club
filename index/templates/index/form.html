@@ -408,7 +408,7 @@
     const popupElem = document.getElementById("popup");
 
     qrCodeElem.addEventListener("click", () => {
-        // create temporary canvas element to hold QR code image
+        // Izveido pagaidu kanvu kurā turēt izveidoto QR kodu
         const tempCanvas = document.createElement("canvas");
         tempCanvas.width = qrCodeElem.offsetWidth;
         tempCanvas.height = qrCodeElem.offsetHeight;
@@ -416,21 +416,21 @@
         const img = qrCodeElem.querySelector("img");
         ctx.drawImage(img, 0, 0);
 
-        // convert canvas to data URL and copy to clipboard
+        // Pārvērš kanvas QR kodu uz veidlapas saiti un kopē starpliktuvē
         tempCanvas.toBlob(blob => {
             navigator.clipboard.write([
                 new ClipboardItem({
                     [blob.type]: blob
                 })
             ]);
-            // show popup when QR code is copied
+            // Parāda "popup" tekstu, kad QR kods tiek nokopēts
             popupElem.style.display = "block";
             setTimeout(() => {
                 popupElem.style.display = "none";
-            }, 2000); // hide popup after 2 seconds
+            }, 2000); // Noņem "popup" tekstu pēc 2 sekundēm
         });
 
-        // remove temporary canvas element
+        // Noņem pagaidu kanvu
         document.body.removeChild(tempCanvas);
     });
 
