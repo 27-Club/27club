@@ -12,7 +12,8 @@ Ensure that you have Python (v3.10.9) and PIP installed. [You can download it he
 * run `npm ci`
 * run `npm install --save-dev parcel`
 * run `npm install bootstrap`
-* run `npm build:css` to build sass
+* run `npm i @parcel/transformer-sass`
+* run `npm run build:css` to build sass
 * run `py manage.py runserver` to run server
 * open browser at `http://127.0.0.1:8000/`
 

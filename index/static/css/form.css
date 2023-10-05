@@ -15,7 +15,7 @@ body {
     margin: 10px 15px;
     cursor: pointer;
     float: left;
-    filter: invert(35%) sepia(72%) saturate(708%) hue-rotate(182deg) brightness(98%) contrast(89%);
+    filter: invert(39%) sepia(53%) saturate(479%) hue-rotate(160deg) brightness(95%) contrast(92%);
 }
 
 .form-qa a{

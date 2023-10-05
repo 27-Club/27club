@@ -2,6 +2,11 @@
   border: none;
 }
 
+#login {
+  background-color: #397499;
+  color: white;
+}
+
 .divider {
   overflow: visible;
   border: none;

@@ -5,6 +5,11 @@
     color: #000000;
     text-align: center;
   }
+
+#signup {
+    background-color: #397499;
+    color: white;
+}
   
 .divider::after {
     content: "Or";

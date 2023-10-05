@@ -6,7 +6,7 @@ body {
 
 .user-text {
     margin: auto;
-    color: rgb(57, 116, 153);
+    color: #5f6368;
 }
 
 .nav-form-menu-icon{
@@ -14,7 +14,7 @@ body {
     margin: 10px 15px;
     cursor: pointer;
     float: left;
-    filter: invert(31%) sepia(56%) saturate(350%) hue-rotate(39deg) brightness(97%) contrast(89%);
+    filter: invert(39%) sepia(53%) saturate(479%) hue-rotate(160deg) brightness(95%) contrast(92%);
 }
 
 .form-qa a{

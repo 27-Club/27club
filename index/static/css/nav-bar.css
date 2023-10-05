@@ -21,14 +21,12 @@
     color: rgb(84, 92, 105); 
 }
 
-
-.logout-icon:hover{
-    color: rgb(84, 92, 105)!important; 
-}
-
-
 .logout-icon{
+    width: 1.5rem;
     height: 35px!important;
+    cursor: pointer;
+    float: left;
+    filter: invert(39%) sepia(53%) saturate(479%) hue-rotate(160deg) brightness(95%) contrast(92%);
 }
 
 
