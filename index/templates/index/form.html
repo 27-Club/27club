@@ -247,6 +247,10 @@
                 </a>
                 {% endif %}
             </div>
+
+            {% if image %}  <h3>Succesfully uploaded: </h3> 
+                <img src="{{ banner_image.image.url}}" alt="connect" style="max-height:300px">
+            {% endif %}
         </div>
 
         <div class="modals">
@@ -299,6 +303,18 @@
                                         <label for="authenticated_responder" style="word-wrap:break-word; width:400px;" class="setting-form-label">Respondenta profilam ir jābūt apstiprinātam. (Pieteikšanās ir obligāta)</label>
                                     </div>
                                 </div>
+
+                                <div class="modal-division mb-5">
+                                    <div class="form-group">
+                                        <h2 class="my-4">Pievienojiet formas baneri</h2>
+                                        <form action="" method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            {{ formBanner.as_p }}
+                                            <button class="btn btn-dark my-4" type="submit">Iesniegt</button>
+                                          </form>
+                                    </div>
+                                </div>
+
                                 <div class="modal-division mb-5">
                                     <div class="form-group">
                                         <h3 class="modal-subtitle">Apstiprinājuma ziņojums:</h3>

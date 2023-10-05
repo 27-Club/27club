@@ -5,7 +5,8 @@ from django.contrib.auth.models import Permission
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from .models import User, Choices, Questions, Answer, Form, Responses
+from .models import User, Choices, Questions, Answer, Form, Responses, UploadImage
+from .forms import ImageForm, UploadImageForm
 import json
 import random
 import string
@@ -66,14 +67,12 @@ def main_view(request):
 
                 if value == 'createdAt':
                     userFilteredForms = Form.objects.filter(creator = request.user).order_by('-createdAt')
-                    print(userFilteredForms)
 
                 elif value == 'title':
                     userFilteredForms = Form.objects.filter(creator = request.user).order_by('title')
-                    print(userFilteredForms)
                 
             return render(request, 'index/partials/user_forms.html', {
-                'forms': userFilteredForms,
+                'forms': userFilteredForms             
             })
 
         if formUserType == 'all':
@@ -88,7 +87,7 @@ def main_view(request):
                     valueForms = allForms.order_by('title')
                 
                 return render(request, 'index/partials/all_forms.html', {
-                    'allForms': valueForms,
+                    'allForms': valueForms  
                 })            
 
     forms = Form.objects.filter(creator = request.user)
@@ -180,10 +179,13 @@ def edit_form(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     formInfo = Form.objects.filter(code = code)
+    # formInfo = ImageForm.objects.filter(code = code)
+
     #Checking if form exists
     if formInfo.count() == 0:
         return HttpResponseRedirect(reverse("404"))
     else: formInfo = formInfo[0]
+
     #Checking if form creator is user
     if formInfo.creator != request.user:
         # return HttpResponseRedirect(reverse("403"))
@@ -191,10 +193,32 @@ def edit_form(request, code):
             "code": code,
             "form": formInfo
         })
+    if request.method == 'POST':
+        formBanner = ImageForm(request.POST, request.FILES)
+  
+        if formBanner.is_valid():
+            formBanner.save()
+            # img_object = formBanner.instance
+            return render((request, 'index/form.html', {'form': formBanner, "code": code}))
+    
+    formBanner = ImageForm(request.POST, request.FILES)
     return render(request, "index/form.html", {
         "code": code,
-        "form": formInfo
+        "form": formInfo,
+        "formBanner": formBanner
     })
+
+def image_request(request):  
+    if request.method == "POST":
+        form = UploadImageForm(request.POST, request.FILES)  
+        if form.is_valid():  
+            form.save()
+            # Getting the current instance object to display in the template  
+            img_object = form.instance  
+              
+            return render(request, 'index/test_image.html', {'form': form, 'img_obj': img_object})  
+    form = UploadImageForm() 
+    return render(request, 'index/test_image.html', {'form': form})
 
 @permission_required('index.change_form', login_url='/')
 def edit_title(request, code):
@@ -589,8 +613,10 @@ def view_form(request, code):
     if formInfo.authenticated_responder:
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
+    formBanner = ImageForm()
     return render(request, "index/view_form.html", {
-        "form": formInfo
+        "form": formInfo,
+        "formBanner": formBanner
     })
 
 def accept_rules(request, code):
