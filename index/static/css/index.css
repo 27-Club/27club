@@ -1,5 +1,5 @@
 /* Button styles when active or in focus */
 .btn:hover, .btn:active, .btn:focus{
-    background-color: #506031 !important;
-    border: 2px solid #004d00 !important;
+    background-color: rgb(57, 116, 153) !important;
+    border: 2px solid rgb(47, 88, 113) !important;
 }

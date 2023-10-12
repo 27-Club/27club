@@ -5,6 +5,11 @@
     color: #000000;
     text-align: center;
   }
+
+#signup {
+    background-color: #397499;
+    color: white;
+}
   
 .divider::after {
     content: "Or";
@@ -31,7 +36,7 @@
 
 @media screen and (min-width: 768px) {
     body {
-        background-color: #506031;
+        background-color: rgb(57, 116, 153);
     }
 
     #login_box {
