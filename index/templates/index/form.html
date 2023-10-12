@@ -248,9 +248,23 @@
                 {% endif %}
             </div>
 
-            {% if image %}  <h3>Succesfully uploaded: </h3> 
-                <img src="{{ banner_image.image.url}}" alt="connect" style="max-height:300px">
-            {% endif %}
+                
+                <div class="form-banner">
+                    <h2 class="my-4">Pievienojiet formas baneri</h2>
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ formBanner.as_p }}
+                        <button type="submit">Augšuplādēt</button>
+                    </form>
+                </div>
+
+                {% if banner %}
+                    <h2 class="my-4">Formas baneris pievienots</h2>
+                {% endif %}
+
+                {% if banner %}
+                    <img src="/media/{{ banner }}" alt="connect" style="max-height:300px">
+                {% endif %}
         </div>
 
         <div class="modals">
@@ -306,12 +320,7 @@
 
                                 <div class="modal-division mb-5">
                                     <div class="form-group">
-                                        <h2 class="my-4">Pievienojiet formas baneri</h2>
-                                        <form action="" method="post" enctype="multipart/form-data">
-                                            {% csrf_token %}
-                                            {{ formBanner.as_p }}
-                                            <button class="btn btn-dark my-4" type="submit">Iesniegt</button>
-                                          </form>
+                                        
                                     </div>
                                 </div>
 

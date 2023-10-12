@@ -55,13 +55,6 @@ class Form(models.Model):
     def get_updated_date(self):
         return self.updatedAt.date()
     
-class UploadImage(models.Model):  
-    caption = models.CharField(max_length=200)  
-    image = models.ImageField(null=True, blank=True, upload_to="images/")
-
-    def __str__(self):  
-        return self.caption  
-    
 class Responses(models.Model):
     response_code = models.CharField(max_length=20)
     response_to = models.ForeignKey(Form, on_delete = models.CASCADE, related_name = "response_to")

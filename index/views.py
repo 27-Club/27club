@@ -5,8 +5,8 @@ from django.contrib.auth.models import Permission
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from .models import User, Choices, Questions, Answer, Form, Responses, UploadImage
-from .forms import ImageForm, UploadImageForm
+from .models import User, Choices, Questions, Answer, Form, Responses
+from .forms import BannerForm
 import json
 import random
 import string
@@ -193,32 +193,34 @@ def edit_form(request, code):
             "code": code,
             "form": formInfo
         })
-    if request.method == 'POST':
-        formBanner = ImageForm(request.POST, request.FILES)
-  
-        if formBanner.is_valid():
-            formBanner.save()
-            # img_object = formBanner.instance
-            return render((request, 'index/form.html', {'form': formBanner, "code": code}))
     
-    formBanner = ImageForm(request.POST, request.FILES)
+    if not formInfo.banner:
+        print('nav')
+        formBanner = BannerForm(request.POST, request.FILES)
+
+        if request.method == 'POST':
+            formBanner = BannerForm(request.POST, request.FILES, instance=formInfo)
+            if formBanner.is_valid():
+                formBanner.save()
+                img_object = formBanner.instance.banner
+                return render(request, "index/form.html", {
+                    "form": formInfo, 
+                    "code": code, 
+                    "banner": img_object
+                })
+            
+        return render(request, "index/form.html", {
+            "code": code,
+            "form": formInfo,
+            "formBanner" : formBanner,
+        })
+            
+    form_banner = formInfo.banner
     return render(request, "index/form.html", {
         "code": code,
         "form": formInfo,
-        "formBanner": formBanner
+        "banner": form_banner
     })
-
-def image_request(request):  
-    if request.method == "POST":
-        form = UploadImageForm(request.POST, request.FILES)  
-        if form.is_valid():  
-            form.save()
-            # Getting the current instance object to display in the template  
-            img_object = form.instance  
-              
-            return render(request, 'index/test_image.html', {'form': form, 'img_obj': img_object})  
-    form = UploadImageForm() 
-    return render(request, 'index/test_image.html', {'form': form})
 
 @permission_required('index.change_form', login_url='/')
 def edit_title(request, code):
@@ -613,10 +615,11 @@ def view_form(request, code):
     if formInfo.authenticated_responder:
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
-    formBanner = ImageForm()
+    banner_image = formInfo.banner
+
     return render(request, "index/view_form.html", {
         "form": formInfo,
-        "formBanner": formBanner
+        "banner": banner_image
     })
 
 def accept_rules(request, code):

@@ -141,8 +141,7 @@ SECURE_HSTS_PRELOAD = False
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/media/'
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
