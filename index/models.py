@@ -44,6 +44,10 @@ class Form(models.Model):
     createdAt = models.DateTimeField(auto_now_add = True)
     updatedAt = models.DateTimeField(auto_now = True)
     questions = models.ManyToManyField(Questions, related_name = "questions")
+    banner = models.ImageField(null=True, blank=True, upload_to="images/")
+
+    def __str__(self):
+        return self.title
 
     def get_created_date(self):
         return self.createdAt.date()

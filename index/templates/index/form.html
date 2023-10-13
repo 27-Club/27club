@@ -248,6 +248,23 @@
                 </a>
                 {% endif %}
             </div>
+
+                
+                <div class="form-banner container w-75">
+                    <p class="title my-4">Pievienojiet formas baneri</p>
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ formBanner.as_p }}
+                        <button type="submit" class="btn banner-btn" >Augšuplādēt</button>
+                    </form>
+                </div>
+
+                {% if banner %}
+                <div class="container">
+                    <p class="title my-4">Formas baneris pievienots</p>
+                    <img src="/media/{{ banner }}" alt="connect" style="max-height:300px">
+                </div>
+                {% endif %}
         </div>
 
         <div class="modals">
@@ -300,6 +317,13 @@
                                         <label for="authenticated_responder" style="word-wrap:break-word; width:400px;" class="setting-form-label">Respondenta profilam ir jābūt apstiprinātam. (Pieteikšanās ir obligāta)</label>
                                     </div>
                                 </div>
+
+                                <div class="modal-division mb-5">
+                                    <div class="form-group">
+                                        
+                                    </div>
+                                </div>
+
                                 <div class="modal-division mb-5">
                                     <div class="form-group">
                                         <h3 class="modal-subtitle">Apstiprinājuma ziņojums:</h3>

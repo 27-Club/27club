@@ -10,6 +10,11 @@
     color: red;
 }
 
+.image-banner {
+    display: flex;
+    justify-content: center;
+}
+
 #submitControl {
     background-color: #397499;
     color: white;
